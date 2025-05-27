@@ -8,7 +8,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { ChevronLeft, ChevronRight, Star, Quote } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Star, Quote, User } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
 
 const testimonials = [
@@ -21,7 +21,6 @@ const testimonials = [
     text: 'After my car accident, I was overwhelmed and didn\'t know where to turn. This team not only got me a settlement that covered all my medical bills but also compensation for my pain and suffering. They handled everything while I focused on recovery.',
     settlement: '$125,000',
     caseType: 'Car Accident',
-    image: '/images/testimonial-1.jpg',
   },
   {
     id: 2,
@@ -32,7 +31,6 @@ const testimonials = [
     text: 'I was hit by a commercial truck and the insurance company tried to lowball me. These attorneys fought hard and got me 10x what the insurance initially offered. They truly care about their clients.',
     settlement: '$450,000',
     caseType: 'Truck Accident',
-    image: '/images/testimonial-2.jpg',
   },
   {
     id: 3,
@@ -43,7 +41,6 @@ const testimonials = [
     text: 'The insurance company denied my claim after a motorcycle accident. These lawyers took my case on contingency and won! I received enough to cover my surgeries and lost wages. Forever grateful!',
     settlement: '$275,000',
     caseType: 'Motorcycle Accident',
-    image: '/images/testimonial-3.jpg',
   },
   {
     id: 4,
@@ -54,7 +51,6 @@ const testimonials = [
     text: 'Slipped and fell at a major retail store. They tried to blame me, but my attorney proved negligence and secured a great settlement. The whole process was smooth and stress-free.',
     settlement: '$85,000',
     caseType: 'Slip & Fall',
-    image: '/images/testimonial-4.jpg',
   },
   {
     id: 5,
@@ -65,7 +61,6 @@ const testimonials = [
     text: 'After being rear-ended, I had severe whiplash and couldn\'t work. My attorney got me compensated for medical bills, lost wages, and future treatment. They exceeded all expectations!',
     settlement: '$95,000',
     caseType: 'Rear-End Collision',
-    image: '/images/testimonial-5.jpg',
   },
 ];
 
@@ -179,7 +174,9 @@ export const TestimonialsSection = () => {
 
                   {/* Client Info */}
                   <div className="flex items-center">
-                    <div className="w-16 h-16 bg-gray-300 rounded-full mr-4" />
+                    <div className="w-16 h-16 bg-blue-100 rounded-full mr-4 flex items-center justify-center">
+                      <User className="w-8 h-8 text-blue-600" />
+                    </div>
                     <div>
                       <p className="font-semibold text-lg">{currentTestimonial.name}</p>
                       <p className="text-gray-600">{currentTestimonial.location}</p>
