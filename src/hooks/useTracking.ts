@@ -3,10 +3,12 @@
  * Works with ad blockers by using first-party tracking methods
  */
 
-import { useEffect, useRef, useCallback } from 'react';
+'use client';
+
+import { useEffect, useRef, useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { setCookie, getCookie } from 'cookies-next';
-import { UTMParams, TrackingEvent, TrackingContext, ConversionEvent } from '@/types';
+import { UTMParams, TrackingEvent, TrackingContext, ConversionEvent, ConversionType } from '@/types';
 
 // Lazy load tracking libraries to avoid SSR issues
 let ReactGA: any;
@@ -169,7 +171,8 @@ const sendToFirstParty = async (event: TrackingEvent) => {
 };
 
 /**
- * Main tracking hook
+ * Simplified Performance-Optimized Tracking Hook
+ * Lightweight analytics with lazy loading
  */
 export const useTracking = () => {
   const router = useRouter();
@@ -177,6 +180,9 @@ export const useTracking = () => {
   const utmRef = useRef<UTMParams>({});
   const contextRef = useRef<TrackingContext | null>(null);
   const lastActivityRef = useRef<number>(Date.now());
+  const [isInitialized, setIsInitialized] = useState(false);
+  const [gtag, setGtag] = useState<any>(null);
+  const [fbPixel, setFbPixel] = useState<any>(null);
 
   // Initialize tracking on mount
   useEffect(() => {
@@ -245,13 +251,15 @@ export const useTracking = () => {
         trackEvent({
           category: 'Engagement',
           action: 'Page Hidden',
-          timestamp: Date.now()
+          timestamp: Date.now(),
+          sessionId: sessionRef.current || Date.now().toString(),
         });
       } else {
         trackEvent({
           category: 'Engagement',
           action: 'Page Visible',
-          timestamp: Date.now()
+          timestamp: Date.now(),
+          sessionId: sessionRef.current || Date.now().toString(),
         });
       }
     };
@@ -266,98 +274,122 @@ export const useTracking = () => {
     };
   }, []);
 
+  // Initialize tracking libraries
+  useEffect(() => {
+    if (typeof window === 'undefined' || isInitialized) return;
+
+    const initializeTracking = async () => {
+      try {
+        // Load analytics libraries in parallel
+        const [gtagLib, fbPixelLib] = await Promise.all([
+          loadGoogleAnalytics(),
+          loadFacebookPixel(),
+        ]);
+
+        setGtag(gtagLib);
+        setFbPixel(fbPixelLib);
+
+        // Initialize Facebook Pixel if available
+        if (fbPixelLib && process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID) {
+          fbPixelLib.init(process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID);
+        }
+
+        setIsInitialized(true);
+      } catch (error) {
+        console.warn('Failed to initialize tracking:', error);
+      }
+    };
+
+    // Delay initialization to not block critical rendering
+    const timer = setTimeout(initializeTracking, 1000);
+    return () => clearTimeout(timer);
+  }, [isInitialized]);
+
   /**
    * Track page view
    */
-  const trackPageView = useCallback((path: string, title?: string) => {
-    if (!sessionRef.current) return;
-
-    // Send to GA4
-    if (ReactGA && ReactGA.default) {
-      ReactGA.default.send({ 
-        hitType: "pageview", 
-        page: path,
-        title: title || document.title
+  const trackPageView = useCallback((path?: string) => {
+    if (typeof window === 'undefined') return;
+    
+    const pagePath = path || window.location.pathname;
+    
+    // Google Analytics
+    if (gtag && process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) {
+      gtag('config', process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID, {
+        page_path: pagePath,
       });
     }
 
-    // Send to Facebook Pixel
-    if (ReactPixel && ReactPixel.default) {
-      ReactPixel.default.pageView();
+    // Facebook Pixel
+    if (fbPixel) {
+      fbPixel.pageView();
     }
 
-    // Send to first-party
-    const event: TrackingEvent = {
-      category: 'Page View',
-      action: path,
-      label: title || document.title,
-      timestamp: Date.now(),
-      sessionId: sessionRef.current,
-      metadata: {
-        ...contextRef.current,
-        scrollDepth: 0,
-        timeOnPage: 0
-      }
-    };
-    sendToFirstParty(event);
-  }, []);
+    // First-party analytics
+    sendToAnalytics('page_view', { page: pagePath });
+  }, [gtag, fbPixel]);
 
   /**
    * Track custom event
    */
-  const trackEvent = useCallback((event: Omit<TrackingEvent, 'sessionId'>) => {
-    if (!sessionRef.current) return;
-
-    const fullEvent: TrackingEvent = {
-      ...event,
-      sessionId: sessionRef.current,
-      timestamp: event.timestamp || Date.now()
-    };
-
-    // Send to GA4
-    if (ReactGA && ReactGA.default) {
-      ReactGA.default.event({
-        category: fullEvent.category,
-        action: fullEvent.action,
-        label: fullEvent.label,
-        value: fullEvent.value,
-        ...fullEvent.metadata
+  const trackEvent = useCallback((event: TrackingEvent) => {
+    if (typeof window === 'undefined') return;
+    
+    // Google Analytics
+    if (gtag) {
+      gtag('event', event.action, {
+        event_category: event.category,
+        event_label: event.label,
+        value: event.value,
+        ...event.metadata,
       });
     }
 
-    // Send to Facebook Pixel
-    if (ReactPixel && ReactPixel.default && fullEvent.category === 'Conversion') {
-      ReactPixel.default.track(fullEvent.action, fullEvent.metadata);
+    // Facebook Pixel
+    if (fbPixel) {
+      fbPixel.track(event.action, event.metadata);
     }
 
-    // Send to first-party
-    sendToFirstParty(fullEvent);
-  }, []);
+    // First-party analytics
+    sendToAnalytics('event', event);
+  }, [gtag, fbPixel]);
 
   /**
    * Track conversion event
    */
   const trackConversion = useCallback((conversion: ConversionEvent) => {
-    trackEvent({
-      category: 'Conversion',
-      action: conversion.type,
-      value: conversion.value,
-      metadata: {
-        ...conversion.metadata,
-        ...contextRef.current
-      },
-      timestamp: Date.now()
-    });
+    if (typeof window === 'undefined') return;
+    
+    const utmParams = extractUTMParams(window.location.href);
+    const conversionData = {
+      ...conversion,
+      timestamp: new Date().toISOString(),
+      url: window.location.href,
+      utm_params: utmParams,
+    };
 
-    // Send enhanced conversion to Facebook
-    if (ReactPixel && ReactPixel.default && conversion.metadata?.email) {
-      ReactPixel.default.track('Lead', {
-        value: conversion.value,
-        currency: 'USD',
-        ...conversion.metadata
+    // Google Analytics
+    if (gtag) {
+      gtag('event', 'conversion', {
+        event_category: 'engagement',
+        event_label: conversion.type,
+        value: conversion.value || 1,
+        ...conversion.metadata,
       });
     }
-  }, [trackEvent]);
+
+    // Facebook Pixel
+    if (fbPixel) {
+      const fbEventName = getFacebookEventName(conversion.type);
+      fbPixel.track(fbEventName, {
+        content_name: conversion.type,
+        ...conversion.metadata,
+      });
+    }
+
+    // First-party analytics
+    sendToAnalytics('conversion', conversionData);
+  }, [gtag, fbPixel]);
 
   /**
    * Track form field interaction
@@ -367,20 +399,27 @@ export const useTracking = () => {
       category: 'Form Interaction',
       action: `Field ${action}`,
       label: fieldName,
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      sessionId: sessionRef.current || Date.now().toString(),
     });
   }, [trackEvent]);
 
   /**
    * Track scroll depth
    */
-  const trackScrollDepth = useCallback((depth: number) => {
-    trackEvent({
-      category: 'Engagement',
-      action: 'Scroll Depth',
-      value: depth,
-      timestamp: Date.now()
-    });
+  const trackScrollDepth = useCallback((percentage: number) => {
+    if (typeof window === 'undefined') return;
+    
+    const event: TrackingEvent = {
+      action: 'scroll_depth',
+      category: 'engagement',
+      label: `${percentage}%`,
+      value: percentage,
+      timestamp: Date.now(),
+      sessionId: Date.now().toString(),
+    };
+    
+    trackEvent(event);
   }, [trackEvent]);
 
   /**
@@ -395,6 +434,73 @@ export const useTracking = () => {
     };
   }, []);
 
+  // Get UTM parameters
+  const getUtmParams = useCallback(() => {
+    if (typeof window === 'undefined') return {};
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    return {
+      utm_source: urlParams.get('utm_source') || 'direct',
+      utm_medium: urlParams.get('utm_medium') || 'none',
+      utm_campaign: urlParams.get('utm_campaign') || 'none',
+      utm_term: urlParams.get('utm_term') || '',
+      utm_content: urlParams.get('utm_content') || '',
+    };
+  }, []);
+
+  // Store UTM parameters
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
+    const utmParams = getUtmParams();
+    if (utmParams.utm_source !== 'direct') {
+      try {
+        localStorage.setItem('utm_params', JSON.stringify(utmParams));
+        
+        // Set cookie for server-side access
+        document.cookie = `utm_params=${JSON.stringify(utmParams)}; path=/; max-age=2592000`; // 30 days
+      } catch (error) {
+        console.warn('Failed to store UTM parameters:', error);
+      }
+    }
+  }, [getUtmParams]);
+
+  // Send to first-party analytics
+  const sendToAnalytics = useCallback(async (type: string, data: any) => {
+    if (typeof window === 'undefined') return;
+    
+    try {
+      // Use sendBeacon for better performance
+      if (navigator.sendBeacon) {
+        const payload = JSON.stringify({ type, data, timestamp: Date.now() });
+        navigator.sendBeacon('/api/analytics', payload);
+      } else {
+        // Fallback to fetch
+        fetch('/api/analytics', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ type, data, timestamp: Date.now() }),
+        }).catch(() => {}); // Fail silently
+      }
+    } catch (error) {
+      // Fail silently for analytics
+    }
+  }, []);
+
+  // Map conversion types to Facebook events
+  const getFacebookEventName = (type: ConversionType): string => {
+    const mapping: Record<ConversionType, string> = {
+      [ConversionType.FORM_START]: 'InitiateCheckout',
+      [ConversionType.FORM_COMPLETE]: 'Lead',
+      [ConversionType.PHONE_CLICK]: 'Contact',
+      [ConversionType.CHAT_START]: 'Contact',
+      [ConversionType.EMAIL_CLICK]: 'Contact',
+      [ConversionType.CTA_CLICK]: 'ViewContent',
+      [ConversionType.FORM_STEP]: 'ViewContent',
+    };
+    return mapping[type] || 'CustomEvent';
+  };
+
   return {
     trackPageView,
     trackEvent,
@@ -403,7 +509,8 @@ export const useTracking = () => {
     trackScrollDepth,
     getAttribution,
     utm: utmRef.current,
-    sessionId: sessionRef.current
+    sessionId: sessionRef.current,
+    isInitialized,
   };
 };
 
@@ -413,4 +520,37 @@ export const tracking = {
     const sessionId = getTrackingData(SESSION_COOKIE_NAME)?.id || generateSessionId();
     sendToFirstParty({ ...event, sessionId });
   }
-}; 
+};
+
+// Lazy load analytics libraries
+const loadGoogleAnalytics = async () => {
+  if (typeof window === 'undefined') return null;
+  
+  try {
+    // Use global gtag if available
+    return window.gtag || null;
+  } catch (error) {
+    console.warn('Failed to load Google Analytics:', error);
+    return null;
+  }
+};
+
+const loadFacebookPixel = async () => {
+  if (typeof window === 'undefined') return null;
+  
+  try {
+    const { default: ReactPixel } = await import('react-facebook-pixel');
+    return ReactPixel;
+  } catch (error) {
+    console.warn('Failed to load Facebook Pixel:', error);
+    return null;
+  }
+};
+
+// Extend Window interface for global analytics
+declare global {
+  interface Window {
+    gtag?: any;
+    fbq?: any;
+  }
+} 

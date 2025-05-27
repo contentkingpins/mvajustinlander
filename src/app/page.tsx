@@ -1,28 +1,45 @@
 /**
  * Main landing page for Claim Connectors
- * High-converting personal injury law firm landing page
+ * High-converting personal injury law firm landing page - Performance Optimized
  */
 
 import { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { HeroSection } from '@/components/sections/HeroSection';
 import { BenefitsSection } from '@/components/sections/BenefitsSection';
-import { ProcessSection } from '@/components/sections/ProcessSection';
-import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
-import { FAQSection } from '@/components/sections/FAQSection';
-import { CTASection } from '@/components/sections/CTASection';
 import { TrackingProvider } from '@/components/tracking/TrackingProvider';
 import { FormProvider } from '@/providers/FormProvider';
-import { CookieConsent } from '@/components/ui/CookieConsent';
 import { ScrollProgress } from '@/components/ui/ScrollProgress';
-import { ChatWidget } from '@/components/ui/ChatWidget';
 import { PhoneButton } from '@/components/ui/PhoneButton';
 import { BusinessHoursDetector } from '@/components/tracking/BusinessHoursDetector';
 
-// Lazy load heavy components
-const FormModal = dynamic(() => import('@/components/forms/FormModal').then(mod => mod.FormModal));
+// Lazy load heavy components for better performance
+const ProcessSection = dynamic(() => import('@/components/sections/ProcessSection').then(mod => ({ default: mod.ProcessSection })), {
+  loading: () => <div className="py-20 bg-white" />,
+});
 
-const NearbyLocations = dynamic(() => import('@/components/sections/NearbyLocations').then(mod => mod.NearbyLocations));
+const TestimonialsSection = dynamic(() => import('@/components/sections/TestimonialsSection').then(mod => ({ default: mod.TestimonialsSection })), {
+  loading: () => <div className="py-20 bg-gray-50" />,
+});
+
+const NearbyLocations = dynamic(() => import('@/components/sections/NearbyLocations').then(mod => ({ default: mod.NearbyLocations })), {
+  loading: () => <div className="py-20 bg-white" />,
+});
+
+const FAQSection = dynamic(() => import('@/components/sections/FAQSection').then(mod => ({ default: mod.FAQSection })), {
+  loading: () => <div className="py-20 bg-gray-50" />,
+});
+
+const CTASection = dynamic(() => import('@/components/sections/CTASection').then(mod => ({ default: mod.CTASection })), {
+  loading: () => <div className="py-20 bg-slate-900" />,
+});
+
+// Client-only components
+const FormModal = dynamic(() => import('@/components/forms/FormModal').then(mod => ({ default: mod.FormModal })));
+
+const CookieConsent = dynamic(() => import('@/components/ui/CookieConsent').then(mod => ({ default: mod.CookieConsent })));
+
+const ChatWidget = dynamic(() => import('@/components/ui/ChatWidget').then(mod => ({ default: mod.ChatWidget })));
 
 // SEO metadata
 export const metadata: Metadata = {
@@ -104,10 +121,10 @@ export default function HomePage() {
 
           {/* Main content */}
           <main className="min-h-screen bg-white">
-            {/* Hero Section with Parallax */}
+            {/* Hero Section - Critical above fold */}
             <HeroSection />
 
-            {/* Trust Indicators */}
+            {/* Trust Indicators - Critical for conversion */}
             <section className="bg-gray-50 py-8 border-y border-gray-200">
               <div className="container mx-auto px-4">
                 <div className="flex flex-wrap justify-center items-center gap-8 text-center">
@@ -143,22 +160,14 @@ export default function HomePage() {
               </div>
             </section>
 
-            {/* Benefits Section */}
+            {/* Benefits Section - Critical for conversion */}
             <BenefitsSection />
 
-            {/* Process Section */}
+            {/* Lazy loaded sections */}
             <ProcessSection />
-
-            {/* Testimonials */}
             <TestimonialsSection />
-
-            {/* Nearby Locations */}
             <NearbyLocations />
-
-            {/* FAQ Section */}
             <FAQSection />
-
-            {/* Final CTA */}
             <CTASection />
           </main>
 
@@ -222,7 +231,7 @@ export default function HomePage() {
             </div>
           </footer>
 
-          {/* Floating Elements */}
+          {/* Floating Elements - Lazy loaded */}
           <PhoneButton />
           <ChatWidget />
           <FormModal />

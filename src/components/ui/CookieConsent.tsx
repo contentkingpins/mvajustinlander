@@ -89,7 +89,8 @@ export const CookieConsent: React.FC = () => {
       category: 'Privacy',
       action: 'Cookie Consent',
       label: JSON.stringify(consentSettings),
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      sessionId: Date.now().toString(),
     });
   };
 

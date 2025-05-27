@@ -1,108 +1,92 @@
 /**
- * Button component with variants, loading states, and tracking
+ * Button Component
+ * Reusable button with variants, sizes, and tracking
  */
 
 'use client';
 
 import React from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '@/utils/cn';
-import { ButtonProps as ButtonPropsType } from '@/types';
-import { useTracking } from '@/hooks/useTracking';
+import { motion } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
+import { useTracking } from '@/hooks/useTracking';
+import { ButtonProps } from '@/types';
 
-const buttonVariants = cva(
-  'inline-flex items-center justify-center rounded-lg font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none',
-  {
-    variants: {
-      variant: {
-        primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
-        secondary: 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500',
-        outline: 'border border-gray-300 bg-transparent hover:bg-gray-50 focus:ring-gray-500',
-        ghost: 'hover:bg-gray-100 focus:ring-gray-500',
-      },
-      size: {
-        sm: 'text-sm px-3 py-1.5',
-        md: 'text-base px-4 py-2',
-        lg: 'text-lg px-6 py-3',
-        xl: 'text-xl px-8 py-4',
-      },
-    },
-    defaultVariants: {
-      variant: 'primary',
-      size: 'md',
-    },
-  }
-);
+export const Button: React.FC<ButtonProps> = ({
+  variant = 'primary',
+  size = 'md',
+  fullWidth = false,
+  loading = false,
+  disabled = false,
+  icon,
+  onClick,
+  type = 'button',
+  className = '',
+  children,
+  tracking,
+  ...props
+}) => {
+  const { trackEvent } = useTracking();
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  loading?: boolean;
-  icon?: React.ReactNode;
-  fullWidth?: boolean;
-  tracking?: {
-    category: string;
-    action: string;
-    label?: string;
+  const baseClasses = 'inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
+
+  const variantClasses = {
+    primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 shadow-lg hover:shadow-xl',
+    secondary: 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500 shadow-lg hover:shadow-xl',
+    outline: 'border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white focus:ring-blue-500',
+    ghost: 'text-blue-600 hover:bg-blue-50 focus:ring-blue-500',
   };
-}
 
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ 
+  const sizeClasses = {
+    sm: 'px-3 py-2 text-sm',
+    md: 'px-4 py-2 text-base',
+    lg: 'px-6 py-3 text-lg',
+    xl: 'px-8 py-4 text-xl',
+  };
+
+  const classes = [
+    baseClasses,
+    variantClasses[variant],
+    sizeClasses[size],
+    fullWidth ? 'w-full' : '',
     className,
-    variant,
-    size,
-    loading = false,
-    disabled,
-    icon,
-    fullWidth = false,
-    tracking,
-    onClick,
-    children,
-    ...props
-  }, ref) => {
-    const { trackEvent } = useTracking();
+  ].filter(Boolean).join(' ');
 
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-      // Track button click if tracking config provided
-      if (tracking) {
-        trackEvent({
-          category: tracking.category,
-          action: tracking.action,
-          label: tracking.label,
-          timestamp: Date.now()
-        });
-      }
+  const handleClick = () => {
+    if (disabled || loading) return;
 
-      // Call original onClick handler
-      if (onClick) {
-        onClick(e);
-      }
-    };
+    // Track button click if tracking config provided
+    if (tracking) {
+      trackEvent({
+        category: tracking.category,
+        action: tracking.action,
+        label: tracking.label,
+        timestamp: Date.now(),
+        sessionId: Date.now().toString(), // Simple session ID for now
+      });
+    }
 
-    return (
-      <button
-        ref={ref}
-        className={cn(
-          buttonVariants({ variant, size }),
-          fullWidth && 'w-full',
-          className
-        )}
-        disabled={disabled || loading}
-        onClick={handleClick}
-        {...props}
-      >
-        {loading && (
-          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-        )}
+    onClick?.();
+  };
+
+  return (
+    <motion.button
+      type={type}
+      className={classes}
+      onClick={handleClick}
+      disabled={disabled || loading}
+      whileHover={{ scale: disabled || loading ? 1 : 1.02 }}
+      whileTap={{ scale: disabled || loading ? 1 : 0.98 }}
+      transition={{ duration: 0.1 }}
+      {...props}
+    >
+      {loading && (
+        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+      )}
+      
+      <span className="flex items-center">
         {children}
-        {icon && !loading && (
-          <span className="ml-2">{icon}</span>
-        )}
-      </button>
-    );
-  }
-);
-
-Button.displayName = 'Button'; 
+        {icon && !loading && icon}
+      </span>
+    </motion.button>
+  );
+}; 

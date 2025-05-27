@@ -233,7 +233,8 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children
                   step: savedState.currentStep,
                   timeSinceLastEdit,
                 },
-                timestamp: Date.now()
+                timestamp: Date.now(),
+                sessionId: Date.now().toString(),
               });
             }
           }
@@ -377,7 +378,8 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children
         category: 'Form',
         action: 'Previous Step',
         label: formSteps[state.currentStep - 1].id,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        sessionId: Date.now().toString(),
       });
     }
   }, [state.currentStep, trackEvent]);
@@ -390,7 +392,8 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children
         action: 'Jump to Step',
         label: formSteps[stepIndex].id,
         value: stepIndex,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        sessionId: Date.now().toString(),
       });
     }
   }, [trackEvent]);
@@ -441,7 +444,8 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children
         category: 'Form',
         action: 'Submission Error',
         label: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        sessionId: Date.now().toString(),
       });
     } finally {
       dispatch({ type: 'SET_SUBMITTING', isSubmitting: false });
@@ -456,7 +460,8 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children
     trackEvent({
       category: 'Form',
       action: 'Reset',
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      sessionId: Date.now().toString(),
     });
   }, [trackEvent]);
 
