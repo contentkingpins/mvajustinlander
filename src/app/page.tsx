@@ -1,103 +1,244 @@
-import Image from "next/image";
+/**
+ * Main landing page for MVA/Justin Lander
+ * High-converting personal injury law firm landing page
+ */
 
-export default function Home() {
+import { Metadata } from 'next';
+import dynamic from 'next/dynamic';
+import { HeroSection } from '@/components/sections/HeroSection';
+import { BenefitsSection } from '@/components/sections/BenefitsSection';
+import { ProcessSection } from '@/components/sections/ProcessSection';
+import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
+import { FAQSection } from '@/components/sections/FAQSection';
+import { CTASection } from '@/components/sections/CTASection';
+import { TrackingProvider } from '@/components/tracking/TrackingProvider';
+import { FormProvider } from '@/providers/FormProvider';
+import { CookieConsent } from '@/components/ui/CookieConsent';
+import { ScrollProgress } from '@/components/ui/ScrollProgress';
+import { ChatWidget } from '@/components/ui/ChatWidget';
+import { PhoneButton } from '@/components/ui/PhoneButton';
+import { BusinessHoursDetector } from '@/components/tracking/BusinessHoursDetector';
+
+// Lazy load heavy components
+const FormModal = dynamic(() => import('@/components/forms/FormModal').then(mod => mod.FormModal), {
+  ssr: false,
+});
+
+const VideoSection = dynamic(() => import('@/components/sections/VideoSection').then(mod => mod.VideoSection), {
+  ssr: false,
+});
+
+const NearbyLocations = dynamic(() => import('@/components/sections/NearbyLocations').then(mod => mod.NearbyLocations), {
+  ssr: false,
+});
+
+// SEO metadata
+export const metadata: Metadata = {
+  title: 'Injured in an Accident? Get Maximum Compensation | MVA Justin Lander',
+  description: 'Free consultation for accident victims. No fees unless we win. Get the compensation you deserve. Call now for immediate help with your injury claim.',
+  keywords: ['personal injury lawyer', 'accident attorney', 'car accident lawyer', 'injury compensation', 'free consultation'],
+  openGraph: {
+    title: 'Get Maximum Compensation for Your Injuries',
+    description: 'Injured? We fight for you. Free consultation, no fees unless we win.',
+    images: ['/images/og-image.jpg'],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Injured in an Accident? We Can Help',
+    description: 'Free consultation for accident victims. Get the compensation you deserve.',
+  },
+  alternates: {
+    canonical: 'https://www.mvajustinlander.com',
+  },
+};
+
+// JSON-LD structured data
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LegalService',
+  name: 'MVA Justin Lander Personal Injury Law',
+  description: 'Personal injury law firm specializing in accident cases',
+  url: 'https://www.mvajustinlander.com',
+  telephone: process.env.NEXT_PUBLIC_BUSINESS_PHONE,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Your City',
+    addressRegion: 'Your State',
+    addressCountry: 'US',
+  },
+  priceRange: 'Free Consultation',
+  openingHours: 'Mo-Fr 08:00-18:00',
+  areaServed: {
+    '@type': 'State',
+    name: 'Your State',
+  },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Legal Services',
+    itemListElement: [
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Car Accident Representation',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Personal Injury Claims',
+        },
+      },
+    ],
+  },
+};
+
+export default function HomePage() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <TrackingProvider>
+      <FormProvider>
+        <BusinessHoursDetector>
+          {/* JSON-LD Schema */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          {/* Progress indicator */}
+          <ScrollProgress />
+
+          {/* Main content */}
+          <main className="min-h-screen bg-white">
+            {/* Hero Section with Parallax */}
+            <HeroSection />
+
+            {/* Trust Indicators */}
+            <section className="bg-gray-50 py-8 border-y border-gray-200">
+              <div className="container mx-auto px-4">
+                <div className="flex flex-wrap justify-center items-center gap-8 text-center">
+                  <div className="flex items-center gap-2">
+                    <span className="text-4xl">⭐</span>
+                    <div className="text-left">
+                      <p className="font-bold text-gray-900">4.9/5 Rating</p>
+                      <p className="text-sm text-gray-600">500+ Reviews</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-4xl">💰</span>
+                    <div className="text-left">
+                      <p className="font-bold text-gray-900">$500M+</p>
+                      <p className="text-sm text-gray-600">Won for Clients</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-4xl">🏆</span>
+                    <div className="text-left">
+                      <p className="font-bold text-gray-900">No Fee</p>
+                      <p className="text-sm text-gray-600">Unless We Win</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-4xl">⚡</span>
+                    <div className="text-left">
+                      <p className="font-bold text-gray-900">24/7</p>
+                      <p className="text-sm text-gray-600">Free Consultation</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Benefits Section */}
+            <BenefitsSection />
+
+            {/* Video Testimonial */}
+            <VideoSection />
+
+            {/* Process Section */}
+            <ProcessSection />
+
+            {/* Testimonials */}
+            <TestimonialsSection />
+
+            {/* Nearby Locations */}
+            <NearbyLocations />
+
+            {/* FAQ Section */}
+            <FAQSection />
+
+            {/* Final CTA */}
+            <CTASection />
+          </main>
+
+          {/* Footer */}
+          <footer className="bg-gray-900 text-white py-12">
+            <div className="container mx-auto px-4">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                  <h3 className="text-xl font-bold mb-4">MVA Justin Lander</h3>
+                  <p className="text-gray-400">
+                    Fighting for accident victims and their families. No fees unless we win your case.
+                  </p>
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-4">Practice Areas</h4>
+                  <ul className="space-y-2 text-gray-400">
+                    <li><a href="#" className="hover:text-white transition">Car Accidents</a></li>
+                    <li><a href="#" className="hover:text-white transition">Truck Accidents</a></li>
+                    <li><a href="#" className="hover:text-white transition">Motorcycle Accidents</a></li>
+                    <li><a href="#" className="hover:text-white transition">Slip & Fall</a></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-4">Resources</h4>
+                  <ul className="space-y-2 text-gray-400">
+                    <li><a href="#" className="hover:text-white transition">FAQ</a></li>
+                    <li><a href="#" className="hover:text-white transition">Blog</a></li>
+                    <li><a href="#" className="hover:text-white transition">Case Results</a></li>
+                    <li><a href="#" className="hover:text-white transition">Contact</a></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-4">Contact Us</h4>
+                  <p className="text-gray-400 mb-2">
+                    <strong>24/7 Free Consultation</strong>
+                  </p>
+                  <p className="text-2xl font-bold text-blue-400 mb-4">
+                    {process.env.NEXT_PUBLIC_BUSINESS_PHONE}
+                  </p>
+                  <p className="text-gray-400">
+                    <a href={`mailto:${process.env.NEXT_PUBLIC_BUSINESS_EMAIL}`} className="hover:text-white transition">
+                      {process.env.NEXT_PUBLIC_BUSINESS_EMAIL}
+                    </a>
+                  </p>
+                </div>
+              </div>
+              
+              <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
+                <p>&copy; {new Date().getFullYear()} MVA Justin Lander. All rights reserved.</p>
+                <p className="mt-2">
+                  <a href="/privacy" className="hover:text-white transition">Privacy Policy</a>
+                  {' | '}
+                  <a href="/terms" className="hover:text-white transition">Terms of Service</a>
+                  {' | '}
+                  <a href="/disclaimer" className="hover:text-white transition">Legal Disclaimer</a>
+                </p>
+                <p className="mt-4 text-xs">
+                  The information on this website is for general information purposes only. Nothing on this site should be taken as legal advice.
+                </p>
+              </div>
+            </div>
+          </footer>
+
+          {/* Floating Elements */}
+          <PhoneButton />
+          <ChatWidget />
+          <FormModal />
+          <CookieConsent />
+        </BusinessHoursDetector>
+      </FormProvider>
+    </TrackingProvider>
   );
 }
