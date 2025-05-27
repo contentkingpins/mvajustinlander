@@ -1,5 +1,6 @@
 /**
- * Comprehensive TypeScript types for MVA/Justin Lander Landing Page
+ * Comprehensive TypeScript types for Claim Connectors Landing Page
+ * These types define the structure for tracking, analytics, forms, and business logic
  */
 
 // ============= Tracking Types =============

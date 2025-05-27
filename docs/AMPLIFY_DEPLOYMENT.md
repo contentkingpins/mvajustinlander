@@ -1,6 +1,6 @@
 # AWS Amplify Deployment Guide
 
-This guide will walk you through deploying your MVA Justin Lander landing page to AWS Amplify.
+This guide will walk you through deploying your Claim Connectors landing page to AWS Amplify.
 
 ## Prerequisites
 
@@ -20,10 +20,10 @@ git init
 git add .
 
 # Commit
-git commit -m "Initial commit - MVA Justin Lander Landing Page"
+git commit -m "Initial commit - Claim Connectors Landing Page"
 
 # Add your remote repository
-git remote add origin https://github.com/YOUR_USERNAME/mvajustinlander.git
+git remote add origin https://github.com/YOUR_USERNAME/claimconnectors.git
 
 # Push to repository
 git push -u origin main
@@ -119,14 +119,14 @@ git push -u origin main
 1. **In Amplify Console:**
    - Go to "Domain management"
    - Click "Add domain"
-   - Enter your domain (e.g., `mvajustinlander.com`)
+   - Enter your domain (e.g., `claimconnectors.com`)
 
 2. **Configure DNS:**
    - Add the provided CNAME records to your DNS provider
    - Wait for SSL certificate provisioning (can take up to 48 hours)
 
 3. **Add www redirect:**
-   - Set up `www.mvajustinlander.com` to redirect to `mvajustinlander.com`
+   - Set up `www.claimconnectors.com` to redirect to `claimconnectors.com`
 
 ## Step 5: Post-Deployment Configuration
 

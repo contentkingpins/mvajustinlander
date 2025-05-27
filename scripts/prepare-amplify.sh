@@ -3,7 +3,7 @@
 # AWS Amplify Deployment Preparation Script
 # This script helps prepare your project for AWS Amplify deployment
 
-echo "🚀 Preparing MVA Justin Lander for AWS Amplify deployment..."
+echo "🚀 Preparing Claim Connectors for AWS Amplify deployment..."
 
 # Colors for output
 GREEN='\033[0;32m'

@@ -1,5 +1,5 @@
 /**
- * Main landing page for MVA/Justin Lander
+ * Main landing page for Claim Connectors
  * High-converting personal injury law firm landing page
  */
 
@@ -26,8 +26,8 @@ const NearbyLocations = dynamic(() => import('@/components/sections/NearbyLocati
 
 // SEO metadata
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.mvajustinlander.com'),
-  title: 'Injured in an Accident? Get Maximum Compensation | MVA Justin Lander',
+  metadataBase: new URL('https://www.claimconnectors.com'),
+  title: 'Injured in an Accident? Get Maximum Compensation | Claim Connectors',
   description: 'Free consultation for accident victims. No fees unless we win. Get the compensation you deserve. Call now for immediate help with your injury claim.',
   keywords: ['personal injury lawyer', 'accident attorney', 'car accident lawyer', 'injury compensation', 'free consultation'],
   openGraph: {
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     description: 'Free consultation for accident victims. Get the compensation you deserve.',
   },
   alternates: {
-    canonical: 'https://www.mvajustinlander.com',
+    canonical: 'https://www.claimconnectors.com',
   },
 };
 
@@ -50,9 +50,9 @@ export const metadata: Metadata = {
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'LegalService',
-  name: 'MVA Justin Lander Personal Injury Law',
+  name: 'Claim Connectors Personal Injury Law',
   description: 'Personal injury law firm specializing in accident cases',
-  url: 'https://www.mvajustinlander.com',
+  url: 'https://www.claimconnectors.com',
   telephone: process.env.NEXT_PUBLIC_BUSINESS_PHONE,
   address: {
     '@type': 'PostalAddress',
@@ -167,7 +167,7 @@ export default function HomePage() {
             <div className="container mx-auto px-4">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
-                  <h3 className="text-xl font-bold mb-4">MVA Justin Lander</h3>
+                  <h3 className="text-xl font-bold mb-4">Claim Connectors</h3>
                   <p className="text-gray-400">
                     Fighting for accident victims and their families. No fees unless we win your case.
                   </p>
@@ -207,7 +207,7 @@ export default function HomePage() {
               </div>
               
               <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
-                <p>&copy; {new Date().getFullYear()} MVA Justin Lander. All rights reserved.</p>
+                <p>&copy; {new Date().getFullYear()} Claim Connectors. All rights reserved.</p>
                 <p className="mt-2">
                   <a href="/privacy" className="hover:text-white transition">Privacy Policy</a>
                   {' | '}

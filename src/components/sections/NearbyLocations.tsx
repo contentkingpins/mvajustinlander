@@ -193,10 +193,10 @@ export const NearbyLocations = () => {
         >
           <Card className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-8 text-center">
             <h3 className="text-3xl font-bold mb-4">
-              Can't Travel? No Problem!
+              Distance Shouldn't Stop You From Getting Justice
             </h3>
             <p className="text-xl mb-6 text-blue-100">
-              We come to you. Home and hospital visits available for seriously injured clients.
+              We have offices nationwide and can handle your case no matter where you are.
             </p>
             <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
               <button className="bg-white text-blue-600 hover:bg-gray-100 font-bold py-4 px-8 rounded-lg transition-all transform hover:scale-105 flex items-center gap-2">

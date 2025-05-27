@@ -1,6 +1,6 @@
-# MVA Justin Lander - High-Converting Personal Injury Landing Page
+# Claim Connectors - High-Converting Personal Injury Landing Page
 
-A production-ready, high-performance landing page for personal injury law firms built with Next.js 15, TypeScript, and Tailwind CSS.
+A modern, high-converting landing page for personal injury law firms built with Next.js 15, TypeScript, and Tailwind CSS. Features advanced tracking, conversion optimization, and AWS Amplify deployment.
 
 ## 🚀 Features
 
@@ -46,8 +46,8 @@ A production-ready, high-performance landing page for personal injury law firms 
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/mvajustinlander.git
-cd mvajustinlander
+git clone https://github.com/yourusername/claimconnectors.git
+cd claimconnectors
 ```
 
 2. Install dependencies:
@@ -96,8 +96,8 @@ vercel
 
 ### Docker
 ```bash
-docker build -t mvajustinlander .
-docker run -p 3000:3000 mvajustinlander
+docker build -t claimconnectors .
+docker run -p 3000:3000 claimconnectors
 ```
 
 ### Traditional Hosting
