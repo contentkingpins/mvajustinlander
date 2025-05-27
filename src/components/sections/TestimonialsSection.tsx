@@ -1,9 +1,242 @@
+/**
+ * Testimonials Section
+ * Client testimonials with ratings and carousel
+ */
+
+'use client';
+
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import { ChevronLeft, ChevronRight, Star, Quote } from 'lucide-react';
+import { Card } from '@/components/ui/Card';
+
+const testimonials = [
+  {
+    id: 1,
+    name: 'Sarah Johnson',
+    location: 'Phoenix, AZ',
+    rating: 5,
+    date: '2 months ago',
+    text: 'After my car accident, I was overwhelmed and didn\'t know where to turn. This team not only got me a settlement that covered all my medical bills but also compensation for my pain and suffering. They handled everything while I focused on recovery.',
+    settlement: '$125,000',
+    caseType: 'Car Accident',
+    image: '/images/testimonial-1.jpg',
+  },
+  {
+    id: 2,
+    name: 'Michael Chen',
+    location: 'Los Angeles, CA',
+    rating: 5,
+    date: '3 weeks ago',
+    text: 'I was hit by a commercial truck and the insurance company tried to lowball me. These attorneys fought hard and got me 10x what the insurance initially offered. They truly care about their clients.',
+    settlement: '$450,000',
+    caseType: 'Truck Accident',
+    image: '/images/testimonial-2.jpg',
+  },
+  {
+    id: 3,
+    name: 'Maria Rodriguez',
+    location: 'Houston, TX',
+    rating: 5,
+    date: '1 month ago',
+    text: 'The insurance company denied my claim after a motorcycle accident. These lawyers took my case on contingency and won! I received enough to cover my surgeries and lost wages. Forever grateful!',
+    settlement: '$275,000',
+    caseType: 'Motorcycle Accident',
+    image: '/images/testimonial-3.jpg',
+  },
+  {
+    id: 4,
+    name: 'James Williams',
+    location: 'Chicago, IL',
+    rating: 5,
+    date: '5 weeks ago',
+    text: 'Slipped and fell at a major retail store. They tried to blame me, but my attorney proved negligence and secured a great settlement. The whole process was smooth and stress-free.',
+    settlement: '$85,000',
+    caseType: 'Slip & Fall',
+    image: '/images/testimonial-4.jpg',
+  },
+  {
+    id: 5,
+    name: 'Emily Davis',
+    location: 'Dallas, TX',
+    rating: 5,
+    date: '2 weeks ago',
+    text: 'After being rear-ended, I had severe whiplash and couldn\'t work. My attorney got me compensated for medical bills, lost wages, and future treatment. They exceeded all expectations!',
+    settlement: '$95,000',
+    caseType: 'Rear-End Collision',
+    image: '/images/testimonial-5.jpg',
+  },
+];
+
 export const TestimonialsSection = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  const nextTestimonial = () => {
+    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+  };
+
+  const prevTestimonial = () => {
+    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
+
+  const currentTestimonial = testimonials[currentIndex];
+
   return (
     <section className="py-20 bg-gray-50" id="testimonials">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center mb-12">Client Testimonials</h2>
-        <p className="text-center text-gray-600">Testimonials section coming soon...</p>
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            Real Clients, <span className="text-blue-600">Real Results</span>
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Don't just take our word for it. See what our clients say about their experience.
+          </p>
+        </motion.div>
+
+        {/* Stats Bar */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16"
+        >
+          <Card className="text-center p-6">
+            <div className="text-3xl font-bold text-blue-600">4.9/5</div>
+            <div className="text-gray-600">Average Rating</div>
+            <div className="flex justify-center mt-2">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+              ))}
+            </div>
+          </Card>
+          <Card className="text-center p-6">
+            <div className="text-3xl font-bold text-blue-600">2,500+</div>
+            <div className="text-gray-600">Happy Clients</div>
+          </Card>
+          <Card className="text-center p-6">
+            <div className="text-3xl font-bold text-blue-600">98%</div>
+            <div className="text-gray-600">Success Rate</div>
+          </Card>
+          <Card className="text-center p-6">
+            <div className="text-3xl font-bold text-blue-600">$500M+</div>
+            <div className="text-gray-600">Total Recovered</div>
+          </Card>
+        </motion.div>
+
+        {/* Testimonial Carousel */}
+        <div className="relative max-w-4xl mx-auto">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentIndex}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Card className="p-8 md:p-12 relative">
+                <Quote className="absolute top-6 left-6 w-12 h-12 text-blue-100" />
+                
+                <div className="relative z-10">
+                  {/* Rating */}
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="flex">
+                      {[...Array(currentTestimonial.rating)].map((_, i) => (
+                        <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                      ))}
+                    </div>
+                    <span className="text-gray-500 text-sm">{currentTestimonial.date}</span>
+                  </div>
+
+                  {/* Testimonial Text */}
+                  <p className="text-lg md:text-xl text-gray-700 mb-6 italic">
+                    "{currentTestimonial.text}"
+                  </p>
+
+                  {/* Settlement Info */}
+                  <div className="bg-blue-50 rounded-lg p-4 mb-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-gray-600">Case Type</p>
+                        <p className="font-semibold">{currentTestimonial.caseType}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm text-gray-600">Settlement</p>
+                        <p className="text-2xl font-bold text-blue-600">{currentTestimonial.settlement}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Client Info */}
+                  <div className="flex items-center">
+                    <div className="w-16 h-16 bg-gray-300 rounded-full mr-4" />
+                    <div>
+                      <p className="font-semibold text-lg">{currentTestimonial.name}</p>
+                      <p className="text-gray-600">{currentTestimonial.location}</p>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Navigation Buttons */}
+          <button
+            onClick={prevTestimonial}
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-shadow"
+            aria-label="Previous testimonial"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+          <button
+            onClick={nextTestimonial}
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-shadow"
+            aria-label="Next testimonial"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+
+          {/* Dots Indicator */}
+          <div className="flex justify-center gap-2 mt-8">
+            {testimonials.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`w-2 h-2 rounded-full transition-all ${
+                  index === currentIndex 
+                    ? 'w-8 bg-blue-600' 
+                    : 'bg-gray-300 hover:bg-gray-400'
+                }`}
+                aria-label={`Go to testimonial ${index + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.4, duration: 0.6 }}
+          className="text-center mt-16"
+        >
+          <p className="text-xl text-gray-700 mb-6">
+            Join thousands of satisfied clients who got the compensation they deserved.
+          </p>
+          <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg text-xl transition-all transform hover:scale-105">
+            Get Your Free Case Review
+          </button>
+        </motion.div>
       </div>
     </section>
   );
