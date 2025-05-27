@@ -101,45 +101,36 @@ export const NearbyLocations = () => {
           </p>
         </motion.div>
 
-        {/* Map Visual */}
+        {/* Featured Cities Grid */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={inView ? { opacity: 1, scale: 1 } : {}}
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.2, duration: 0.6 }}
-          className="mb-16"
+          className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16"
         >
-          <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 relative overflow-hidden">
-            <div className="absolute inset-0 opacity-10">
-              <svg viewBox="0 0 1000 600" className="w-full h-full">
-                {/* Simple US map outline */}
-                <path
-                  d="M 100 300 Q 200 200 400 250 T 600 200 Q 800 250 900 300 L 900 500 Q 700 450 500 480 Q 300 450 100 500 Z"
-                  fill="currentColor"
-                  className="text-blue-600"
-                />
-              </svg>
-            </div>
-            
-            {/* Location pins */}
-            <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-6">
-              {majorCities.filter(city => city.featured).map((city, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.3 + index * 0.1, duration: 0.6 }}
-                  className="text-center"
-                >
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 text-white rounded-full mb-3 shadow-lg">
-                    <MapPin className="w-8 h-8" />
-                  </div>
-                  <h3 className="font-bold text-lg">{city.city}, {city.state}</h3>
-                  <p className="text-sm text-gray-600">{city.offices} Office{city.offices > 1 ? 's' : ''}</p>
-                  <p className="text-xs text-gray-500">Pop: {city.population}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
+          {majorCities.filter(city => city.featured).map((city, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.3 + index * 0.1, duration: 0.6 }}
+            >
+              <Card className="text-center p-6 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer group hover:shadow-xl">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 group-hover:bg-white rounded-full mb-4 transition-colors duration-300">
+                  <MapPin className="w-8 h-8 text-blue-600 group-hover:text-blue-600 transition-colors duration-300" />
+                </div>
+                <h3 className="font-bold text-lg mb-2 group-hover:text-white transition-colors duration-300">
+                  {city.city}, {city.state}
+                </h3>
+                <p className="text-sm text-gray-600 group-hover:text-blue-100 transition-colors duration-300">
+                  {city.offices} Office{city.offices > 1 ? 's' : ''}
+                </p>
+                <p className="text-xs text-gray-500 group-hover:text-blue-200 transition-colors duration-300">
+                  Pop: {city.population}
+                </p>
+              </Card>
+            </motion.div>
+          ))}
         </motion.div>
 
         {/* Service Areas Grid */}
@@ -149,20 +140,22 @@ export const NearbyLocations = () => {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.4, duration: 0.6 }}
           >
-            <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-              <Building2 className="w-6 h-6 text-blue-600" />
-              All Locations
-            </h3>
-            <div className="grid grid-cols-2 gap-4">
-              {majorCities.map((city, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-blue-600" />
-                  <span className="text-gray-700">
-                    {city.city}, {city.state}
-                  </span>
-                </div>
-              ))}
-            </div>
+            <Card className="p-8 h-full">
+              <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
+                <Building2 className="w-8 h-8 text-blue-600" />
+                All Locations
+              </h3>
+              <div className="grid grid-cols-2 gap-4">
+                {majorCities.map((city, index) => (
+                  <div key={index} className="flex items-center gap-3 p-2 rounded hover:bg-blue-50 transition-colors duration-200">
+                    <MapPin className="w-4 h-4 text-blue-600 flex-shrink-0" />
+                    <span className="text-gray-800 font-medium">
+                      {city.city}, {city.state}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </Card>
           </motion.div>
 
           <motion.div
@@ -170,18 +163,20 @@ export const NearbyLocations = () => {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.5, duration: 0.6 }}
           >
-            <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-              <Car className="w-6 h-6 text-blue-600" />
-              Practice Areas
-            </h3>
-            <div className="grid grid-cols-2 gap-4">
-              {serviceAreas.map((area, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full" />
-                  <span className="text-gray-700">{area}</span>
-                </div>
-              ))}
-            </div>
+            <Card className="p-8 h-full">
+              <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
+                <Car className="w-8 h-8 text-blue-600" />
+                Practice Areas
+              </h3>
+              <div className="grid grid-cols-1 gap-4">
+                {serviceAreas.map((area, index) => (
+                  <div key={index} className="flex items-center gap-3 p-2 rounded hover:bg-blue-50 transition-colors duration-200">
+                    <div className="w-3 h-3 bg-blue-600 rounded-full flex-shrink-0" />
+                    <span className="text-gray-800 font-medium">{area}</span>
+                  </div>
+                ))}
+              </div>
+            </Card>
           </motion.div>
         </div>
 
