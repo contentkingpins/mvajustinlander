@@ -171,7 +171,7 @@ export const HeroSection: React.FC = () => {
             <div className="text-sm text-gray-300">Recovered</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-yellow-400">10,000+</div>
+            <div className="text-3xl font-bold text-yellow-400">2,500+</div>
             <div className="text-sm text-gray-300">Cases Won</div>
           </div>
           <div className="text-center">

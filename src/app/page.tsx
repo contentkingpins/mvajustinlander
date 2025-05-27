@@ -22,8 +22,6 @@ import { BusinessHoursDetector } from '@/components/tracking/BusinessHoursDetect
 // Lazy load heavy components
 const FormModal = dynamic(() => import('@/components/forms/FormModal').then(mod => mod.FormModal));
 
-const VideoSection = dynamic(() => import('@/components/sections/VideoSection').then(mod => mod.VideoSection));
-
 const NearbyLocations = dynamic(() => import('@/components/sections/NearbyLocations').then(mod => mod.NearbyLocations));
 
 // SEO metadata
@@ -147,9 +145,6 @@ export default function HomePage() {
 
             {/* Benefits Section */}
             <BenefitsSection />
-
-            {/* Video Testimonial */}
-            <VideoSection />
 
             {/* Process Section */}
             <ProcessSection />

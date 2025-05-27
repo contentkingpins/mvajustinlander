@@ -149,7 +149,7 @@ export const BenefitsSection: React.FC = () => {
               ))}
             </div>
             <div className="text-left">
-              <div className="font-bold text-gray-900">Trusted by 10,000+ Clients</div>
+              <div className="font-bold text-gray-900">Trusted by 2,500+ Clients</div>
               <div className="text-sm text-gray-600">Average rating of 4.9/5 stars</div>
             </div>
             <div className="flex gap-1">
