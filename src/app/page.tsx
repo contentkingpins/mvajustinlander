@@ -131,29 +131,29 @@ export default function HomePage() {
                   <div className="flex items-center gap-2">
                     <span className="text-4xl">⭐</span>
                     <div className="text-left">
-                      <p className="font-bold text-gray-900">4.9/5 Rating</p>
-                      <p className="text-sm text-gray-700">500+ Reviews</p>
+                      <p className="font-bold text-blue-900">4.9/5 Rating</p>
+                      <p className="text-sm text-blue-700">500+ Reviews</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-4xl">💰</span>
                     <div className="text-left">
-                      <p className="font-bold text-gray-900">$500M+</p>
-                      <p className="text-sm text-gray-700">Won for Clients</p>
+                      <p className="font-bold text-blue-900">$500M+</p>
+                      <p className="text-sm text-blue-700">Won for Clients</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-4xl">🏆</span>
                     <div className="text-left">
-                      <p className="font-bold text-gray-900">No Fee</p>
-                      <p className="text-sm text-gray-700">Unless We Win</p>
+                      <p className="font-bold text-blue-900">No Fee</p>
+                      <p className="text-sm text-blue-700">Unless We Win</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-4xl">⚡</span>
                     <div className="text-left">
-                      <p className="font-bold text-gray-900">24/7</p>
-                      <p className="text-sm text-gray-700">Free Consultation</p>
+                      <p className="font-bold text-blue-900">24/7</p>
+                      <p className="text-sm text-blue-700">Free Consultation</p>
                     </div>
                   </div>
                 </div>

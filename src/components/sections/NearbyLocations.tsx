@@ -109,7 +109,7 @@ export const NearbyLocations = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             Nationwide Attorney <span className="text-blue-600">Network</span>
           </h2>
-          <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+          <p className="text-xl text-blue-800 max-w-3xl mx-auto">
             We connect you to top-rated injury attorneys in your area. Our pre-screened network ensures you get the best legal representation.
           </p>
         </motion.div>
@@ -140,7 +140,7 @@ export const NearbyLocations = () => {
                 <h3 className="font-bold text-lg mb-2 group-hover:text-white transition-colors duration-300">
                   {stat.label}
                 </h3>
-                <p className="text-sm text-gray-700 group-hover:text-blue-100 transition-colors duration-300">
+                <p className="text-sm text-blue-800 group-hover:text-blue-100 transition-colors duration-300">
                   {stat.description}
                 </p>
               </Card>
@@ -158,10 +158,10 @@ export const NearbyLocations = () => {
           <Card className="p-8 bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200">
             <div className="text-center mb-8">
               <Network className="w-16 h-16 text-blue-600 mx-auto mb-4" />
-              <h3 className="text-3xl font-bold text-gray-900 mb-2">
+              <h3 className="text-3xl font-bold text-blue-900 mb-2">
                 Connected Coast to Coast
               </h3>
-              <p className="text-gray-700">
+              <p className="text-blue-800">
                 Our attorney network spans major metropolitan areas nationwide
               </p>
             </div>
@@ -173,10 +173,10 @@ export const NearbyLocations = () => {
                   <div className="text-2xl font-bold text-blue-600 mb-1">
                     {city.attorneys}+
                   </div>
-                  <div className="font-semibold text-gray-900 text-sm">
+                  <div className="font-semibold text-blue-900 text-sm">
                     {city.city}, {city.state}
                   </div>
-                  <div className="text-xs text-gray-600">
+                  <div className="text-xs text-blue-700">
                     Attorneys Available
                   </div>
                 </div>
@@ -202,7 +202,7 @@ export const NearbyLocations = () => {
                   <div key={index} className="flex items-center justify-between p-3 rounded-lg hover:bg-blue-50 transition-colors duration-200">
                     <div className="flex items-center gap-3">
                       <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                      <span className="text-gray-800 font-medium">
+                      <span className="text-blue-900 font-medium">
                         {city.city}, {city.state}
                       </span>
                     </div>
@@ -229,7 +229,7 @@ export const NearbyLocations = () => {
                 {practiceAreas.map((area, index) => (
                   <div key={index} className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-50 transition-colors duration-200">
                     <div className="w-3 h-3 bg-blue-600 rounded-full flex-shrink-0" />
-                    <span className="text-gray-800 font-medium">{area}</span>
+                    <span className="text-blue-900 font-medium">{area}</span>
                   </div>
                 ))}
               </div>

@@ -78,7 +78,7 @@ export const FAQSection = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             Frequently Asked <span className="text-blue-600">Questions</span>
           </h2>
-          <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+          <p className="text-xl text-blue-800 max-w-3xl mx-auto">
             Get answers to common questions about personal injury claims and our legal services.
           </p>
         </motion.div>
@@ -124,8 +124,9 @@ export const FAQSection = () => {
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.3 }}
+                        className="overflow-hidden"
                       >
-                        <div className="px-6 pb-5 pl-16 text-gray-700">
+                        <div className="px-6 pb-5 pl-16 text-blue-800">
                           {faq.answer}
                         </div>
                       </motion.div>
@@ -147,8 +148,8 @@ export const FAQSection = () => {
               <h3 className="text-2xl font-bold mb-4">
                 Still Have Questions?
               </h3>
-              <p className="text-gray-800 mb-6">
-                Our experienced attorneys are available 24/7 to answer your questions and evaluate your case for free.
+              <p className="text-blue-800 mb-6">
+                Still have questions? Our team is here to help you understand your rights and options.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105">
@@ -168,7 +169,7 @@ export const FAQSection = () => {
             transition={{ delay: 1, duration: 0.6 }}
             className="text-center mt-12"
           >
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-blue-700">
               Trusted by over 2,500 clients • 98% success rate • $500M+ recovered
             </p>
           </motion.div>

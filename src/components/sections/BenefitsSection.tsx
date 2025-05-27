@@ -59,7 +59,7 @@ export const BenefitsSection: React.FC = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             Why Choose <span className="text-blue-600">Claim Connectors?</span>
           </h2>
-          <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+          <p className="text-xl text-blue-800 max-w-3xl mx-auto">
             We connect you to the best injury attorneys in your area and ensure 
             you get the expert legal representation you deserve.
           </p>
@@ -96,7 +96,7 @@ export const BenefitsSection: React.FC = () => {
                 <p className={`transition-colors duration-300 ${
                   benefit.highlight 
                     ? 'text-blue-100' 
-                    : 'text-gray-700 group-hover:text-blue-100'
+                    : 'text-blue-800 group-hover:text-blue-100'
                 }`}>
                   {benefit.description}
                 </p>
@@ -115,8 +115,8 @@ export const BenefitsSection: React.FC = () => {
         >
           <div className="inline-flex items-center gap-6 bg-white rounded-full px-8 py-6 shadow-lg hover:shadow-2xl hover:bg-blue-50 transition-all duration-300 cursor-pointer group">
             <div className="text-left">
-              <div className="font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-300 text-lg">Trusted by 2,500+ Clients</div>
-              <div className="text-sm text-gray-700 group-hover:text-blue-500 transition-colors duration-300">Average rating of 4.9/5 stars</div>
+              <div className="font-bold text-blue-900 group-hover:text-blue-600 transition-colors duration-300 text-lg">Trusted by 2,500+ Clients</div>
+              <div className="text-sm text-blue-700 group-hover:text-blue-500 transition-colors duration-300">Average rating of 4.9/5 stars</div>
             </div>
             <div className="flex gap-1">
               {[...Array(5)].map((_, i) => (
