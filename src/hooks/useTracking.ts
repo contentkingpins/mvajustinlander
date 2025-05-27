@@ -6,9 +6,16 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { setCookie, getCookie } from 'cookies-next';
-import ReactGA from 'react-ga4';
-import ReactPixel from 'react-facebook-pixel';
 import { UTMParams, TrackingEvent, TrackingContext, ConversionEvent } from '@/types';
+
+// Lazy load tracking libraries to avoid SSR issues
+let ReactGA: any;
+let ReactPixel: any;
+
+if (typeof window !== 'undefined') {
+  ReactGA = require('react-ga4');
+  ReactPixel = require('react-facebook-pixel');
+}
 
 // Constants
 const TRACKING_COOKIE_NAME = 'mvaj_tracking';
@@ -19,9 +26,12 @@ const SESSION_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
 
 // Initialize tracking platforms
 const initializeTrackers = () => {
+  // Skip initialization on server
+  if (typeof window === 'undefined' || !ReactGA || !ReactPixel) return;
+  
   // Google Analytics 4
   if (process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) {
-    ReactGA.initialize(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID, {
+    ReactGA.default.initialize(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID, {
       gaOptions: {
         anonymizeIp: true,
         cookieFlags: 'SameSite=None; Secure'
@@ -31,7 +41,7 @@ const initializeTrackers = () => {
 
   // Facebook Pixel
   if (process.env.NEXT_PUBLIC_FB_PIXEL_ID) {
-    ReactPixel.init(process.env.NEXT_PUBLIC_FB_PIXEL_ID, undefined, {
+    ReactPixel.default.init(process.env.NEXT_PUBLIC_FB_PIXEL_ID, undefined, {
       autoConfig: true,
       debug: process.env.NODE_ENV === 'development'
     });
@@ -209,7 +219,9 @@ export const useTracking = () => {
     };
 
     // Track initial page view
-    trackPageView(window.location.pathname);
+    if (typeof window !== 'undefined') {
+      trackPageView(window.location.pathname);
+    }
 
     // Set up activity tracking
     const updateActivity = () => {
@@ -261,14 +273,18 @@ export const useTracking = () => {
     if (!sessionRef.current) return;
 
     // Send to GA4
-    ReactGA.send({ 
-      hitType: "pageview", 
-      page: path,
-      title: title || document.title
-    });
+    if (ReactGA && ReactGA.default) {
+      ReactGA.default.send({ 
+        hitType: "pageview", 
+        page: path,
+        title: title || document.title
+      });
+    }
 
     // Send to Facebook Pixel
-    ReactPixel.pageView();
+    if (ReactPixel && ReactPixel.default) {
+      ReactPixel.default.pageView();
+    }
 
     // Send to first-party
     const event: TrackingEvent = {
@@ -299,17 +315,19 @@ export const useTracking = () => {
     };
 
     // Send to GA4
-    ReactGA.event({
-      category: fullEvent.category,
-      action: fullEvent.action,
-      label: fullEvent.label,
-      value: fullEvent.value,
-      ...fullEvent.metadata
-    });
+    if (ReactGA && ReactGA.default) {
+      ReactGA.default.event({
+        category: fullEvent.category,
+        action: fullEvent.action,
+        label: fullEvent.label,
+        value: fullEvent.value,
+        ...fullEvent.metadata
+      });
+    }
 
     // Send to Facebook Pixel
-    if (fullEvent.category === 'Conversion') {
-      ReactPixel.track(fullEvent.action, fullEvent.metadata);
+    if (ReactPixel && ReactPixel.default && fullEvent.category === 'Conversion') {
+      ReactPixel.default.track(fullEvent.action, fullEvent.metadata);
     }
 
     // Send to first-party
@@ -332,8 +350,8 @@ export const useTracking = () => {
     });
 
     // Send enhanced conversion to Facebook
-    if (conversion.metadata?.email) {
-      ReactPixel.track('Lead', {
+    if (ReactPixel && ReactPixel.default && conversion.metadata?.email) {
+      ReactPixel.default.track('Lead', {
         value: conversion.value,
         currency: 'USD',
         ...conversion.metadata

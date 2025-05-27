@@ -20,20 +20,15 @@ import { PhoneButton } from '@/components/ui/PhoneButton';
 import { BusinessHoursDetector } from '@/components/tracking/BusinessHoursDetector';
 
 // Lazy load heavy components
-const FormModal = dynamic(() => import('@/components/forms/FormModal').then(mod => mod.FormModal), {
-  ssr: false,
-});
+const FormModal = dynamic(() => import('@/components/forms/FormModal').then(mod => mod.FormModal));
 
-const VideoSection = dynamic(() => import('@/components/sections/VideoSection').then(mod => mod.VideoSection), {
-  ssr: false,
-});
+const VideoSection = dynamic(() => import('@/components/sections/VideoSection').then(mod => mod.VideoSection));
 
-const NearbyLocations = dynamic(() => import('@/components/sections/NearbyLocations').then(mod => mod.NearbyLocations), {
-  ssr: false,
-});
+const NearbyLocations = dynamic(() => import('@/components/sections/NearbyLocations').then(mod => mod.NearbyLocations));
 
 // SEO metadata
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.mvajustinlander.com'),
   title: 'Injured in an Accident? Get Maximum Compensation | MVA Justin Lander',
   description: 'Free consultation for accident victims. No fees unless we win. Get the compensation you deserve. Call now for immediate help with your injury claim.',
   keywords: ['personal injury lawyer', 'accident attorney', 'car accident lawyer', 'injury compensation', 'free consultation'],

@@ -209,7 +209,7 @@ const getSmartDefaults = (accidentType: AccidentType): Partial<LeadFormData> => 
 export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(formReducer, initialFormState);
   const { trackEvent, trackFormField, trackConversion, getAttribution } = useTracking();
-  const autosaveTimerRef = useRef<NodeJS.Timeout>();
+  const autosaveTimerRef = useRef<NodeJS.Timeout | null>(null);
   const lastSaveRef = useRef<number>(Date.now());
 
   // Load saved form state on mount
