@@ -115,28 +115,28 @@ export default function HomePage() {
                     <span className="text-4xl">⭐</span>
                     <div className="text-left">
                       <p className="font-bold text-gray-900">4.9/5 Rating</p>
-                      <p className="text-sm text-gray-600">500+ Reviews</p>
+                      <p className="text-sm text-gray-700">500+ Reviews</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-4xl">💰</span>
                     <div className="text-left">
                       <p className="font-bold text-gray-900">$500M+</p>
-                      <p className="text-sm text-gray-600">Won for Clients</p>
+                      <p className="text-sm text-gray-700">Won for Clients</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-4xl">🏆</span>
                     <div className="text-left">
                       <p className="font-bold text-gray-900">No Fee</p>
-                      <p className="text-sm text-gray-600">Unless We Win</p>
+                      <p className="text-sm text-gray-700">Unless We Win</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-4xl">⚡</span>
                     <div className="text-left">
                       <p className="font-bold text-gray-900">24/7</p>
-                      <p className="text-sm text-gray-600">Free Consultation</p>
+                      <p className="text-sm text-gray-700">Free Consultation</p>
                     </div>
                   </div>
                 </div>
@@ -168,13 +168,13 @@ export default function HomePage() {
               <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
                   <h3 className="text-xl font-bold mb-4">Claim Connectors</h3>
-                  <p className="text-gray-400">
+                  <p className="text-gray-300">
                     Fighting for accident victims and their families. No fees unless we win your case.
                   </p>
                 </div>
                 <div>
                   <h4 className="font-semibold mb-4">Practice Areas</h4>
-                  <ul className="space-y-2 text-gray-400">
+                  <ul className="space-y-2 text-gray-300">
                     <li><a href="#" className="hover:text-white transition">Car Accidents</a></li>
                     <li><a href="#" className="hover:text-white transition">Truck Accidents</a></li>
                     <li><a href="#" className="hover:text-white transition">Motorcycle Accidents</a></li>
@@ -183,7 +183,7 @@ export default function HomePage() {
                 </div>
                 <div>
                   <h4 className="font-semibold mb-4">Resources</h4>
-                  <ul className="space-y-2 text-gray-400">
+                  <ul className="space-y-2 text-gray-300">
                     <li><a href="#" className="hover:text-white transition">FAQ</a></li>
                     <li><a href="#" className="hover:text-white transition">Blog</a></li>
                     <li><a href="#" className="hover:text-white transition">Case Results</a></li>
@@ -192,13 +192,13 @@ export default function HomePage() {
                 </div>
                 <div>
                   <h4 className="font-semibold mb-4">Contact Us</h4>
-                  <p className="text-gray-400 mb-2">
+                  <p className="text-gray-300 mb-2">
                     <strong>24/7 Free Consultation</strong>
                   </p>
                   <p className="text-2xl font-bold text-blue-400 mb-4">
                     {process.env.NEXT_PUBLIC_BUSINESS_PHONE}
                   </p>
-                  <p className="text-gray-400">
+                  <p className="text-gray-300">
                     <a href={`mailto:${process.env.NEXT_PUBLIC_BUSINESS_EMAIL}`} className="hover:text-white transition">
                       {process.env.NEXT_PUBLIC_BUSINESS_EMAIL}
                     </a>

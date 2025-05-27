@@ -72,7 +72,7 @@ export const CTASection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.3 }}
-            className="text-xl md:text-2xl mb-8 text-gray-300 leading-relaxed"
+            className="text-xl md:text-2xl mb-8 text-gray-200 leading-relaxed"
           >
             Right now, you're dealing with physical pain, emotional stress, and financial pressure. 
             <span className="block mt-3 font-semibold text-white">
@@ -90,7 +90,7 @@ export const CTASection = () => {
             <div className="flex items-start gap-4">
               <AlertTriangle className="w-6 h-6 text-red-400 flex-shrink-0 mt-1" />
               <div className="text-left">
-                <p className="text-lg text-gray-200">
+                <p className="text-lg text-gray-100">
                   <strong className="text-white">Every day matters.</strong> Evidence disappears. 
                   Witnesses forget. Insurance companies count on you waiting too long to file a claim.
                 </p>
@@ -108,21 +108,21 @@ export const CTASection = () => {
             <div className="bg-white/5 rounded-lg p-4">
               <Shield className="w-8 h-8 text-blue-400 mb-2" />
               <h3 className="font-semibold mb-1">Stop Fighting Alone</h3>
-              <p className="text-sm text-gray-300">
+              <p className="text-sm text-gray-200">
                 Insurance companies have teams of lawyers. Shouldn't you?
               </p>
             </div>
             <div className="bg-white/5 rounded-lg p-4">
               <Heart className="w-8 h-8 text-red-400 mb-2" />
               <h3 className="font-semibold mb-1">Focus on Healing</h3>
-              <p className="text-sm text-gray-300">
+              <p className="text-sm text-gray-200">
                 Let us handle the legal battle while you recover.
               </p>
             </div>
             <div className="bg-white/5 rounded-lg p-4">
               <AlertTriangle className="w-8 h-8 text-yellow-400 mb-2" />
               <h3 className="font-semibold mb-1">Get What You Deserve</h3>
-              <p className="text-sm text-gray-300">
+              <p className="text-sm text-gray-200">
                 Don't settle for less because you don't know your rights.
               </p>
             </div>
@@ -138,7 +138,7 @@ export const CTASection = () => {
             <p className="text-2xl font-semibold text-blue-300 mb-4">
               One call can change everything.
             </p>
-            <p className="text-lg text-gray-300">
+            <p className="text-lg text-gray-200">
               No fees unless we win. We only get paid when you do.
             </p>
           </motion.div>
@@ -172,7 +172,7 @@ export const CTASection = () => {
             initial={{ opacity: 0 }}
             animate={inView ? { opacity: 1 } : {}}
             transition={{ delay: 0.8 }}
-            className="text-gray-400 text-sm"
+            className="text-gray-300 text-sm"
           >
             <p>
               You've been through enough. Let us fight for you.
@@ -186,10 +186,10 @@ export const CTASection = () => {
             transition={{ delay: 0.9 }}
             className="mt-16 pt-16 border-t border-white/10"
           >
-            <p className="text-gray-400 mb-6">
+            <p className="text-gray-300 mb-6">
               We've helped thousands of people just like you get back on their feet
             </p>
-            <div className="flex flex-wrap justify-center items-center gap-8 text-gray-300">
+            <div className="flex flex-wrap justify-center items-center gap-8 text-gray-200">
               <div>
                 <div className="text-3xl font-bold text-white">$500M+</div>
                 <div className="text-sm">Recovered for Clients</div>

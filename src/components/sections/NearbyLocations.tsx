@@ -96,7 +96,7 @@ export const NearbyLocations = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             Serving Victims <span className="text-blue-600">Nationwide</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-700 max-w-3xl mx-auto">
             With offices across the country, we're always nearby when you need us most.
           </p>
         </motion.div>
@@ -122,10 +122,10 @@ export const NearbyLocations = () => {
                 <h3 className="font-bold text-lg mb-2 group-hover:text-white transition-colors duration-300">
                   {city.city}, {city.state}
                 </h3>
-                <p className="text-sm text-gray-600 group-hover:text-blue-100 transition-colors duration-300">
+                <p className="text-sm text-gray-700 group-hover:text-blue-100 transition-colors duration-300">
                   {city.offices} Office{city.offices > 1 ? 's' : ''}
                 </p>
-                <p className="text-xs text-gray-500 group-hover:text-blue-200 transition-colors duration-300">
+                <p className="text-xs text-gray-600 group-hover:text-blue-200 transition-colors duration-300">
                   Pop: {city.population}
                 </p>
               </Card>

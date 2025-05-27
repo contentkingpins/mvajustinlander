@@ -112,7 +112,7 @@ export const HeroSection: React.FC = () => {
 
         {/* Subheadline */}
         <motion.p
-          className="text-xl md:text-2xl mb-8 text-gray-200 max-w-3xl mx-auto"
+          className="text-xl md:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto"
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.4, duration: 0.8 }}
@@ -168,19 +168,19 @@ export const HeroSection: React.FC = () => {
         >
           <div className="text-center">
             <div className="text-3xl font-bold text-yellow-400">$500M+</div>
-            <div className="text-sm text-gray-300">Recovered</div>
+            <div className="text-sm text-blue-100">Recovered</div>
           </div>
           <div className="text-center">
             <div className="text-3xl font-bold text-yellow-400">2,500+</div>
-            <div className="text-sm text-gray-300">Cases Won</div>
+            <div className="text-sm text-blue-100">Cases Won</div>
           </div>
           <div className="text-center">
             <div className="text-3xl font-bold text-yellow-400">No Fee</div>
-            <div className="text-sm text-gray-300">Unless We Win</div>
+            <div className="text-sm text-blue-100">Unless We Win</div>
           </div>
           <div className="text-center">
             <div className="text-3xl font-bold text-yellow-400">4.9★</div>
-            <div className="text-sm text-gray-300">Client Rating</div>
+            <div className="text-sm text-blue-100">Client Rating</div>
           </div>
         </motion.div>
 

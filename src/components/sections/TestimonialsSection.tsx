@@ -94,7 +94,7 @@ export const TestimonialsSection = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             Real Clients, <span className="text-blue-600">Real Results</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-700 max-w-3xl mx-auto">
             Don't just take our word for it. See what our clients say about their experience.
           </p>
         </motion.div>
@@ -108,7 +108,7 @@ export const TestimonialsSection = () => {
         >
           <Card className="text-center p-6 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer group hover:shadow-xl">
             <div className="text-3xl font-bold text-blue-600 group-hover:text-white transition-colors duration-300">4.9/5</div>
-            <div className="text-gray-600 group-hover:text-blue-100 transition-colors duration-300">Average Rating</div>
+            <div className="text-gray-700 group-hover:text-blue-100 transition-colors duration-300">Average Rating</div>
             <div className="flex justify-center mt-2">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400 group-hover:scale-110 transition-transform duration-300" />
@@ -117,15 +117,15 @@ export const TestimonialsSection = () => {
           </Card>
           <Card className="text-center p-6 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer group hover:shadow-xl">
             <div className="text-3xl font-bold text-blue-600 group-hover:text-white transition-colors duration-300">2,500+</div>
-            <div className="text-gray-600 group-hover:text-blue-100 transition-colors duration-300">Happy Clients</div>
+            <div className="text-gray-700 group-hover:text-blue-100 transition-colors duration-300">Happy Clients</div>
           </Card>
           <Card className="text-center p-6 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer group hover:shadow-xl">
             <div className="text-3xl font-bold text-blue-600 group-hover:text-white transition-colors duration-300">98%</div>
-            <div className="text-gray-600 group-hover:text-blue-100 transition-colors duration-300">Success Rate</div>
+            <div className="text-gray-700 group-hover:text-blue-100 transition-colors duration-300">Success Rate</div>
           </Card>
           <Card className="text-center p-6 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer group hover:shadow-xl">
             <div className="text-3xl font-bold text-blue-600 group-hover:text-white transition-colors duration-300">$500M+</div>
-            <div className="text-gray-600 group-hover:text-blue-100 transition-colors duration-300">Total Recovered</div>
+            <div className="text-gray-700 group-hover:text-blue-100 transition-colors duration-300">Total Recovered</div>
           </Card>
         </motion.div>
 
@@ -150,11 +150,11 @@ export const TestimonialsSection = () => {
                         <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                       ))}
                     </div>
-                    <span className="text-gray-500 text-sm">{currentTestimonial.date}</span>
+                    <span className="text-gray-600 text-sm">{currentTestimonial.date}</span>
                   </div>
 
                   {/* Testimonial Text */}
-                  <p className="text-lg md:text-xl text-gray-700 mb-6 italic">
+                  <p className="text-lg md:text-xl text-gray-800 mb-6 italic">
                     "{currentTestimonial.text}"
                   </p>
 
@@ -162,11 +162,11 @@ export const TestimonialsSection = () => {
                   <div className="bg-blue-50 rounded-lg p-4 mb-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm text-gray-600">Case Type</p>
+                        <p className="text-sm text-gray-700">Case Type</p>
                         <p className="font-semibold">{currentTestimonial.caseType}</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm text-gray-600">Settlement</p>
+                        <p className="text-sm text-gray-700">Settlement</p>
                         <p className="text-2xl font-bold text-blue-600">{currentTestimonial.settlement}</p>
                       </div>
                     </div>
@@ -179,7 +179,7 @@ export const TestimonialsSection = () => {
                     </div>
                     <div>
                       <p className="font-semibold text-lg">{currentTestimonial.name}</p>
-                      <p className="text-gray-600">{currentTestimonial.location}</p>
+                      <p className="text-gray-700">{currentTestimonial.location}</p>
                     </div>
                   </div>
                 </div>
@@ -227,7 +227,7 @@ export const TestimonialsSection = () => {
           transition={{ delay: 0.4, duration: 0.6 }}
           className="text-center mt-16"
         >
-          <p className="text-xl text-gray-700 mb-6">
+          <p className="text-xl text-gray-800 mb-6">
             Join thousands of satisfied clients who got the compensation they deserved.
           </p>
           <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg text-xl transition-all transform hover:scale-105">
