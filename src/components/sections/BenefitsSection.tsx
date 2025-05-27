@@ -108,19 +108,27 @@ export const BenefitsSection: React.FC = () => {
               whileTap={{ scale: 0.95 }}
             >
               <Card
-                className={`h-full p-8 transition-all duration-300 hover:shadow-xl ${
+                className={`h-full p-8 transition-all duration-300 cursor-pointer group ${
                   benefit.highlight 
-                    ? 'bg-blue-600 text-white border-blue-600' 
-                    : 'bg-white hover:border-blue-300'
+                    ? 'bg-blue-600 text-white border-blue-600 hover:bg-blue-700' 
+                    : 'bg-white hover:bg-blue-600 hover:text-white hover:border-blue-600 border-gray-200 hover:shadow-2xl'
                 }`}
               >
-                <div className={`mb-4 ${benefit.highlight ? 'text-white' : 'text-blue-600'}`}>
+                <div className={`mb-4 transition-colors duration-300 ${
+                  benefit.highlight 
+                    ? 'text-white' 
+                    : 'text-blue-600 group-hover:text-white'
+                }`}>
                   {benefit.icon}
                 </div>
-                <h3 className="text-2xl font-bold mb-3">
+                <h3 className="text-2xl font-bold mb-3 transition-colors duration-300">
                   {benefit.title}
                 </h3>
-                <p className={benefit.highlight ? 'text-blue-100' : 'text-gray-600'}>
+                <p className={`transition-colors duration-300 ${
+                  benefit.highlight 
+                    ? 'text-blue-100' 
+                    : 'text-gray-600 group-hover:text-blue-100'
+                }`}>
                   {benefit.description}
                 </p>
               </Card>
@@ -135,12 +143,12 @@ export const BenefitsSection: React.FC = () => {
           animate={inView ? { opacity: 1, scale: 1 } : {}}
           transition={{ delay: 0.6, duration: 0.6 }}
         >
-          <div className="inline-flex items-center gap-4 bg-white rounded-full px-8 py-4 shadow-lg">
+          <div className="inline-flex items-center gap-4 bg-white rounded-full px-8 py-4 shadow-lg hover:shadow-2xl hover:bg-blue-50 transition-all duration-300 cursor-pointer group">
             <div className="flex -space-x-2">
               {[...Array(5)].map((_, i) => (
                 <div
                   key={i}
-                  className="w-10 h-10 bg-gray-300 rounded-full border-2 border-white"
+                  className="w-10 h-10 bg-gray-300 rounded-full border-2 border-white transition-transform duration-300 group-hover:scale-110"
                   style={{
                     backgroundImage: `url('/images/avatar-${i + 1}.jpg')`,
                     backgroundSize: 'cover',
@@ -149,12 +157,12 @@ export const BenefitsSection: React.FC = () => {
               ))}
             </div>
             <div className="text-left">
-              <div className="font-bold text-gray-900">Trusted by 2,500+ Clients</div>
-              <div className="text-sm text-gray-600">Average rating of 4.9/5 stars</div>
+              <div className="font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">Trusted by 2,500+ Clients</div>
+              <div className="text-sm text-gray-600 group-hover:text-blue-500 transition-colors duration-300">Average rating of 4.9/5 stars</div>
             </div>
             <div className="flex gap-1">
               {[...Array(5)].map((_, i) => (
-                <span key={i} className="text-yellow-400 text-xl">★</span>
+                <span key={i} className="text-yellow-400 text-xl group-hover:scale-110 transition-transform duration-300">★</span>
               ))}
             </div>
           </div>

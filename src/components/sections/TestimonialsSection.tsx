@@ -111,26 +111,26 @@ export const TestimonialsSection = () => {
           transition={{ delay: 0.2, duration: 0.6 }}
           className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16"
         >
-          <Card className="text-center p-6">
-            <div className="text-3xl font-bold text-blue-600">4.9/5</div>
-            <div className="text-gray-600">Average Rating</div>
+          <Card className="text-center p-6 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer group hover:shadow-xl">
+            <div className="text-3xl font-bold text-blue-600 group-hover:text-white transition-colors duration-300">4.9/5</div>
+            <div className="text-gray-600 group-hover:text-blue-100 transition-colors duration-300">Average Rating</div>
             <div className="flex justify-center mt-2">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400 group-hover:scale-110 transition-transform duration-300" />
               ))}
             </div>
           </Card>
-          <Card className="text-center p-6">
-            <div className="text-3xl font-bold text-blue-600">2,500+</div>
-            <div className="text-gray-600">Happy Clients</div>
+          <Card className="text-center p-6 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer group hover:shadow-xl">
+            <div className="text-3xl font-bold text-blue-600 group-hover:text-white transition-colors duration-300">2,500+</div>
+            <div className="text-gray-600 group-hover:text-blue-100 transition-colors duration-300">Happy Clients</div>
           </Card>
-          <Card className="text-center p-6">
-            <div className="text-3xl font-bold text-blue-600">98%</div>
-            <div className="text-gray-600">Success Rate</div>
+          <Card className="text-center p-6 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer group hover:shadow-xl">
+            <div className="text-3xl font-bold text-blue-600 group-hover:text-white transition-colors duration-300">98%</div>
+            <div className="text-gray-600 group-hover:text-blue-100 transition-colors duration-300">Success Rate</div>
           </Card>
-          <Card className="text-center p-6">
-            <div className="text-3xl font-bold text-blue-600">$500M+</div>
-            <div className="text-gray-600">Total Recovered</div>
+          <Card className="text-center p-6 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer group hover:shadow-xl">
+            <div className="text-3xl font-bold text-blue-600 group-hover:text-white transition-colors duration-300">$500M+</div>
+            <div className="text-gray-600 group-hover:text-blue-100 transition-colors duration-300">Total Recovered</div>
           </Card>
         </motion.div>
 
