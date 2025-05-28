@@ -138,18 +138,19 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.9 }}
-        className="w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+        className="w-full max-w-2xl my-8"
       >
-        <Card className="p-8 relative">
+        <Card className="p-4 sm:p-6 md:p-8 relative">
           {/* Close Button */}
           <button
             onClick={resetForm}
-            className="absolute top-4 right-4 text-slate-600 hover:text-slate-800 transition-colors"
+            className="absolute top-4 right-4 text-blue-600 hover:text-blue-800 transition-colors p-2"
+            aria-label="Close form"
           >
             <X className="w-6 h-6" />
           </button>
@@ -157,19 +158,19 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
           {!showRecommendation ? (
             <>
               {/* Form Header */}
-              <div className="text-center mb-8">
-                <h2 className="text-3xl font-bold text-blue-900 mb-2">
+              <div className="text-center mb-6 sm:mb-8">
+                <h2 className="text-2xl sm:text-3xl font-bold text-blue-900 mb-2">
                   Tell Us What Happened
                 </h2>
-                <p className="text-blue-700">
+                <p className="text-blue-700 text-sm sm:text-base px-2">
                   Share your accident details and we'll connect you with the right attorney
                 </p>
               </div>
 
               {/* Form */}
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
                 {/* Name Fields */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-blue-900 mb-2">
                       <User className="w-4 h-4 inline mr-2" />
@@ -179,10 +180,11 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
                       type="text"
                       value={formData.firstName}
                       onChange={(e) => handleInputChange('firstName', e.target.value)}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
-                        errors.firstName ? 'border-red-500' : 'border-slate-300'
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base ${
+                        errors.firstName ? 'border-red-500' : 'border-blue-300'
                       }`}
                       placeholder="Enter your first name"
+                      autoComplete="given-name"
                     />
                     {errors.firstName && (
                       <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>
@@ -198,10 +200,11 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
                       type="text"
                       value={formData.lastName}
                       onChange={(e) => handleInputChange('lastName', e.target.value)}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
-                        errors.lastName ? 'border-red-500' : 'border-slate-300'
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base ${
+                        errors.lastName ? 'border-red-500' : 'border-blue-300'
                       }`}
                       placeholder="Enter your last name"
+                      autoComplete="family-name"
                     />
                     {errors.lastName && (
                       <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>
@@ -210,7 +213,7 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
                 </div>
 
                 {/* Location Fields */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-blue-900 mb-2">
                       <MapPin className="w-4 h-4 inline mr-2" />
@@ -220,10 +223,11 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
                       type="text"
                       value={formData.city}
                       onChange={(e) => handleInputChange('city', e.target.value)}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
-                        errors.city ? 'border-red-500' : 'border-slate-300'
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base ${
+                        errors.city ? 'border-red-500' : 'border-blue-300'
                       }`}
                       placeholder="Enter city name"
+                      autoComplete="address-level2"
                     />
                     {errors.city && (
                       <p className="text-red-500 text-sm mt-1">{errors.city}</p>
@@ -238,9 +242,10 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
                     <select
                       value={formData.state}
                       onChange={(e) => handleInputChange('state', e.target.value)}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
-                        errors.state ? 'border-red-500' : 'border-slate-300'
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base ${
+                        errors.state ? 'border-red-500' : 'border-blue-300'
                       }`}
+                      autoComplete="address-level1"
                     >
                       <option value="">Select a state</option>
                       {US_STATES.map(state => (
@@ -263,8 +268,8 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
                     value={formData.comments}
                     onChange={(e) => handleInputChange('comments', e.target.value)}
                     rows={4}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none ${
-                      errors.comments ? 'border-red-500' : 'border-slate-300'
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none text-base ${
+                      errors.comments ? 'border-red-500' : 'border-blue-300'
                     }`}
                     placeholder="Please describe your accident in detail. Include when it happened, what type of accident, any injuries, and any other relevant information..."
                   />
@@ -277,32 +282,32 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-bold py-4 px-6 rounded-lg transition-all transform hover:scale-105 disabled:transform-none"
+                  className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-bold py-4 px-6 rounded-lg transition-all transform hover:scale-105 disabled:transform-none text-lg"
                 >
                   {isSubmitting ? 'Submitting...' : 'Get Attorney Recommendation'}
                 </button>
 
                 {/* Privacy Notice */}
-                <p className="text-xs text-blue-600 text-center">
+                <p className="text-xs text-blue-600 text-center px-4">
                   Your information is secure and will only be shared with qualified attorneys in your area.
                 </p>
               </form>
             </>
           ) : (
             /* Recommendation Popup */
-            <div className="text-center">
+            <div className="text-center px-2">
               <div className="mb-6">
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Phone className="w-8 h-8 text-green-600" />
                 </div>
-                <h2 className="text-3xl font-bold text-blue-900 mb-2">
+                <h2 className="text-2xl sm:text-3xl font-bold text-blue-900 mb-2">
                   We Can Help You!
                 </h2>
-                <p className="text-lg text-blue-700 mb-4">
+                <p className="text-base sm:text-lg text-blue-700 mb-4">
                   Based on your information, we recommend speaking to a specialist immediately.
                 </p>
                 <div className="bg-blue-50 p-4 rounded-lg mb-6">
-                  <p className="text-blue-800 font-medium">
+                  <p className="text-blue-800 font-medium text-sm sm:text-base">
                     Hello {formData.firstName}, we've reviewed your {formData.city}, {formData.state} accident case.
                     Our network attorneys have handled similar cases and recovered significant compensation for clients.
                   </p>
@@ -324,7 +329,7 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
                 
                 <button
                   onClick={resetForm}
-                  className="text-blue-600 hover:text-blue-800 underline text-sm"
+                  className="text-blue-600 hover:text-blue-800 underline text-sm p-2"
                 >
                   Close
                 </button>

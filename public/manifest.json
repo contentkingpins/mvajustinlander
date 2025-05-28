@@ -1,0 +1,44 @@
+{
+  "name": "Claim Connectors - Personal Injury Attorney Network",
+  "short_name": "Claim Connectors",
+  "description": "Connect with top-rated personal injury attorneys. Free consultation, no fees unless we win.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["legal", "business"],
+  "lang": "en-US",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Get Free Consultation",
+      "short_name": "Consultation",
+      "description": "Start your free case review",
+      "url": "/?action=consultation",
+      "icons": [{ "src": "/icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Call Now",
+      "short_name": "Call",
+      "description": "Call for immediate help",
+      "url": "/tel:+18888888888",
+      "icons": [{ "src": "/icon-96.png", "sizes": "96x96" }]
+    }
+  ]
+} 

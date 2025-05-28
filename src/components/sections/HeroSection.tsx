@@ -60,7 +60,7 @@ export const HeroSection: React.FC = () => {
 
           {/* Main Headline */}
           <motion.h1
-            className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight px-2"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
@@ -72,7 +72,7 @@ export const HeroSection: React.FC = () => {
 
           {/* Subheadline */}
           <motion.p
-            className="text-xl md:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto"
+            className="text-lg sm:text-xl md:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto px-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.3 }}
@@ -83,7 +83,7 @@ export const HeroSection: React.FC = () => {
 
           {/* CTA Buttons */}
           <motion.div
-            className="flex flex-col md:flex-row gap-4 justify-center items-center mb-12"
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 px-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.3 }}
@@ -92,7 +92,7 @@ export const HeroSection: React.FC = () => {
               size="xl"
               variant="primary"
               onClick={handleFormStart}
-              className="min-w-[250px] bg-yellow-500 hover:bg-yellow-600 text-black font-bold"
+              className="w-full sm:w-auto min-w-[280px] bg-yellow-500 hover:bg-yellow-600 text-black font-bold text-lg py-4"
               icon={<ArrowRight className="ml-2" />}
             >
               Tell Us What Happened
@@ -102,7 +102,7 @@ export const HeroSection: React.FC = () => {
               size="xl"
               variant="outline"
               onClick={handlePhoneClick}
-              className="min-w-[250px] border-2 border-white text-white hover:bg-white hover:text-blue-900"
+              className="w-full sm:w-auto min-w-[280px] border-2 border-white text-white hover:bg-white hover:text-blue-900 text-lg py-4"
               icon={<Phone className="ml-2" />}
             >
               Call Now: {process.env.NEXT_PUBLIC_BUSINESS_PHONE}
@@ -111,26 +111,26 @@ export const HeroSection: React.FC = () => {
 
           {/* Trust Indicators */}
           <motion.div
-            className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto"
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 max-w-4xl mx-auto px-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.3 }}
           >
-            <div className="text-center">
-              <div className="text-3xl font-bold text-yellow-400">$500M+</div>
-              <div className="text-sm text-blue-100">Recovered</div>
+            <div className="text-center p-2">
+              <div className="text-2xl sm:text-3xl font-bold text-yellow-400">$500M+</div>
+              <div className="text-xs sm:text-sm text-blue-100">Recovered</div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-yellow-400">2,500+</div>
-              <div className="text-sm text-blue-100">Cases Won</div>
+            <div className="text-center p-2">
+              <div className="text-2xl sm:text-3xl font-bold text-yellow-400">2,500+</div>
+              <div className="text-xs sm:text-sm text-blue-100">Cases Won</div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-yellow-400">No Fee</div>
-              <div className="text-sm text-blue-100">Unless We Win</div>
+            <div className="text-center p-2">
+              <div className="text-2xl sm:text-3xl font-bold text-yellow-400">No Fee</div>
+              <div className="text-xs sm:text-sm text-blue-100">Unless We Win</div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-yellow-400">4.9★</div>
-              <div className="text-sm text-blue-100">Client Rating</div>
+            <div className="text-center p-2">
+              <div className="text-2xl sm:text-3xl font-bold text-yellow-400">4.9★</div>
+              <div className="text-xs sm:text-sm text-blue-100">Client Rating</div>
             </div>
           </motion.div>
 

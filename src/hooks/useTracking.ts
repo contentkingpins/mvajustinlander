@@ -378,6 +378,28 @@ export const useTracking = () => {
       });
     }
 
+    // Google Ads Conversion Tracking
+    if (window.gtag && process.env.NEXT_PUBLIC_GOOGLE_ADS_ID) {
+      // Track specific conversion actions
+      switch (conversion.type) {
+        case ConversionType.FORM_SUBMIT:
+          window.gtag('event', 'conversion', {
+            'send_to': `${process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}/${process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL_FORM}`,
+            'value': conversion.value || 1.0,
+            'currency': 'USD',
+            'transaction_id': Date.now().toString(),
+          });
+          break;
+        case ConversionType.PHONE_CLICK:
+          window.gtag('event', 'conversion', {
+            'send_to': `${process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}/${process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL_PHONE}`,
+            'value': conversion.value || 1.0,
+            'currency': 'USD',
+          });
+          break;
+      }
+    }
+
     // Facebook Pixel
     if (fbPixel) {
       const fbEventName = getFacebookEventName(conversion.type);
