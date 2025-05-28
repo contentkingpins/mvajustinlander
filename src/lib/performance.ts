@@ -14,7 +14,6 @@ export interface PerformanceMetric {
 // Thresholds for Core Web Vitals
 const THRESHOLDS = {
   LCP: { good: 2500, poor: 4000 }, // Largest Contentful Paint
-  FID: { good: 100, poor: 300 },   // First Input Delay
   CLS: { good: 0.1, poor: 0.25 },  // Cumulative Layout Shift
   FCP: { good: 1800, poor: 3000 }, // First Contentful Paint
   TTFB: { good: 800, poor: 1800 }, // Time to First Byte
@@ -83,22 +82,12 @@ export function initPerformanceMonitoring() {
   if (typeof window === 'undefined') return;
 
   // Track Core Web Vitals
-  import('web-vitals').then(({ onCLS, onFID, onFCP, onLCP, onTTFB, onINP }) => {
+  import('web-vitals').then(({ onCLS, onFCP, onLCP, onTTFB, onINP }) => {
     onCLS((metric) => {
       sendToAnalytics({
         name: 'CLS',
         value: metric.value,
         rating: getRating('CLS', metric.value),
-        delta: metric.delta,
-        id: metric.id,
-      });
-    });
-
-    onFID((metric) => {
-      sendToAnalytics({
-        name: 'FID',
-        value: metric.value,
-        rating: getRating('FID', metric.value),
         delta: metric.delta,
         id: metric.id,
       });
