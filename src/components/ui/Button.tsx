@@ -1,6 +1,6 @@
 /**
  * Button Component
- * Reusable button with variants, sizes, and tracking
+ * Reusable button with variants, sizes, and tracking - Mobile Optimized
  */
 
 'use client';
@@ -36,11 +36,12 @@ export const Button: React.FC<ButtonProps> = ({
     ghost: 'text-blue-600 hover:bg-blue-50 focus:ring-blue-500',
   };
 
+  // Enhanced mobile-first size classes with proper touch targets
   const sizeClasses = {
-    sm: 'px-3 py-2 text-sm',
-    md: 'px-4 py-2 text-base',
-    lg: 'px-6 py-3 text-lg',
-    xl: 'px-8 py-4 text-xl',
+    sm: 'px-3 py-2 text-sm min-h-[40px]',
+    md: 'px-4 py-3 text-base min-h-[44px]', // Increased from py-2 to py-3
+    lg: 'px-6 py-3 text-lg min-h-[48px]',
+    xl: 'px-8 py-4 text-xl min-h-[52px]',
   };
 
   const classes = [
@@ -48,6 +49,8 @@ export const Button: React.FC<ButtonProps> = ({
     variantClasses[variant],
     sizeClasses[size],
     fullWidth ? 'w-full' : '',
+    // Ensure minimum touch target on mobile
+    'min-w-[44px]',
     className,
   ].filter(Boolean).join(' ');
 
@@ -61,7 +64,7 @@ export const Button: React.FC<ButtonProps> = ({
         action: tracking.action,
         label: tracking.label,
         timestamp: Date.now(),
-        sessionId: Date.now().toString(), // Simple session ID for now
+        sessionId: Date.now().toString(),
       });
     }
 
@@ -77,15 +80,20 @@ export const Button: React.FC<ButtonProps> = ({
       whileHover={{ scale: disabled || loading ? 1 : 1.02 }}
       whileTap={{ scale: disabled || loading ? 1 : 0.98 }}
       transition={{ duration: 0.1 }}
+      // Enhanced accessibility
+      aria-disabled={disabled || loading}
+      aria-busy={loading}
       {...props}
     >
       {loading && (
-        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+        <Loader2 className="w-4 h-4 mr-2 animate-spin" aria-hidden="true" />
       )}
       
-      <span className="flex items-center">
+      <span className="flex items-center gap-2">
         {children}
-        {icon && !loading && icon}
+        {icon && !loading && (
+          <span aria-hidden="true">{icon}</span>
+        )}
       </span>
     </motion.button>
   );

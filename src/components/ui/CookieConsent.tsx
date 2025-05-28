@@ -153,18 +153,25 @@ export const CookieConsent: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+                  <Button
+                    variant="outline"
+                    onClick={() => setShowSettings(!showSettings)}
+                    className="min-w-[120px] min-h-[44px] order-2 sm:order-1"
+                  >
+                    Settings
+                  </Button>
                   <Button
                     variant="outline"
                     onClick={rejectAll}
-                    className="min-w-[120px]"
+                    className="min-w-[120px] min-h-[44px] order-3 sm:order-2"
                   >
                     Reject All
                   </Button>
                   <Button
                     variant="primary"
                     onClick={acceptAll}
-                    className="min-w-[120px]"
+                    className="min-w-[120px] min-h-[44px] order-1 sm:order-3"
                   >
                     Accept All
                   </Button>

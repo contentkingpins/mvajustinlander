@@ -1,16 +1,18 @@
 /**
- * Hook for persisting form data across sessions
+ * Form Persistence Hook - Optimized
+ * Persists form data to localStorage/cookies with debounced saving
  */
 
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { setCookie, getCookie, deleteCookie } from 'cookies-next';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { setCookie, getCookie } from 'cookies-next';
+import { debounce } from '@/lib/utils';
 
 interface UseFormPersistenceOptions {
-  storageKey?: string;
-  cookieKey?: string;
-  expiryDays?: number;
+  useCookies?: boolean;
+  cookieExpiry?: number; // days
+  debounceMs?: number; // debounce save operations
 }
 
 export function useFormPersistence<T extends Record<string, any>>(
@@ -19,97 +21,92 @@ export function useFormPersistence<T extends Record<string, any>>(
   options: UseFormPersistenceOptions = {}
 ) {
   const {
-    storageKey = `form_${key}`,
-    cookieKey = `form_cookie_${key}`,
-    expiryDays = 7,
+    useCookies = false,
+    cookieExpiry = 7,
+    debounceMs = 300,
   } = options;
 
   const [formData, setFormData] = useState<T>(initialData);
   const [isLoaded, setIsLoaded] = useState(false);
+  const isInitialized = useRef(false);
 
-  // Load persisted data on mount
-  useEffect(() => {
-    const loadPersistedData = () => {
+  // Debounced save function to reduce storage calls
+  const debouncedSave = useCallback(
+    debounce((data: T) => {
       try {
-        // Try to load from cookie first
-        const cookieData = getCookie(cookieKey);
-        if (cookieData) {
-          const parsedData = JSON.parse(cookieData as string);
-          setFormData({ ...initialData, ...parsedData });
-          setIsLoaded(true);
-          return;
-        }
-
-        // Fallback to localStorage
-        if (typeof window !== 'undefined') {
-          const localData = localStorage.getItem(storageKey);
-          if (localData) {
-            const parsedData = JSON.parse(localData);
-            setFormData({ ...initialData, ...parsedData });
-          }
+        const dataToStore = JSON.stringify(data);
+        
+        if (useCookies) {
+          setCookie(key, dataToStore, {
+            maxAge: 60 * 60 * 24 * cookieExpiry,
+            sameSite: 'lax',
+          });
+        } else {
+          localStorage.setItem(key, dataToStore);
         }
       } catch (error) {
-        console.error('Error loading persisted form data:', error);
+        console.warn('Failed to persist form data:', error);
       }
+    }, debounceMs),
+    [key, useCookies, cookieExpiry, debounceMs]
+  );
+
+  // Load data on mount
+  useEffect(() => {
+    if (isInitialized.current) return;
+    
+    try {
+      const stored = useCookies 
+        ? getCookie(key) 
+        : (typeof window !== 'undefined' ? localStorage.getItem(key) : null);
+      
+      if (stored) {
+        const parsed = JSON.parse(stored as string);
+        setFormData({ ...initialData, ...parsed });
+      }
+    } catch (error) {
+      console.warn('Failed to load persisted form data:', error);
+    } finally {
       setIsLoaded(true);
-    };
+      isInitialized.current = true;
+    }
+  }, [key, initialData, useCookies]);
 
-    loadPersistedData();
-  }, [cookieKey, storageKey, initialData]);
-
-  // Save data whenever it changes
+  // Save data when formData changes (debounced)
   useEffect(() => {
     if (!isLoaded) return;
+    
+    // Only save if data has actually changed from initial
+    const hasChanges = Object.keys(formData).some(
+      k => formData[k] !== initialData[k]
+    );
+    
+    if (hasChanges) {
+      debouncedSave(formData);
+    }
+  }, [formData, isLoaded, debouncedSave, initialData]);
 
-    const saveData = () => {
-      try {
-        const dataToSave = JSON.stringify(formData);
-        
-        // Save to cookie
-        setCookie(cookieKey, dataToSave, {
-          maxAge: 60 * 60 * 24 * expiryDays,
-          sameSite: 'lax',
-          secure: process.env.NODE_ENV === 'production',
-        });
-
-        // Save to localStorage as backup
-        if (typeof window !== 'undefined') {
-          localStorage.setItem(storageKey, dataToSave);
-        }
-      } catch (error) {
-        console.error('Error saving form data:', error);
-      }
-    };
-
-    // Debounce the save operation
-    const timeoutId = setTimeout(saveData, 500);
-    return () => clearTimeout(timeoutId);
-  }, [formData, isLoaded, cookieKey, storageKey, expiryDays]);
-
-  // Update form data
   const updateFormData = useCallback((updates: Partial<T>) => {
     setFormData(prev => ({ ...prev, ...updates }));
   }, []);
 
-  // Clear persisted data
   const clearFormData = useCallback(() => {
     setFormData(initialData);
-    deleteCookie(cookieKey);
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem(storageKey);
+    try {
+      if (useCookies) {
+        setCookie(key, '', { maxAge: 0 });
+      } else if (typeof window !== 'undefined') {
+        localStorage.removeItem(key);
+      }
+    } catch (error) {
+      console.warn('Failed to clear form data:', error);
     }
-  }, [initialData, cookieKey, storageKey]);
-
-  // Reset to initial data without clearing persistence
-  const resetFormData = useCallback(() => {
-    setFormData(initialData);
-  }, [initialData]);
+  }, [key, initialData, useCookies]);
 
   return {
     formData,
     updateFormData,
     clearFormData,
-    resetFormData,
     isLoaded,
   };
 } 

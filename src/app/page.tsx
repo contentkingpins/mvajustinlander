@@ -14,7 +14,7 @@ import { StickyHeader } from '@/components/ui/StickyHeader';
 import { BusinessHoursDetector } from '@/components/tracking/BusinessHoursDetector';
 import { Star, DollarSign, Shield, Clock } from 'lucide-react';
 
-// Lazy load heavy components for better performance
+// Lazy load heavy components for better performance with loading priorities
 const ProcessSection = dynamic(() => import('@/components/sections/ProcessSection').then(mod => ({ default: mod.ProcessSection })), {
   loading: () => <div className="py-20 bg-white" />,
 });
@@ -35,7 +35,7 @@ const CTASection = dynamic(() => import('@/components/sections/CTASection').then
   loading: () => <div className="py-20 bg-slate-900" />,
 });
 
-// Client-only components
+// Client-only components with improved loading
 const FormModal = dynamic(() => import('@/components/forms/FormModal').then(mod => ({ default: mod.FormModal })));
 
 const CookieConsent = dynamic(() => import('@/components/ui/CookieConsent').then(mod => ({ default: mod.CookieConsent })));
