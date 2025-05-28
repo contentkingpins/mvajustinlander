@@ -53,7 +53,7 @@ export const MultiStepAccidentForm: React.FC<MultiStepAccidentFormProps> = ({ is
   const [showSuccess, setShowSuccess] = useState(false);
   const [errors, setErrors] = useState<Partial<FormData>>({});
   
-  const { formData, updateFormData, clearFormData } = useFormPersistence<FormData>('accident-form', {
+  const { formData, updateFormData, clearFormData, isLoaded } = useFormPersistence<FormData>('accident-form', {
     zipCode: '',
     email: '',
     phoneNumber: '',
@@ -190,7 +190,8 @@ export const MultiStepAccidentForm: React.FC<MultiStepAccidentFormProps> = ({ is
     onClose();
   };
 
-  if (!isOpen) return null;
+  // Don't render form until data is loaded to prevent controlled/uncontrolled issues
+  if (!isOpen || !isLoaded) return null;
 
   const slideVariants = {
     enter: (direction: number) => ({
@@ -216,10 +217,10 @@ export const MultiStepAccidentForm: React.FC<MultiStepAccidentFormProps> = ({ is
         className="w-full max-w-2xl my-8"
       >
         <Card className="p-4 sm:p-6 md:p-8 relative">
-          {/* Close Button */}
+          {/* Close Button - Increased touch target */}
           <button
             onClick={resetForm}
-            className="absolute top-4 right-4 text-blue-600 hover:text-blue-800 transition-colors p-2"
+            className="absolute top-4 right-4 text-blue-600 hover:text-blue-800 transition-colors p-3 min-w-[44px] min-h-[44px] flex items-center justify-center"
             aria-label="Close form"
           >
             <X className="w-6 h-6" />
@@ -273,13 +274,14 @@ export const MultiStepAccidentForm: React.FC<MultiStepAccidentFormProps> = ({ is
                             type="text"
                             value={formData.zipCode}
                             onChange={(e) => handleInputChange('zipCode', e.target.value.replace(/\D/g, '').slice(0, 5))}
-                            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base ${
+                            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base min-h-[44px] ${
                               errors.zipCode ? 'border-red-500' : 'border-blue-300'
                             }`}
                             placeholder="12345"
                             maxLength={5}
                             inputMode="numeric"
                             autoComplete="postal-code"
+                            style={{ fontSize: '16px' }} // Prevent zoom on iOS
                           />
                           {errors.zipCode && (
                             <p className="text-red-500 text-sm mt-1">{errors.zipCode}</p>
@@ -295,11 +297,13 @@ export const MultiStepAccidentForm: React.FC<MultiStepAccidentFormProps> = ({ is
                             type="email"
                             value={formData.email}
                             onChange={(e) => handleInputChange('email', e.target.value)}
-                            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base ${
+                            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base min-h-[44px] ${
                               errors.email ? 'border-red-500' : 'border-blue-300'
                             }`}
                             placeholder="your@email.com"
                             autoComplete="email"
+                            inputMode="email"
+                            style={{ fontSize: '16px' }} // Prevent zoom on iOS
                           />
                           {errors.email && (
                             <p className="text-red-500 text-sm mt-1">{errors.email}</p>
@@ -315,11 +319,13 @@ export const MultiStepAccidentForm: React.FC<MultiStepAccidentFormProps> = ({ is
                             type="tel"
                             value={formatPhoneNumber(formData.phoneNumber)}
                             onChange={(e) => handlePhoneChange(e.target.value)}
-                            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base ${
+                            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base min-h-[44px] ${
                               errors.phoneNumber ? 'border-red-500' : 'border-blue-300'
                             }`}
                             placeholder="(555) 123-4567"
                             autoComplete="tel"
+                            inputMode="tel"
+                            style={{ fontSize: '16px' }} // Prevent zoom on iOS
                           />
                           {errors.phoneNumber && (
                             <p className="text-red-500 text-sm mt-1">{errors.phoneNumber}</p>
@@ -350,9 +356,10 @@ export const MultiStepAccidentForm: React.FC<MultiStepAccidentFormProps> = ({ is
                           <select
                             value={formData.accidentType}
                             onChange={(e) => handleInputChange('accidentType', e.target.value)}
-                            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base ${
+                            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base min-h-[44px] ${
                               errors.accidentType ? 'border-red-500' : 'border-blue-300'
                             }`}
+                            style={{ fontSize: '16px' }} // Prevent zoom on iOS
                           >
                             <option value="">Select accident type</option>
                             {ACCIDENT_TYPES.map(type => (
@@ -371,9 +378,10 @@ export const MultiStepAccidentForm: React.FC<MultiStepAccidentFormProps> = ({ is
                           <select
                             value={formData.role}
                             onChange={(e) => handleInputChange('role', e.target.value)}
-                            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base ${
+                            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base min-h-[44px] ${
                               errors.role ? 'border-red-500' : 'border-blue-300'
                             }`}
+                            style={{ fontSize: '16px' }} // Prevent zoom on iOS
                           >
                             <option value="">Select your role</option>
                             {ROLE_OPTIONS.map(role => (
@@ -390,47 +398,24 @@ export const MultiStepAccidentForm: React.FC<MultiStepAccidentFormProps> = ({ is
                             <AlertCircle className="w-4 h-4 inline mr-2" />
                             Were you at fault in this accident? *
                           </label>
-                          <div className="space-y-2">
-                            <label className="flex items-center">
-                              <input
-                                type="radio"
-                                value="no"
-                                checked={formData.atFault === 'no'}
-                                onChange={(e) => handleInputChange('atFault', e.target.value)}
-                                className="mr-3 text-blue-600"
-                              />
-                              <span>No, I was not at fault</span>
-                            </label>
-                            <label className="flex items-center">
-                              <input
-                                type="radio"
-                                value="yes"
-                                checked={formData.atFault === 'yes'}
-                                onChange={(e) => handleInputChange('atFault', e.target.value)}
-                                className="mr-3 text-blue-600"
-                              />
-                              <span>Yes, I was at fault</span>
-                            </label>
-                            <label className="flex items-center">
-                              <input
-                                type="radio"
-                                value="partial"
-                                checked={formData.atFault === 'partial'}
-                                onChange={(e) => handleInputChange('atFault', e.target.value)}
-                                className="mr-3 text-blue-600"
-                              />
-                              <span>Partially at fault</span>
-                            </label>
-                            <label className="flex items-center">
-                              <input
-                                type="radio"
-                                value="unknown"
-                                checked={formData.atFault === 'unknown'}
-                                onChange={(e) => handleInputChange('atFault', e.target.value)}
-                                className="mr-3 text-blue-600"
-                              />
-                              <span>Not sure / To be determined</span>
-                            </label>
+                          <div className="space-y-3">
+                            {[
+                              { value: 'no', label: 'No, I was not at fault' },
+                              { value: 'yes', label: 'Yes, I was at fault' },
+                              { value: 'partial', label: 'Partially at fault' },
+                              { value: 'unknown', label: 'Not sure / To be determined' }
+                            ].map((option) => (
+                              <label key={option.value} className="flex items-center min-h-[44px] cursor-pointer">
+                                <input
+                                  type="radio"
+                                  value={option.value}
+                                  checked={formData.atFault === option.value}
+                                  onChange={(e) => handleInputChange('atFault', e.target.value)}
+                                  className="mr-3 text-blue-600 w-4 h-4"
+                                />
+                                <span className="text-base">{option.label}</span>
+                              </label>
+                            ))}
                           </div>
                           {errors.atFault && (
                             <p className="text-red-500 text-sm mt-1">{errors.atFault}</p>
@@ -447,9 +432,10 @@ export const MultiStepAccidentForm: React.FC<MultiStepAccidentFormProps> = ({ is
                             value={formData.incidentDate}
                             onChange={(e) => handleInputChange('incidentDate', e.target.value)}
                             max={new Date().toISOString().split('T')[0]}
-                            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base ${
+                            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base min-h-[44px] ${
                               errors.incidentDate ? 'border-red-500' : 'border-blue-300'
                             }`}
+                            style={{ fontSize: '16px' }} // Prevent zoom on iOS
                           />
                           {errors.incidentDate && (
                             <p className="text-red-500 text-sm mt-1">{errors.incidentDate}</p>
@@ -460,27 +446,22 @@ export const MultiStepAccidentForm: React.FC<MultiStepAccidentFormProps> = ({ is
                           <label className="block text-sm font-medium text-blue-900 mb-2">
                             Have you sought medical attention? *
                           </label>
-                          <div className="space-y-2">
-                            <label className="flex items-center">
-                              <input
-                                type="radio"
-                                value="yes"
-                                checked={formData.medicalAttention === 'yes'}
-                                onChange={(e) => handleInputChange('medicalAttention', e.target.value)}
-                                className="mr-3 text-blue-600"
-                              />
-                              <span>Yes</span>
-                            </label>
-                            <label className="flex items-center">
-                              <input
-                                type="radio"
-                                value="no"
-                                checked={formData.medicalAttention === 'no'}
-                                onChange={(e) => handleInputChange('medicalAttention', e.target.value)}
-                                className="mr-3 text-blue-600"
-                              />
-                              <span>No</span>
-                            </label>
+                          <div className="space-y-3">
+                            {[
+                              { value: 'yes', label: 'Yes' },
+                              { value: 'no', label: 'No' }
+                            ].map((option) => (
+                              <label key={option.value} className="flex items-center min-h-[44px] cursor-pointer">
+                                <input
+                                  type="radio"
+                                  value={option.value}
+                                  checked={formData.medicalAttention === option.value}
+                                  onChange={(e) => handleInputChange('medicalAttention', e.target.value)}
+                                  className="mr-3 text-blue-600 w-4 h-4"
+                                />
+                                <span className="text-base">{option.label}</span>
+                              </label>
+                            ))}
                           </div>
                           {errors.medicalAttention && (
                             <p className="text-red-500 text-sm mt-1">{errors.medicalAttention}</p>
@@ -511,10 +492,11 @@ export const MultiStepAccidentForm: React.FC<MultiStepAccidentFormProps> = ({ is
                           value={formData.description}
                           onChange={(e) => handleInputChange('description', e.target.value)}
                           rows={6}
-                          className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none text-base ${
+                          className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none text-base min-h-[120px] ${
                             errors.description ? 'border-red-500' : 'border-blue-300'
                           }`}
                           placeholder="Please describe what happened, including any injuries sustained, damage to vehicles, and any other important details..."
+                          style={{ fontSize: '16px' }} // Prevent zoom on iOS
                         />
                         {errors.description && (
                           <p className="text-red-500 text-sm mt-1">{errors.description}</p>
@@ -528,12 +510,12 @@ export const MultiStepAccidentForm: React.FC<MultiStepAccidentFormProps> = ({ is
                 </motion.div>
               </AnimatePresence>
 
-              {/* Navigation Buttons */}
+              {/* Navigation Buttons - Increased touch targets */}
               <div className="flex justify-between mt-8">
                 {currentStep > 1 && (
                   <button
                     onClick={handleBack}
-                    className="flex items-center gap-2 px-6 py-3 border border-blue-300 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors"
+                    className="flex items-center gap-2 px-6 py-3 border border-blue-300 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors min-h-[44px]"
                   >
                     <ChevronLeft className="w-5 h-5" />
                     Back
@@ -544,7 +526,7 @@ export const MultiStepAccidentForm: React.FC<MultiStepAccidentFormProps> = ({ is
                   {currentStep < 3 ? (
                     <button
                       onClick={handleNext}
-                      className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors min-h-[44px]"
                     >
                       Next
                       <ChevronRight className="w-5 h-5" />
@@ -553,7 +535,7 @@ export const MultiStepAccidentForm: React.FC<MultiStepAccidentFormProps> = ({ is
                     <button
                       onClick={handleSubmit}
                       disabled={isSubmitting}
-                      className="flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:bg-gray-400"
+                      className="flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:bg-gray-400 min-h-[44px]"
                     >
                       {isSubmitting ? 'Submitting...' : 'Submit Case'}
                     </button>

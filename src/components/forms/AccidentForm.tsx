@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { X, User, MapPin, MessageSquare, Phone } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
+import { deviceUtils, formatPhoneNumber } from '@/lib/utils';
 
 interface AccidentFormData {
   firstName: string;
@@ -118,8 +119,8 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
       });
     }
     
-    // Initiate phone call
-    window.location.href = `tel:${process.env.NEXT_PUBLIC_BUSINESS_PHONE}`;
+    const phoneNumber = process.env.NEXT_PUBLIC_BUSINESS_PHONE || '(555) 123-4567';
+    deviceUtils.handlePhoneClick(phoneNumber);
   };
 
   const resetForm = () => {
@@ -135,6 +136,8 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
     onClose();
   };
 
+  const displayPhone = formatPhoneNumber(process.env.NEXT_PUBLIC_BUSINESS_PHONE || '(555) 123-4567');
+
   if (!isOpen) return null;
 
   return (
@@ -146,10 +149,10 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
         className="w-full max-w-2xl my-8"
       >
         <Card className="p-4 sm:p-6 md:p-8 relative">
-          {/* Close Button */}
+          {/* Close Button - Increased touch target */}
           <button
             onClick={resetForm}
-            className="absolute top-4 right-4 text-blue-600 hover:text-blue-800 transition-colors p-2"
+            className="absolute top-4 right-4 text-blue-600 hover:text-blue-800 transition-colors p-3 min-w-[44px] min-h-[44px] flex items-center justify-center"
             aria-label="Close form"
           >
             <X className="w-6 h-6" />
@@ -180,11 +183,12 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
                       type="text"
                       value={formData.firstName}
                       onChange={(e) => handleInputChange('firstName', e.target.value)}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base ${
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base min-h-[44px] ${
                         errors.firstName ? 'border-red-500' : 'border-blue-300'
                       }`}
                       placeholder="Enter your first name"
                       autoComplete="given-name"
+                      style={{ fontSize: '16px' }} // Prevent zoom on iOS
                     />
                     {errors.firstName && (
                       <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>
@@ -200,11 +204,12 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
                       type="text"
                       value={formData.lastName}
                       onChange={(e) => handleInputChange('lastName', e.target.value)}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base ${
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base min-h-[44px] ${
                         errors.lastName ? 'border-red-500' : 'border-blue-300'
                       }`}
                       placeholder="Enter your last name"
                       autoComplete="family-name"
+                      style={{ fontSize: '16px' }} // Prevent zoom on iOS
                     />
                     {errors.lastName && (
                       <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>
@@ -223,11 +228,12 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
                       type="text"
                       value={formData.city}
                       onChange={(e) => handleInputChange('city', e.target.value)}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base ${
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base min-h-[44px] ${
                         errors.city ? 'border-red-500' : 'border-blue-300'
                       }`}
                       placeholder="Enter city name"
                       autoComplete="address-level2"
+                      style={{ fontSize: '16px' }} // Prevent zoom on iOS
                     />
                     {errors.city && (
                       <p className="text-red-500 text-sm mt-1">{errors.city}</p>
@@ -242,10 +248,11 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
                     <select
                       value={formData.state}
                       onChange={(e) => handleInputChange('state', e.target.value)}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base ${
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base min-h-[44px] ${
                         errors.state ? 'border-red-500' : 'border-blue-300'
                       }`}
                       autoComplete="address-level1"
+                      style={{ fontSize: '16px' }} // Prevent zoom on iOS
                     >
                       <option value="">Select a state</option>
                       {US_STATES.map(state => (
@@ -268,10 +275,11 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
                     value={formData.comments}
                     onChange={(e) => handleInputChange('comments', e.target.value)}
                     rows={4}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none text-base ${
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none text-base min-h-[120px] ${
                       errors.comments ? 'border-red-500' : 'border-blue-300'
                     }`}
                     placeholder="Please describe your accident in detail. Include when it happened, what type of accident, any injuries, and any other relevant information..."
+                    style={{ fontSize: '16px' }} // Prevent zoom on iOS
                   />
                   {errors.comments && (
                     <p className="text-red-500 text-sm mt-1">{errors.comments}</p>
@@ -282,7 +290,7 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-bold py-4 px-6 rounded-lg transition-all transform hover:scale-105 disabled:transform-none text-lg"
+                  className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-bold py-4 px-6 rounded-lg transition-all transform hover:scale-105 disabled:transform-none text-lg min-h-[44px]"
                 >
                   {isSubmitting ? 'Submitting...' : 'Get Attorney Recommendation'}
                 </button>
@@ -317,10 +325,10 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
               <div className="space-y-4">
                 <button
                   onClick={handleCallNow}
-                  className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-6 rounded-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2 text-lg"
+                  className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-6 rounded-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2 text-lg min-h-[44px]"
                 >
                   <Phone className="w-5 h-5" />
-                  Call Now: {process.env.NEXT_PUBLIC_BUSINESS_PHONE}
+                  Call Now: {displayPhone}
                 </button>
                 
                 <p className="text-sm text-blue-600">
@@ -329,7 +337,7 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
                 
                 <button
                   onClick={resetForm}
-                  className="text-blue-600 hover:text-blue-800 underline text-sm p-2"
+                  className="text-blue-600 hover:text-blue-800 underline text-sm p-2 min-h-[44px]"
                 >
                   Close
                 </button>

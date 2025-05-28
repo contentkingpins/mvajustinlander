@@ -10,15 +10,23 @@ import { motion } from 'framer-motion';
 import { Phone, Shield, Clock, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useFormModal } from '@/providers/FormProvider';
+import { deviceUtils, formatPhoneNumber } from '@/lib/utils';
 
 export const HeroSection: React.FC = () => {
   const { openModal } = useFormModal();
+
+  const handlePhoneClick = () => {
+    const phoneNumber = process.env.NEXT_PUBLIC_BUSINESS_PHONE || '(555) 123-4567';
+    deviceUtils.handlePhoneClick(phoneNumber);
+  };
 
   const trustIndicators = [
     { icon: Shield, text: 'No Fee Unless We Win' },
     { icon: Clock, text: '24/7 Free Consultation' },
     { icon: DollarSign, text: 'Maximum Compensation' },
   ];
+
+  const displayPhone = formatPhoneNumber(process.env.NEXT_PUBLIC_BUSINESS_PHONE || '(555) 123-4567');
 
   return (
     <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white overflow-hidden">
@@ -61,7 +69,7 @@ export const HeroSection: React.FC = () => {
               size="lg"
               variant="primary"
               onClick={openModal}
-              className="text-lg px-8 py-4"
+              className="text-lg px-8 py-4 min-h-[44px]"
             >
               Get Free Case Review
             </Button>
@@ -69,11 +77,11 @@ export const HeroSection: React.FC = () => {
             <Button
               size="lg"
               variant="secondary"
-              onClick={() => window.location.href = `tel:${process.env.NEXT_PUBLIC_BUSINESS_PHONE}`}
-              className="text-lg px-8 py-4 bg-white text-blue-900 hover:bg-blue-50"
+              onClick={handlePhoneClick}
+              className="text-lg px-8 py-4 bg-white text-blue-900 hover:bg-blue-50 min-h-[44px]"
             >
               <Phone className="w-5 h-5 mr-2" />
-              Call Now: {process.env.NEXT_PUBLIC_BUSINESS_PHONE}
+              Call Now: {displayPhone}
             </Button>
           </motion.div>
 
