@@ -21,7 +21,9 @@ export const CTASection: React.FC = () => {
     deviceUtils.handlePhoneClick(phoneNumber);
   };
 
-  const displayPhone = formatPhoneNumber(process.env.NEXT_PUBLIC_BUSINESS_PHONE || '(555) 123-4567');
+  // Ensure we always have a phone number to display
+  const businessPhone = process.env.NEXT_PUBLIC_BUSINESS_PHONE || '(555) 123-4567';
+  const displayPhone = formatPhoneNumber(businessPhone);
 
   const urgencyPoints = [
     { icon: Clock, text: 'Time limits apply to your case' },
@@ -96,10 +98,13 @@ export const CTASection: React.FC = () => {
               size="lg"
               variant="secondary"
               onClick={handlePhoneClick}
-              className="text-lg px-8 py-4 bg-white text-blue-900 hover:bg-blue-50 min-h-[44px]"
+              className="text-lg px-6 py-4 bg-white text-blue-900 hover:bg-blue-50 min-h-[44px] font-semibold border-2 border-white hover:border-blue-100 transition-all duration-200 flex items-center justify-center gap-2"
             >
-              <Phone className="w-5 h-5 mr-2" />
-              Call: {displayPhone}
+              <Phone className="w-5 h-5 flex-shrink-0" />
+              <span className="whitespace-nowrap">
+                <span className="hidden sm:inline">Call: </span>
+                {displayPhone}
+              </span>
             </Button>
           </motion.div>
 

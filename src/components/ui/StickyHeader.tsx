@@ -31,7 +31,9 @@ export const StickyHeader: React.FC = () => {
     deviceUtils.handlePhoneClick(phoneNumber);
   };
 
-  const displayPhone = formatPhoneNumber(process.env.NEXT_PUBLIC_BUSINESS_PHONE || '(555) 123-4567');
+  // Ensure we always have a phone number to display
+  const businessPhone = process.env.NEXT_PUBLIC_BUSINESS_PHONE || '(555) 123-4567';
+  const displayPhone = formatPhoneNumber(businessPhone);
 
   if (!isVisible) return null;
 
@@ -60,11 +62,11 @@ export const StickyHeader: React.FC = () => {
               >
                 <button
                   onClick={handlePhoneClick}
-                  className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors min-h-[44px] min-w-[44px]"
+                  className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg transition-colors min-h-[44px] min-w-[44px] font-medium"
                   aria-label="Call now"
                 >
-                  <Phone className="w-4 h-4" />
-                  <span className="hidden sm:inline">{displayPhone}</span>
+                  <Phone className="w-4 h-4 flex-shrink-0" />
+                  <span className="hidden sm:inline whitespace-nowrap">{displayPhone}</span>
                 </button>
 
                 <button
