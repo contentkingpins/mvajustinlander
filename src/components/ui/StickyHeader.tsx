@@ -46,40 +46,41 @@ export const StickyHeader: React.FC = () => {
         className="fixed top-0 left-0 right-0 z-40 bg-blue-900 shadow-lg"
       >
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between py-3">
-            {/* Logo/Brand */}
-            <div className="text-white font-bold text-lg">
-              Claim Connectors
+          <div className="flex items-center justify-between py-2">
+            {/* Value Proposition Text - Replace Logo */}
+            <div className="text-white font-medium text-sm sm:text-base">
+              <span className="hidden sm:inline">No Fees Unless We Win</span>
+              <span className="sm:hidden">24/7 Free Help</span>
             </div>
 
             {/* Action Buttons */}
             {!isMinimized && (
               <motion.div 
-                className="flex items-center gap-3"
+                className="flex items-center gap-2"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
               >
                 <button
                   onClick={handlePhoneClick}
-                  className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg transition-colors min-h-[44px] min-w-[44px] font-medium"
+                  className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2.5 rounded-lg transition-colors min-h-[44px] font-bold text-sm sm:text-base shadow-lg"
                   aria-label="Call now"
                 >
                   <Phone className="w-4 h-4 flex-shrink-0" />
-                  <span className="hidden sm:inline whitespace-nowrap">{displayPhone}</span>
+                  <span className="whitespace-nowrap">Call Now</span>
                 </button>
 
                 <button
                   onClick={openModal}
-                  className="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-blue-900 px-4 py-2 rounded-lg transition-colors font-medium min-h-[44px]"
+                  className="flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-blue-900 px-4 py-2.5 rounded-lg transition-colors font-bold min-h-[44px] text-sm sm:text-base shadow-lg"
                 >
-                  <FileText className="w-4 h-4" />
-                  <span className="hidden sm:inline">Free Case Review</span>
+                  <FileText className="w-4 h-4 flex-shrink-0" />
+                  <span className="whitespace-nowrap">Free Review</span>
                 </button>
 
                 <button
                   onClick={() => setIsMinimized(true)}
-                  className="text-white hover:text-blue-200 transition-colors p-2 min-h-[44px] min-w-[44px] flex items-center justify-center"
+                  className="text-white hover:text-blue-200 transition-colors p-2 min-h-[44px] min-w-[44px] flex items-center justify-center ml-1"
                   aria-label="Minimize header"
                 >
                   <X className="w-4 h-4" />
@@ -91,11 +92,11 @@ export const StickyHeader: React.FC = () => {
             {isMinimized && (
               <motion.button
                 onClick={() => setIsMinimized(false)}
-                className="text-yellow-400 hover:text-yellow-300 transition-colors font-medium min-h-[44px]"
+                className="text-yellow-400 hover:text-yellow-300 transition-colors font-bold min-h-[44px] text-sm sm:text-base"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
               >
-                Get Help Now
+                ⚡ Get Help Now
               </motion.button>
             )}
           </div>

@@ -5,12 +5,15 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Plus, Minus, HelpCircle, Phone } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
+import { Button } from '@/components/ui/Button';
+import { useFormModal } from '@/providers/FormProvider';
+import { deviceUtils, formatPhoneNumber } from '@/lib/utils';
 
 const faqs = [
   {
@@ -47,10 +50,19 @@ export const FAQSection = () => {
     triggerOnce: true,
     threshold: 0.1,
   });
+  const { openModal } = useFormModal();
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
+
+  const handlePhoneClick = () => {
+    const phoneNumber = process.env.NEXT_PUBLIC_BUSINESS_PHONE || '(555) 123-4567';
+    deviceUtils.handlePhoneClick(phoneNumber);
+  };
+
+  const businessPhone = process.env.NEXT_PUBLIC_BUSINESS_PHONE || '(555) 123-4567';
+  const displayPhone = formatPhoneNumber(businessPhone);
 
   return (
     <section className="py-20 bg-white" id="faq">
@@ -110,10 +122,15 @@ export const FAQSection = () => {
               Get a free consultation with no obligation.
             </p>
             <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
-              <button className="bg-white text-blue-600 hover:bg-blue-50 font-bold py-4 px-8 rounded-lg transition-all transform hover:scale-105 flex items-center gap-2">
-                <Phone className="w-5 h-5" />
-                Call Now: {process.env.NEXT_PUBLIC_BUSINESS_PHONE}
-              </button>
+              <Button
+                size="lg"
+                variant="primary"
+                onClick={handlePhoneClick}
+                className="bg-white text-blue-600 hover:bg-blue-50 font-bold"
+              >
+                <Phone className="w-5 h-5 mr-2" />
+                Call Now: {displayPhone}
+              </Button>
               <p className="text-blue-100">
                 Free Consultation • No Obligation • Available 24/7
               </p>

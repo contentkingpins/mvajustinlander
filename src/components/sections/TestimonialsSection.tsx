@@ -10,6 +10,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { ChevronLeft, ChevronRight, Star, Quote, User, MapPin } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
+import { Button } from '@/components/ui/Button';
+import { useFormModal } from '@/providers/FormProvider';
 
 const testimonials = [
   {
@@ -70,6 +72,7 @@ export const TestimonialsSection = () => {
     triggerOnce: true,
     threshold: 0.1,
   });
+  const { openModal } = useFormModal();
 
   const nextTestimonial = () => {
     setCurrentIndex((prev) => (prev + 1) % testimonials.length);
@@ -199,9 +202,14 @@ export const TestimonialsSection = () => {
           <p className="text-xl text-blue-700 mb-6">
             Ready to get the compensation you deserve?
           </p>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg text-xl transition-all transform hover:scale-105">
+          <Button
+            size="lg"
+            variant="primary"
+            onClick={openModal}
+            className="text-xl"
+          >
             Get Your Free Case Review
-          </button>
+          </Button>
         </motion.div>
       </div>
     </section>
