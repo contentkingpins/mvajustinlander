@@ -14,17 +14,37 @@ import { useBusinessHours } from '@/components/tracking/BusinessHoursDetector';
 
 export const StickyHeader: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isBusinessHours, setIsBusinessHours] = useState(false);
   const { trackConversion } = useTracking();
-  const { isBusinessHours } = useBusinessHours();
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY;
-      setIsVisible(scrollY > 100);
+      const scrollPosition = window.scrollY;
+      setIsVisible(scrollPosition > 300);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    const checkBusinessHours = () => {
+      const now = new Date();
+      const hours = now.getHours();
+      const day = now.getDay();
+      
+      // Business hours: Mon-Fri 9AM-6PM
+      const isWeekday = day >= 1 && day <= 5;
+      const isDuringBusinessHours = hours >= 9 && hours < 18;
+      
+      setIsBusinessHours(isWeekday && isDuringBusinessHours);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    checkBusinessHours();
+    
+    // Check business hours every minute
+    const interval = setInterval(checkBusinessHours, 60000);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearInterval(interval);
+    };
   }, []);
 
   const handlePhoneClick = () => {
@@ -58,13 +78,13 @@ export const StickyHeader: React.FC = () => {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -100, opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="fixed top-0 left-0 right-0 bg-white shadow-lg z-50"
+          className="fixed top-0 left-0 right-0 bg-white shadow-lg z-50 border-b-2 border-blue-200"
         >
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between py-3">
               {/* Logo/Brand */}
               <div className="flex items-center">
-                <h1 className="text-xl font-bold text-slate-900">Claim Connectors</h1>
+                <h1 className="text-xl font-bold text-blue-900">Claim Connectors</h1>
               </div>
 
               {/* Action Buttons */}
@@ -72,7 +92,7 @@ export const StickyHeader: React.FC = () => {
                 {/* Chat Button */}
                 <button
                   onClick={handleChatClick}
-                  className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-900 rounded-lg transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 rounded-lg transition-colors"
                   aria-label="Start live chat"
                 >
                   <MessageCircle className="w-5 h-5" />

@@ -26,7 +26,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
       <div
         ref={ref}
         className={cn(
-          'rounded-lg border border-slate-200 bg-white shadow-sm transition-all',
+          'rounded-lg border border-blue-200 bg-white shadow-sm transition-all',
           animate && 'animate-fade-in',
           className
         )}
@@ -53,13 +53,13 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
           )}
           
           {title && (
-            <h3 className="text-xl font-semibold mb-2">
+            <h3 className="text-xl font-semibold mb-2 text-blue-900">
               {title}
             </h3>
           )}
           
           {description && (
-            <p className="text-slate-700 mb-4">
+            <p className="text-blue-700 mb-4">
               {description}
             </p>
           )}

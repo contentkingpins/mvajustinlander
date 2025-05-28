@@ -12,6 +12,7 @@ import { FormProvider } from '@/providers/FormProvider';
 import { ScrollProgress } from '@/components/ui/ScrollProgress';
 import { StickyHeader } from '@/components/ui/StickyHeader';
 import { BusinessHoursDetector } from '@/components/tracking/BusinessHoursDetector';
+import { Star, DollarSign, Shield, Clock } from 'lucide-react';
 
 // Lazy load heavy components for better performance
 const ProcessSection = dynamic(() => import('@/components/sections/ProcessSection').then(mod => ({ default: mod.ProcessSection })), {
@@ -125,41 +126,33 @@ export default function HomePage() {
             {/* Hero Section - Critical above fold */}
             <HeroSection />
 
-            {/* Trust Indicators - Critical for conversion */}
-            <section className="bg-slate-50 py-8 border-y border-slate-200">
+            {/* Trust Indicators */}
+            <div className="bg-blue-50 py-8">
               <div className="container mx-auto px-4">
-                <div className="flex flex-wrap justify-center items-center gap-8 text-center">
-                  <div className="flex items-center gap-2">
-                    <span className="text-4xl">⭐</span>
-                    <div className="text-left">
-                      <p className="font-bold text-slate-900">4.9/5 Rating</p>
-                      <p className="text-sm text-slate-900">500+ Reviews</p>
-                    </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                  <div className="flex flex-col items-center">
+                    <Star className="w-8 h-8 text-yellow-400 mb-2" />
+                    <p className="font-bold text-blue-900">4.9/5 Rating</p>
+                    <p className="text-sm text-blue-700">500+ Reviews</p>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-4xl">💰</span>
-                    <div className="text-left">
-                      <p className="font-bold text-slate-900">$500M+</p>
-                      <p className="text-sm text-slate-900">Won for Clients</p>
-                    </div>
+                  <div className="flex flex-col items-center">
+                    <DollarSign className="w-8 h-8 text-green-500 mb-2" />
+                    <p className="font-bold text-blue-900">$500M+</p>
+                    <p className="text-sm text-blue-700">Won for Clients</p>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-4xl">🏆</span>
-                    <div className="text-left">
-                      <p className="font-bold text-slate-900">No Fee</p>
-                      <p className="text-sm text-slate-900">Unless We Win</p>
-                    </div>
+                  <div className="flex flex-col items-center">
+                    <Shield className="w-8 h-8 text-blue-600 mb-2" />
+                    <p className="font-bold text-blue-900">No Fee</p>
+                    <p className="text-sm text-blue-700">Unless We Win</p>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-4xl">⚡</span>
-                    <div className="text-left">
-                      <p className="font-bold text-slate-900">24/7</p>
-                      <p className="text-sm text-slate-900">Free Consultation</p>
-                    </div>
+                  <div className="flex flex-col items-center">
+                    <Clock className="w-8 h-8 text-blue-600 mb-2" />
+                    <p className="font-bold text-blue-900">24/7</p>
+                    <p className="text-sm text-blue-700">Free Consultation</p>
                   </div>
                 </div>
               </div>
-            </section>
+            </div>
 
             {/* Benefits Section - Critical for conversion */}
             <BenefitsSection />

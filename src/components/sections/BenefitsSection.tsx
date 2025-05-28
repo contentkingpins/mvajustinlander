@@ -46,7 +46,7 @@ const benefits = [
 
 export const BenefitsSection: React.FC = () => {
   return (
-    <section className="py-20 bg-slate-50" id="benefits">
+    <section className="py-20 bg-blue-50" id="benefits">
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <motion.div
@@ -56,56 +56,50 @@ export const BenefitsSection: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.3 }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-blue-900">
             Why Choose <span className="text-blue-600">Claim Connectors?</span>
           </h2>
-          <p className="text-xl text-slate-900 max-w-3xl mx-auto">
+          <p className="text-xl text-blue-700 max-w-3xl mx-auto">
             We connect you to the best injury attorneys in your area and ensure 
             you get the expert legal representation you deserve.
           </p>
         </motion.div>
 
         {/* Benefits Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3, duration: 0.3 }}
+        >
           {benefits.map((benefit, index) => (
-            <motion.div
+            <Card
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.3 }}
-              whileHover={{ scale: 1.02 }}
+              className="hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer group bg-white border-blue-200"
             >
-              <Card
-                className={`h-full p-8 transition-all duration-300 cursor-pointer group ${
-                  benefit.highlight 
-                    ? 'bg-blue-600 text-white border-blue-600 hover:bg-blue-700' 
-                    : 'bg-white hover:bg-blue-600 hover:text-white hover:border-blue-600 border-slate-200 hover:shadow-2xl'
-                }`}
-              >
-                <div className={`mb-4 transition-colors duration-300 ${
-                  benefit.highlight 
-                    ? 'text-white' 
-                    : 'text-blue-600 group-hover:text-white'
-                }`}>
-                  {benefit.icon}
+              <div className="p-6">
+                <div className="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center mb-4 group-hover:bg-blue-600 transition-colors duration-300">
+                  <div className="text-blue-600 group-hover:text-white">
+                    {benefit.icon}
+                  </div>
                 </div>
-                <h3 className="text-2xl font-bold mb-3 transition-colors duration-300">
+                <h3 className="text-xl font-semibold mb-3 text-blue-900 group-hover:text-blue-600 transition-colors duration-300">
                   {benefit.title}
                 </h3>
-                <p className={`transition-colors duration-300 ${
-                  benefit.highlight 
-                    ? 'text-blue-100' 
-                    : 'text-slate-900 group-hover:text-blue-100'
-                }`}>
+                <p className={
+                  'transition-colors duration-300 ' +
+                  (benefit.highlight
+                    ? 'text-blue-800 font-medium'
+                    : 'text-blue-700')
+                }>
                   {benefit.description}
                 </p>
-              </Card>
-            </motion.div>
+              </div>
+            </Card>
           ))}
-        </div>
+        </motion.div>
 
-        {/* Trust Badge */}
         <motion.div
           className="mt-16 text-center"
           initial={{ opacity: 0 }}
@@ -113,10 +107,10 @@ export const BenefitsSection: React.FC = () => {
           viewport={{ once: true }}
           transition={{ delay: 0.6, duration: 0.3 }}
         >
-          <div className="inline-flex items-center gap-6 bg-white rounded-full px-8 py-6 shadow-lg hover:shadow-2xl hover:bg-blue-50 transition-all duration-300 cursor-pointer group">
+          <div className="inline-flex items-center gap-6 bg-white rounded-full px-8 py-6 shadow-lg hover:shadow-2xl hover:bg-blue-50 transition-all duration-300 cursor-pointer group border-2 border-blue-200">
             <div className="text-left">
-              <div className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors duration-300 text-lg">Trusted by 2,500+ Clients</div>
-              <div className="text-sm text-slate-900 group-hover:text-blue-500 transition-colors duration-300">Average rating of 4.9/5 stars</div>
+              <div className="font-bold text-blue-900 group-hover:text-blue-600 transition-colors duration-300 text-lg">Trusted by 2,500+ Clients</div>
+              <div className="text-sm text-blue-700 group-hover:text-blue-600 transition-colors duration-300">Average rating of 4.9/5 stars</div>
             </div>
             <div className="flex gap-1">
               {[...Array(5)].map((_, i) => (

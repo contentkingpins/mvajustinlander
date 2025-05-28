@@ -8,8 +8,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Plus, Minus, HelpCircle } from 'lucide-react';
+import { Plus, Minus, HelpCircle, Phone } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 
 const faqs = [
   {
@@ -52,7 +53,7 @@ export const FAQSection = () => {
   };
 
   return (
-    <section className="py-20 bg-slate-50" id="faq">
+    <section className="py-20 bg-white" id="faq">
       <div className="container mx-auto px-4">
         <motion.div
           ref={ref}
@@ -61,94 +62,63 @@ export const FAQSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-blue-900">
             Frequently Asked <span className="text-blue-600">Questions</span>
           </h2>
-          <p className="text-xl text-slate-900 max-w-3xl mx-auto">
-            Get answers to common questions about personal injury claims and working with our attorneys.
+          <p className="text-xl text-blue-700 max-w-3xl mx-auto">
+            Get answers to common questions about personal injury claims and our services.
           </p>
         </motion.div>
 
-        <div className="max-w-3xl mx-auto space-y-4">
-          {faqs.map((faq, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              className="bg-white rounded-lg shadow-md overflow-hidden"
-            >
-              <button
-                onClick={() => toggleFAQ(index)}
-                className="w-full px-6 py-5 flex items-start gap-4 text-left hover:bg-slate-50 transition-colors"
-                aria-expanded={openIndex === index}
-              >
-                <HelpCircle className="w-6 h-6 text-blue-600 mt-0.5 flex-shrink-0" />
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-slate-900 pr-8">
-                    {faq.question}
-                  </h3>
-                  {faq.popular && (
-                    <span className="inline-block mt-1 text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">
-                      Popular
-                    </span>
-                  )}
-                </div>
-                <div className="flex-shrink-0">
-                  {openIndex === index ? (
-                    <Minus className="w-5 h-5 text-blue-600" />
-                  ) : (
-                    <Plus className="w-5 h-5 text-slate-600" />
-                  )}
-                </div>
-              </button>
-
-              <AnimatePresence>
-                {openIndex === index && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <div className="px-6 pb-5 pl-16 text-slate-900">
-                      {faq.answer}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
-        </div>
-
         <motion.div
-          className="text-center mt-16"
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.6, duration: 0.6 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          className="max-w-3xl mx-auto"
         >
-          <p className="text-slate-900 mb-6">
-            Have more questions? We're here to help 24/7.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-all">
-              Call: {process.env.NEXT_PUBLIC_BUSINESS_PHONE}
-            </button>
-            <button className="bg-white hover:bg-slate-50 text-blue-600 font-bold py-3 px-6 rounded-lg border-2 border-blue-600 transition-all">
-              Start Live Chat
-            </button>
-          </div>
+          <Accordion type="single" collapsible>
+            {faqs.map((faq, index) => (
+              <AccordionItem key={index} value={`item-${index}`}>
+                <AccordionTrigger>
+                  <h3 className="text-lg font-semibold text-blue-900 pr-8">
+                    {faq.question}
+                  </h3>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="px-6 pb-5 pl-16 text-blue-700">
+                    {faq.answer}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </motion.div>
 
+        {/* CTA */}
         <motion.div
-          className="text-center mt-8"
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.8, duration: 0.6 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.4, duration: 0.6 }}
+          className="text-center mt-16"
         >
-          <p className="text-sm text-slate-900">
-            <strong>100% Confidential</strong> • No obligation to hire • Free case evaluation
-          </p>
+          <Card className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-8 max-w-3xl mx-auto">
+            <h3 className="text-2xl font-bold mb-4">
+              Still Have Questions?
+            </h3>
+            <p className="text-blue-100 mb-6">
+              Our team is available 24/7 to answer any questions about your case.
+              Get a free consultation with no obligation.
+            </p>
+            <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
+              <button className="bg-white text-blue-600 hover:bg-blue-50 font-bold py-4 px-8 rounded-lg transition-all transform hover:scale-105 flex items-center gap-2">
+                <Phone className="w-5 h-5" />
+                Call Now: {process.env.NEXT_PUBLIC_BUSINESS_PHONE}
+              </button>
+              <p className="text-blue-100">
+                Free Consultation • No Obligation • Available 24/7
+              </p>
+            </div>
+          </Card>
         </motion.div>
       </div>
     </section>
