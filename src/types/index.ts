@@ -1,6 +1,6 @@
 /**
- * Comprehensive TypeScript types for Claim Connectors Landing Page
- * These types define the structure for tracking, analytics, forms, and business logic
+ * TypeScript types for Claim Connectors Landing Page
+ * Only includes types that are actively used in the codebase
  */
 
 // ============= Tracking Types =============
@@ -110,14 +110,6 @@ export interface GeolocationData {
   timezone?: string;
 }
 
-export interface NearbyLocation {
-  name: string;
-  address: string;
-  distance: number;
-  phone?: string;
-  hours?: BusinessHours;
-}
-
 // ============= Business Types =============
 export interface BusinessHours {
   monday: HoursRange;
@@ -127,19 +119,12 @@ export interface BusinessHours {
   friday: HoursRange;
   saturday: HoursRange;
   sunday: HoursRange;
-  holidays?: Holiday[];
 }
 
 export interface HoursRange {
   open: string;
   close: string;
   closed?: boolean;
-}
-
-export interface Holiday {
-  date: string;
-  name: string;
-  hours?: HoursRange;
 }
 
 // ============= Analytics Types =============
@@ -163,22 +148,6 @@ export enum ConversionType {
   FORM_SUBMIT = 'form_submit',
   PHONE_CLICK = 'phone_click',
   EMAIL_CLICK = 'email_click',
-}
-
-// ============= A/B Testing Types =============
-export interface ABTestVariant {
-  id: string;
-  name: string;
-  weight: number;
-  config: Record<string, any>;
-}
-
-export interface ABTest {
-  id: string;
-  name: string;
-  variants: ABTestVariant[];
-  metrics: string[];
-  status: 'active' | 'paused' | 'completed';
 }
 
 // ============= UI Component Types =============
@@ -220,23 +189,6 @@ export interface SectionProps {
   padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
-// ============= Animation Types =============
-export interface AnimationConfig {
-  initial?: any;
-  animate?: any;
-  exit?: any;
-  transition?: any;
-  whileHover?: any;
-  whileTap?: any;
-  viewport?: any;
-}
-
-export interface ParallaxConfig {
-  speed?: number;
-  offset?: number;
-  easing?: string;
-}
-
 // ============= API Types =============
 export interface APIResponse<T = any> {
   success: boolean;
@@ -263,32 +215,6 @@ export interface UserSession {
   pageViews: PageView[];
   events: TrackingEvent[];
   formProgress?: FormState;
-  abTests?: Record<string, string>;
-}
-
-// ============= Notification Types =============
-export interface Notification {
-  id: string;
-  type: 'success' | 'error' | 'warning' | 'info';
-  title: string;
-  message?: string;
-  duration?: number;
-  action?: {
-    label: string;
-    onClick: () => void;
-  };
-}
-
-// ============= SEO Types =============
-export interface SEOData {
-  title: string;
-  description: string;
-  keywords?: string[];
-  ogImage?: string;
-  ogType?: string;
-  canonicalUrl?: string;
-  noindex?: boolean;
-  jsonLd?: any;
 }
 
 // ============= Performance Types =============
@@ -309,14 +235,4 @@ export interface CookieConsent {
   functional: boolean;
   timestamp?: number;
   ip?: string;
-}
-
-// ============= Legal Types =============
-export interface LegalDisclaimer {
-  id: string;
-  type: 'disclaimer' | 'privacy' | 'terms';
-  content: string;
-  version: string;
-  effectiveDate: string;
-  required: boolean;
 } 

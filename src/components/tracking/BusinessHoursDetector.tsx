@@ -27,10 +27,6 @@ const defaultBusinessHours: BusinessHours = {
   friday: { open: '08:00', close: '18:00' },
   saturday: { open: '09:00', close: '14:00' },
   sunday: { closed: true, open: '', close: '' },
-  holidays: [
-    { date: '2024-12-25', name: 'Christmas', hours: { closed: true, open: '', close: '' } },
-    { date: '2024-01-01', name: 'New Year', hours: { closed: true, open: '', close: '' } },
-  ],
 };
 
 export const BusinessHoursDetector: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -69,22 +65,12 @@ export const BusinessHoursDetector: React.FC<{ children: React.ReactNode }> = ({
     return {
       time: `${hour}:${minute}`,
       day: weekday as keyof BusinessHours,
-      date: currentTime.toISOString().split('T')[0],
     };
   };
 
   // Check if current time is within business hours
   const checkBusinessHours = () => {
-    const { time, day, date } = getBusinessTime();
-
-    // Check holidays first
-    const holiday = businessHours.holidays?.find(h => h.date === date);
-    if (holiday) {
-      if (holiday.hours?.closed) return false;
-      if (holiday.hours) {
-        return isTimeInRange(time, holiday.hours);
-      }
-    }
+    const { time, day } = getBusinessTime();
 
     // Check regular business hours
     const dayHours = businessHours[day];
@@ -127,12 +113,7 @@ export const BusinessHoursDetector: React.FC<{ children: React.ReactNode }> = ({
         const [openHour, openMinute] = nextDayHours.open.split(':').map(Number);
         nextDate.setHours(openHour, openMinute, 0, 0);
 
-        // Check if this date is a holiday
-        const dateStr = nextDate.toISOString().split('T')[0];
-        const holiday = businessHours.holidays?.find(h => h.date === dateStr);
-        if (!holiday || !holiday.hours?.closed) {
-          return nextDate;
-        }
+        return nextDate;
       }
     }
 
