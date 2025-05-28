@@ -18,9 +18,13 @@ export const StickyHeader: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrolled = window.scrollY > 100;
+      // Lower threshold for mobile - show header after just 50px of scrolling
+      const scrolled = window.scrollY > 50;
       setIsVisible(scrolled);
     };
+
+    // Check initial scroll position on mount
+    handleScroll();
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -43,7 +47,8 @@ export const StickyHeader: React.FC = () => {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: -100, opacity: 0 }}
-        className="fixed top-0 left-0 right-0 z-40 bg-blue-900 shadow-lg"
+        className="fixed top-0 left-0 right-0 z-50 bg-blue-900 shadow-lg"
+        style={{ zIndex: 9999 }} // Ensure it's always on top
       >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between py-2">
@@ -63,7 +68,7 @@ export const StickyHeader: React.FC = () => {
               >
                 <button
                   onClick={handlePhoneClick}
-                  className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2.5 rounded-lg transition-colors min-h-[44px] font-bold text-sm sm:text-base shadow-lg"
+                  className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-3 sm:px-4 py-2.5 rounded-lg transition-colors min-h-[44px] font-bold text-sm shadow-lg"
                   aria-label="Call now"
                 >
                   <Phone className="w-4 h-4 flex-shrink-0" />
@@ -72,7 +77,7 @@ export const StickyHeader: React.FC = () => {
 
                 <button
                   onClick={openModal}
-                  className="flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-blue-900 px-4 py-2.5 rounded-lg transition-colors font-bold min-h-[44px] text-sm sm:text-base shadow-lg"
+                  className="flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-blue-900 px-3 sm:px-4 py-2.5 rounded-lg transition-colors font-bold min-h-[44px] text-sm shadow-lg"
                 >
                   <FileText className="w-4 h-4 flex-shrink-0" />
                   <span className="whitespace-nowrap">Free Review</span>

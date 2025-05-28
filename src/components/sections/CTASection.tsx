@@ -94,18 +94,16 @@ export const CTASection: React.FC = () => {
               Get My Free Case Review Now
             </Button>
             
-            <Button
-              size="lg"
-              variant="secondary"
+            <button
               onClick={handlePhoneClick}
-              className="text-lg px-6 py-4 bg-white text-blue-900 hover:bg-blue-50 min-h-[44px] font-semibold border-2 border-white hover:border-blue-100 transition-all duration-200 flex items-center justify-center gap-2"
+              className="inline-flex items-center justify-center gap-2 text-lg px-6 py-4 bg-white text-blue-900 hover:bg-blue-50 min-h-[44px] font-semibold border-2 border-white hover:border-blue-100 transition-all duration-200 rounded-lg shadow-lg hover:shadow-xl"
             >
               <Phone className="w-5 h-5 flex-shrink-0" />
               <span className="whitespace-nowrap">
                 <span className="hidden sm:inline">Call: </span>
                 {displayPhone}
               </span>
-            </Button>
+            </button>
           </motion.div>
 
           {/* Guarantee */}
