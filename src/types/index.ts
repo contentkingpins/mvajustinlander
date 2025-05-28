@@ -311,15 +311,6 @@ export interface CookieConsent {
   ip?: string;
 }
 
-// ============= Chat Types =============
-export interface ChatConfig {
-  enabled: boolean;
-  provider: 'intercom' | 'drift' | 'zendesk' | 'custom';
-  config: Record<string, any>;
-  businessHours?: BusinessHours;
-  offlineMessage?: string;
-}
-
 // ============= Legal Types =============
 export interface LegalDisclaimer {
   id: string;

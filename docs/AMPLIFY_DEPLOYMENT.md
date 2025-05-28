@@ -89,7 +89,6 @@ git push -u origin main
    NEXT_PUBLIC_ANALYTICS_ENDPOINT=/api/analytics
 
    # Feature Flags
-   NEXT_PUBLIC_ENABLE_CHAT=true
    NEXT_PUBLIC_ENABLE_SESSION_RECORDING=true
    NEXT_PUBLIC_ENABLE_AB_TESTING=true
 

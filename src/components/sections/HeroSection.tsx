@@ -113,11 +113,4 @@ export const HeroSection: React.FC = () => {
       </div>
     </section>
   );
-};
-
-// Add custom Window interface for Intercom
-declare global {
-  interface Window {
-    Intercom?: any;
-  }
-} 
+}; 
