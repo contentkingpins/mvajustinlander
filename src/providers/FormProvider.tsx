@@ -360,16 +360,17 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const nextStep = useCallback(() => {
     if (validateCurrentStep() && state.currentStep < formSteps.length - 1) {
       dispatch({ type: 'SET_STEP', step: state.currentStep + 1 });
-      trackConversion({
-        type: ConversionType.FORM_STEP,
+      trackEvent({
+        category: 'Form',
+        action: 'Next Step',
+        label: formSteps[state.currentStep + 1].id,
         value: state.currentStep + 1,
-        metadata: {
-          stepName: formSteps[state.currentStep + 1].id,
-        },
+        timestamp: Date.now(),
+        sessionId: Date.now().toString(),
       });
       saveFormState();
     }
-  }, [state.currentStep, validateCurrentStep, trackConversion, saveFormState]);
+  }, [state.currentStep, validateCurrentStep, trackEvent, saveFormState]);
 
   const previousStep = useCallback(() => {
     if (state.currentStep > 0) {
@@ -427,7 +428,7 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       // Track conversion
       trackConversion({
-        type: ConversionType.FORM_COMPLETE,
+        type: ConversionType.FORM_SUBMIT,
         metadata: {
           accidentType: formData.accidentType,
           hasAttorney: formData.hasAttorney,

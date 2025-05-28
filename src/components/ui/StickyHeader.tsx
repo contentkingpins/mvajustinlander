@@ -7,7 +7,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Phone, MessageCircle } from 'lucide-react';
+import { Phone } from 'lucide-react';
 import { useTracking } from '@/hooks/useTracking';
 import { ConversionType } from '@/types';
 import { useBusinessHours } from '@/components/tracking/BusinessHoursDetector';
@@ -58,18 +58,6 @@ export const StickyHeader: React.FC = () => {
     window.location.href = `tel:${process.env.NEXT_PUBLIC_BUSINESS_PHONE}`;
   };
 
-  const handleChatClick = () => {
-    trackConversion({
-      type: ConversionType.CHAT_START,
-      metadata: { 
-        location: 'sticky_header',
-        businessHours: isBusinessHours 
-      }
-    });
-    // TODO: Implement chat functionality
-    console.log('Chat clicked');
-  };
-
   return (
     <AnimatePresence>
       {isVisible && (
@@ -87,33 +75,20 @@ export const StickyHeader: React.FC = () => {
                 <h1 className="text-xl font-bold text-blue-900">Claim Connectors</h1>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex items-center gap-3">
-                {/* Chat Button */}
-                <button
-                  onClick={handleChatClick}
-                  className="flex items-center gap-2 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-900 rounded-lg transition-colors"
-                  aria-label="Start live chat"
-                >
-                  <MessageCircle className="w-5 h-5" />
-                  <span className="hidden sm:inline font-medium">Live Chat</span>
-                </button>
-
-                {/* Call Button */}
-                <button
-                  onClick={handlePhoneClick}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors font-medium ${
-                    isBusinessHours
-                      ? 'bg-green-600 hover:bg-green-700 text-white'
-                      : 'bg-blue-600 hover:bg-blue-700 text-white'
-                  }`}
-                  aria-label="Call now"
-                >
-                  <Phone className="w-5 h-5" />
-                  <span className="hidden sm:inline">Call Now</span>
-                  <span className="sm:hidden">Call</span>
-                </button>
-              </div>
+              {/* Call Button */}
+              <button
+                onClick={handlePhoneClick}
+                className={`flex items-center gap-2 px-6 py-2 rounded-lg transition-colors font-medium ${
+                  isBusinessHours
+                    ? 'bg-green-600 hover:bg-green-700 text-white'
+                    : 'bg-blue-600 hover:bg-blue-700 text-white'
+                }`}
+                aria-label="Call now"
+              >
+                <Phone className="w-5 h-5" />
+                <span className="hidden sm:inline">Call Now: {process.env.NEXT_PUBLIC_BUSINESS_PHONE}</span>
+                <span className="sm:hidden">Call Now</span>
+              </button>
             </div>
           </div>
         </motion.header>

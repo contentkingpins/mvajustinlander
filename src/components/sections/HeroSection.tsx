@@ -9,7 +9,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { useTracking } from '@/hooks/useTracking';
 import { ConversionType } from '@/types';
-import { Phone, MessageCircle, ArrowRight } from 'lucide-react';
+import { Phone, ArrowRight } from 'lucide-react';
 import { AccidentForm } from '@/components/forms/AccidentForm';
 
 export const HeroSection: React.FC = () => {
@@ -17,31 +17,20 @@ export const HeroSection: React.FC = () => {
   const heroRef = useRef<HTMLElement>(null);
   const [showAccidentForm, setShowAccidentForm] = useState(false);
 
-  const handlePhoneClick = () => {
-    trackConversion({
-      type: ConversionType.PHONE_CLICK,
-      metadata: { location: 'hero' }
-    });
-    window.location.href = `tel:${process.env.NEXT_PUBLIC_BUSINESS_PHONE}`;
-  };
-
-  const handleChatClick = () => {
-    trackConversion({
-      type: ConversionType.CHAT_START,
-      metadata: { location: 'hero' }
-    });
-    // Open chat widget
-    if (window.Intercom) {
-      window.Intercom('show');
-    }
-  };
-
   const handleFormStart = () => {
     trackConversion({
       type: ConversionType.FORM_START,
-      metadata: { location: 'hero' }
+      metadata: { location: 'hero_cta' }
     });
     setShowAccidentForm(true);
+  };
+
+  const handlePhoneClick = () => {
+    trackConversion({
+      type: ConversionType.PHONE_CLICK,
+      metadata: { location: 'hero_cta' }
+    });
+    window.location.href = `tel:${process.env.NEXT_PUBLIC_BUSINESS_PHONE}`;
   };
 
   return (
@@ -117,16 +106,6 @@ export const HeroSection: React.FC = () => {
               icon={<Phone className="ml-2" />}
             >
               Call Now: {process.env.NEXT_PUBLIC_BUSINESS_PHONE}
-            </Button>
-
-            <Button
-              size="xl"
-              variant="outline"
-              onClick={handleChatClick}
-              className="min-w-[250px] border-2 border-white text-white hover:bg-white hover:text-blue-900 md:hidden lg:inline-flex"
-              icon={<MessageCircle className="ml-2" />}
-            >
-              Live Chat
             </Button>
           </motion.div>
 

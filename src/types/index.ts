@@ -160,12 +160,9 @@ export interface ConversionEvent {
 
 export enum ConversionType {
   FORM_START = 'form_start',
-  FORM_STEP = 'form_step',
-  FORM_COMPLETE = 'form_complete',
+  FORM_SUBMIT = 'form_submit',
   PHONE_CLICK = 'phone_click',
-  CHAT_START = 'chat_start',
   EMAIL_CLICK = 'email_click',
-  CTA_CLICK = 'cta_click'
 }
 
 // ============= A/B Testing Types =============
