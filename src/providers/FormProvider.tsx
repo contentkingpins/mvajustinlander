@@ -5,7 +5,7 @@
 
 'use client';
 
-import React, { createContext, useContext, useReducer, useEffect, useCallback, useRef } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, useCallback, useRef, useState } from 'react';
 import { useTracking } from '@/hooks/useTracking';
 import { LeadFormData, FormState, FormStep, AccidentType, ConversionType } from '@/types';
 import { setCookie, getCookie } from 'cookies-next';
@@ -97,7 +97,15 @@ interface FormContextValue {
   isFieldTouched: (field: string) => boolean;
 }
 
+// Modal context types
+interface ModalContextValue {
+  isOpen: boolean;
+  openModal: () => void;
+  closeModal: () => void;
+}
+
 const FormContext = createContext<FormContextValue | undefined>(undefined);
+const ModalContext = createContext<ModalContextValue | undefined>(undefined);
 
 // Form reducer actions
 type FormAction =
@@ -208,9 +216,31 @@ const getSmartDefaults = (accidentType: AccidentType): Partial<LeadFormData> => 
 // FormProvider component
 export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(formReducer, initialFormState);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { trackEvent, trackFormField, trackConversion, getAttribution } = useTracking();
   const autosaveTimerRef = useRef<NodeJS.Timeout | null>(null);
   const lastSaveRef = useRef<number>(Date.now());
+
+  // Modal functions
+  const openModal = useCallback(() => {
+    setIsModalOpen(true);
+    trackEvent({
+      category: 'Form',
+      action: 'Modal Opened',
+      timestamp: Date.now(),
+      sessionId: Date.now().toString(),
+    });
+  }, [trackEvent]);
+
+  const closeModal = useCallback(() => {
+    setIsModalOpen(false);
+    trackEvent({
+      category: 'Form',
+      action: 'Modal Closed',
+      timestamp: Date.now(),
+      sessionId: Date.now().toString(),
+    });
+  }, [trackEvent]);
 
   // Load saved form state on mount
   useEffect(() => {
@@ -477,7 +507,7 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const currentStep = formSteps[state.currentStep];
 
-  const contextValue: FormContextValue = {
+  const formContextValue: FormContextValue = {
     state,
     steps: formSteps,
     currentStep,
@@ -493,7 +523,19 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children
     isFieldTouched,
   };
 
-  return <FormContext.Provider value={contextValue}>{children}</FormContext.Provider>;
+  const modalContextValue: ModalContextValue = {
+    isOpen: isModalOpen,
+    openModal,
+    closeModal,
+  };
+
+  return (
+    <FormContext.Provider value={formContextValue}>
+      <ModalContext.Provider value={modalContextValue}>
+        {children}
+      </ModalContext.Provider>
+    </FormContext.Provider>
+  );
 };
 
 // Hook to use form context
@@ -501,6 +543,15 @@ export const useForm = () => {
   const context = useContext(FormContext);
   if (!context) {
     throw new Error('useForm must be used within a FormProvider');
+  }
+  return context;
+};
+
+// Hook to use modal context
+export const useFormModal = () => {
+  const context = useContext(ModalContext);
+  if (!context) {
+    throw new Error('useFormModal must be used within a FormProvider');
   }
   return context;
 }; 
