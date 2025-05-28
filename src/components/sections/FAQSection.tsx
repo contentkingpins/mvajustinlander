@@ -66,7 +66,7 @@ export const FAQSection = () => {
   };
 
   return (
-    <section className="py-20 bg-gray-50" id="faq">
+    <section className="py-20 bg-slate-50" id="faq">
       <div className="container mx-auto px-4">
         <motion.div
           ref={ref}
@@ -95,12 +95,12 @@ export const FAQSection = () => {
                 <Card className="overflow-hidden">
                   <button
                     onClick={() => toggleQuestion(index)}
-                    className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
+                    className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-50 transition-colors"
                   >
                     <div className="flex items-start gap-4 flex-1">
                       <HelpCircle className="w-6 h-6 text-blue-600 mt-0.5 flex-shrink-0" />
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-900 pr-4">
+                        <h3 className="text-lg font-semibold text-slate-900 pr-4">
                           {faq.question}
                         </h3>
                         <span className="inline-block mt-1 text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">
@@ -155,7 +155,7 @@ export const FAQSection = () => {
                 <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105">
                   Get Free Consultation
                 </button>
-                <button className="bg-white hover:bg-gray-50 text-blue-600 font-bold py-3 px-6 rounded-lg border-2 border-blue-600 transition-all">
+                <button className="bg-white hover:bg-slate-50 text-blue-600 font-bold py-3 px-6 rounded-lg border-2 border-blue-600 transition-all">
                   Call: {process.env.NEXT_PUBLIC_BUSINESS_PHONE}
                 </button>
               </div>

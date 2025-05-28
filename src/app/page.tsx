@@ -19,7 +19,7 @@ const ProcessSection = dynamic(() => import('@/components/sections/ProcessSectio
 });
 
 const TestimonialsSection = dynamic(() => import('@/components/sections/TestimonialsSection').then(mod => ({ default: mod.TestimonialsSection })), {
-  loading: () => <div className="py-20 bg-gray-50" />,
+  loading: () => <div className="py-20 bg-slate-50" />,
 });
 
 const NearbyLocations = dynamic(() => import('@/components/sections/NearbyLocations').then(mod => ({ default: mod.NearbyLocations })), {
@@ -27,7 +27,7 @@ const NearbyLocations = dynamic(() => import('@/components/sections/NearbyLocati
 });
 
 const FAQSection = dynamic(() => import('@/components/sections/FAQSection').then(mod => ({ default: mod.FAQSection })), {
-  loading: () => <div className="py-20 bg-gray-50" />,
+  loading: () => <div className="py-20 bg-slate-50" />,
 });
 
 const CTASection = dynamic(() => import('@/components/sections/CTASection').then(mod => ({ default: mod.CTASection })), {
@@ -125,7 +125,7 @@ export default function HomePage() {
             <HeroSection />
 
             {/* Trust Indicators - Critical for conversion */}
-            <section className="bg-gray-50 py-8 border-y border-gray-200">
+            <section className="bg-slate-50 py-8 border-y border-slate-200">
               <div className="container mx-auto px-4">
                 <div className="flex flex-wrap justify-center items-center gap-8 text-center">
                   <div className="flex items-center gap-2">

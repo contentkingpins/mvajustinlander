@@ -159,7 +159,7 @@ export const CTASection = () => {
 
               <button
                 onClick={handleFormClick}
-                className="bg-white hover:bg-gray-100 text-slate-900 font-bold py-5 px-10 rounded-lg text-xl transition-all transform hover:scale-105 flex items-center gap-3 shadow-xl"
+                className="bg-white hover:bg-slate-100 text-slate-900 font-bold py-5 px-10 rounded-lg text-xl transition-all transform hover:scale-105 flex items-center gap-3 shadow-xl"
               >
                 Tell Us What Happened
                 <ArrowRight className="w-6 h-6" />

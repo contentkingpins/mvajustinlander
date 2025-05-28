@@ -251,7 +251,7 @@ export const NearbyLocations = () => {
               We'll match you with a top-rated injury attorney in your area within 24 hours.
             </p>
             <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
-              <button className="bg-white text-blue-600 hover:bg-gray-100 font-bold py-4 px-8 rounded-lg transition-all transform hover:scale-105 flex items-center gap-2">
+                              <button className="bg-white text-blue-600 hover:bg-slate-100 font-bold py-4 px-8 rounded-lg transition-all transform hover:scale-105 flex items-center gap-2">
                 <Phone className="w-5 h-5" />
                 Get Attorney Match
               </button>

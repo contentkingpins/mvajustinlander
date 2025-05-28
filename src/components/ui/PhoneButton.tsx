@@ -87,7 +87,7 @@ export const PhoneButton: React.FC = () => {
 
         {/* Hover tooltip */}
         <motion.div
-          className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1 bg-gray-900 text-white text-xs rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none"
+                          className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1 bg-slate-900 text-white text-xs rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none"
           initial={{ y: 10 }}
           animate={{ y: 0 }}
         >

@@ -138,7 +138,7 @@ export const CookieConsent: React.FC = () => {
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
-            className="fixed bottom-0 left-0 right-0 bg-white shadow-2xl z-100 border-t border-gray-200"
+            className="fixed bottom-0 left-0 right-0 bg-white shadow-2xl z-100 border-t border-slate-200"
           >
             <div className="container mx-auto px-4 py-6">
               <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4">
@@ -148,7 +148,7 @@ export const CookieConsent: React.FC = () => {
                   <h3 className="text-lg font-semibold mb-2">
                     We value your privacy 🍪
                   </h3>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-slate-700">
                     We use cookies to enhance your browsing experience, serve personalized content, 
                     and analyze our traffic. By clicking "Accept All", you consent to our use of cookies.
                     {' '}
@@ -188,7 +188,7 @@ export const CookieConsent: React.FC = () => {
                     exit={{ height: 0, opacity: 0 }}
                     className="overflow-hidden"
                   >
-                    <div className="mt-6 pt-6 border-t border-gray-200">
+                    <div className="mt-6 pt-6 border-t border-slate-200">
                       <h4 className="font-semibold mb-4">Cookie Settings</h4>
                       
                       <div className="space-y-4">
@@ -203,7 +203,7 @@ export const CookieConsent: React.FC = () => {
                           />
                           <label htmlFor="necessary" className="flex-1">
                             <div className="font-medium">Necessary Cookies</div>
-                            <div className="text-sm text-gray-600">
+                            <div className="text-sm text-slate-700">
                               Required for the website to function properly. Cannot be disabled.
                             </div>
                           </label>
@@ -220,7 +220,7 @@ export const CookieConsent: React.FC = () => {
                           />
                           <label htmlFor="analytics" className="flex-1">
                             <div className="font-medium">Analytics Cookies</div>
-                            <div className="text-sm text-gray-600">
+                            <div className="text-sm text-slate-700">
                               Help us understand how visitors interact with our website.
                             </div>
                           </label>
@@ -237,7 +237,7 @@ export const CookieConsent: React.FC = () => {
                           />
                           <label htmlFor="marketing" className="flex-1">
                             <div className="font-medium">Marketing Cookies</div>
-                            <div className="text-sm text-gray-600">
+                            <div className="text-sm text-slate-700">
                               Used to deliver personalized advertisements.
                             </div>
                           </label>
@@ -254,7 +254,7 @@ export const CookieConsent: React.FC = () => {
                           />
                           <label htmlFor="functional" className="flex-1">
                             <div className="font-medium">Functional Cookies</div>
-                            <div className="text-sm text-gray-600">
+                            <div className="text-sm text-slate-700">
                               Enable enhanced functionality like chat widgets and video players.
                             </div>
                           </label>

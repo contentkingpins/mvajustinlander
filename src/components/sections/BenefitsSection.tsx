@@ -46,7 +46,7 @@ const benefits = [
 
 export const BenefitsSection: React.FC = () => {
   return (
-    <section className="py-20 bg-gray-50" id="benefits">
+    <section className="py-20 bg-slate-50" id="benefits">
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <motion.div
@@ -80,7 +80,7 @@ export const BenefitsSection: React.FC = () => {
                 className={`h-full p-8 transition-all duration-300 cursor-pointer group ${
                   benefit.highlight 
                     ? 'bg-blue-600 text-white border-blue-600 hover:bg-blue-700' 
-                    : 'bg-white hover:bg-blue-600 hover:text-white hover:border-blue-600 border-gray-200 hover:shadow-2xl'
+                    : 'bg-white hover:bg-blue-600 hover:text-white hover:border-blue-600 border-slate-200 hover:shadow-2xl'
                 }`}
               >
                 <div className={`mb-4 transition-colors duration-300 ${
