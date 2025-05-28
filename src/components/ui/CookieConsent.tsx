@@ -148,16 +148,8 @@ export const CookieConsent: React.FC = () => {
                   <h3 className="text-lg font-semibold mb-2">
                     We value your privacy 🍪
                   </h3>
-                  <p className="text-sm text-slate-700">
-                    We use cookies to enhance your browsing experience, serve personalized content, 
-                    and analyze our traffic. By clicking "Accept All", you consent to our use of cookies.
-                    {' '}
-                    <button
-                      onClick={() => setShowSettings(!showSettings)}
-                      className="text-blue-600 hover:text-blue-700 underline font-medium"
-                    >
-                      Customize settings
-                    </button>
+                  <p className="text-sm text-slate-900">
+                    We use cookies to improve your experience and analyze site usage. By continuing, you agree to our use of cookies.
                   </p>
                 </div>
 
@@ -203,8 +195,8 @@ export const CookieConsent: React.FC = () => {
                           />
                           <label htmlFor="necessary" className="flex-1">
                             <div className="font-medium">Necessary Cookies</div>
-                            <div className="text-sm text-slate-700">
-                              Required for the website to function properly. Cannot be disabled.
+                            <div className="text-sm text-slate-900">
+                              Essential cookies for site functionality
                             </div>
                           </label>
                         </div>
@@ -220,8 +212,8 @@ export const CookieConsent: React.FC = () => {
                           />
                           <label htmlFor="analytics" className="flex-1">
                             <div className="font-medium">Analytics Cookies</div>
-                            <div className="text-sm text-slate-700">
-                              Help us understand how visitors interact with our website.
+                            <div className="text-sm text-slate-900">
+                              Help us understand how visitors interact with our site
                             </div>
                           </label>
                         </div>
@@ -237,8 +229,8 @@ export const CookieConsent: React.FC = () => {
                           />
                           <label htmlFor="marketing" className="flex-1">
                             <div className="font-medium">Marketing Cookies</div>
-                            <div className="text-sm text-slate-700">
-                              Used to deliver personalized advertisements.
+                            <div className="text-sm text-slate-900">
+                              Used for targeted advertising and remarketing
                             </div>
                           </label>
                         </div>
@@ -254,8 +246,8 @@ export const CookieConsent: React.FC = () => {
                           />
                           <label htmlFor="functional" className="flex-1">
                             <div className="font-medium">Functional Cookies</div>
-                            <div className="text-sm text-slate-700">
-                              Enable enhanced functionality like chat widgets and video players.
+                            <div className="text-sm text-slate-900">
+                              Remember your preferences and settings
                             </div>
                           </label>
                         </div>

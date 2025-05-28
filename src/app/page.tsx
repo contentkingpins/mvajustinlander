@@ -10,7 +10,7 @@ import { BenefitsSection } from '@/components/sections/BenefitsSection';
 import { TrackingProvider } from '@/components/tracking/TrackingProvider';
 import { FormProvider } from '@/providers/FormProvider';
 import { ScrollProgress } from '@/components/ui/ScrollProgress';
-import { PhoneButton } from '@/components/ui/PhoneButton';
+import { StickyHeader } from '@/components/ui/StickyHeader';
 import { BusinessHoursDetector } from '@/components/tracking/BusinessHoursDetector';
 
 // Lazy load heavy components for better performance
@@ -38,8 +38,6 @@ const CTASection = dynamic(() => import('@/components/sections/CTASection').then
 const FormModal = dynamic(() => import('@/components/forms/FormModal').then(mod => ({ default: mod.FormModal })));
 
 const CookieConsent = dynamic(() => import('@/components/ui/CookieConsent').then(mod => ({ default: mod.CookieConsent })));
-
-const ChatWidget = dynamic(() => import('@/components/ui/ChatWidget').then(mod => ({ default: mod.ChatWidget })));
 
 // SEO metadata
 export const metadata: Metadata = {
@@ -116,6 +114,9 @@ export default function HomePage() {
             dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
           />
 
+          {/* Sticky Header */}
+          <StickyHeader />
+
           {/* Progress indicator */}
           <ScrollProgress />
 
@@ -131,29 +132,29 @@ export default function HomePage() {
                   <div className="flex items-center gap-2">
                     <span className="text-4xl">⭐</span>
                     <div className="text-left">
-                      <p className="font-bold text-blue-900">4.9/5 Rating</p>
-                      <p className="text-sm text-blue-700">500+ Reviews</p>
+                      <p className="font-bold text-slate-900">4.9/5 Rating</p>
+                      <p className="text-sm text-slate-900">500+ Reviews</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-4xl">💰</span>
                     <div className="text-left">
-                      <p className="font-bold text-blue-900">$500M+</p>
-                      <p className="text-sm text-blue-700">Won for Clients</p>
+                      <p className="font-bold text-slate-900">$500M+</p>
+                      <p className="text-sm text-slate-900">Won for Clients</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-4xl">🏆</span>
                     <div className="text-left">
-                      <p className="font-bold text-blue-900">No Fee</p>
-                      <p className="text-sm text-blue-700">Unless We Win</p>
+                      <p className="font-bold text-slate-900">No Fee</p>
+                      <p className="text-sm text-slate-900">Unless We Win</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-4xl">⚡</span>
                     <div className="text-left">
-                      <p className="font-bold text-blue-900">24/7</p>
-                      <p className="text-sm text-blue-700">Free Consultation</p>
+                      <p className="font-bold text-slate-900">24/7</p>
+                      <p className="text-sm text-slate-900">Free Consultation</p>
                     </div>
                   </div>
                 </div>
@@ -177,13 +178,13 @@ export default function HomePage() {
               <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
                   <h3 className="text-xl font-bold mb-4">Claim Connectors</h3>
-                  <p className="text-gray-300">
+                  <p className="text-gray-100">
                     Fighting for accident victims and their families. No fees unless we win your case.
                   </p>
                 </div>
                 <div>
                   <h4 className="font-semibold mb-4">Practice Areas</h4>
-                  <ul className="space-y-2 text-gray-300">
+                  <ul className="space-y-2 text-gray-100">
                     <li><a href="#" className="hover:text-white transition">Car Accidents</a></li>
                     <li><a href="#" className="hover:text-white transition">Truck Accidents</a></li>
                     <li><a href="#" className="hover:text-white transition">Motorcycle Accidents</a></li>
@@ -192,7 +193,7 @@ export default function HomePage() {
                 </div>
                 <div>
                   <h4 className="font-semibold mb-4">Resources</h4>
-                  <ul className="space-y-2 text-gray-300">
+                  <ul className="space-y-2 text-gray-100">
                     <li><a href="#" className="hover:text-white transition">FAQ</a></li>
                     <li><a href="#" className="hover:text-white transition">Blog</a></li>
                     <li><a href="#" className="hover:text-white transition">Case Results</a></li>
@@ -201,13 +202,13 @@ export default function HomePage() {
                 </div>
                 <div>
                   <h4 className="font-semibold mb-4">Contact Us</h4>
-                  <p className="text-gray-300 mb-2">
+                  <p className="text-gray-100 mb-2">
                     <strong>24/7 Free Consultation</strong>
                   </p>
                   <p className="text-2xl font-bold text-blue-400 mb-4">
                     {process.env.NEXT_PUBLIC_BUSINESS_PHONE}
                   </p>
-                  <p className="text-gray-300">
+                  <p className="text-gray-100">
                     <a href={`mailto:${process.env.NEXT_PUBLIC_BUSINESS_EMAIL}`} className="hover:text-white transition">
                       {process.env.NEXT_PUBLIC_BUSINESS_EMAIL}
                     </a>
@@ -215,7 +216,7 @@ export default function HomePage() {
                 </div>
               </div>
               
-              <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
+              <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-200 text-sm">
                 <p>&copy; {new Date().getFullYear()} Claim Connectors. All rights reserved.</p>
                 <p className="mt-2">
                   <a href="/privacy" className="hover:text-white transition">Privacy Policy</a>
@@ -232,8 +233,6 @@ export default function HomePage() {
           </footer>
 
           {/* Floating Elements - Lazy loaded */}
-          <PhoneButton />
-          <ChatWidget />
           <FormModal />
           <CookieConsent />
         </BusinessHoursDetector>

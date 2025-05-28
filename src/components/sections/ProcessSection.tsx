@@ -60,7 +60,7 @@ export const ProcessSection = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             Getting Help is <span className="text-blue-600">Simple</span>
           </h2>
-          <p className="text-xl text-blue-800 max-w-3xl mx-auto">
+          <p className="text-xl text-slate-900 max-w-3xl mx-auto">
             We handle everything so you can focus on healing. Here's how we'll fight for your rights.
           </p>
         </motion.div>
@@ -94,12 +94,12 @@ export const ProcessSection = () => {
                       <div className="bg-blue-600 text-white rounded-full p-3">
                         {step.icon}
                       </div>
-                      <div className="text-5xl font-bold text-gray-200">
+                      <div className="text-5xl font-bold text-gray-300">
                         {step.number}
                       </div>
                     </div>
                     <h3 className="text-2xl font-bold mb-2">{step.title}</h3>
-                    <p className="text-blue-800 mb-3">{step.description}</p>
+                    <p className="text-slate-900 mb-3">{step.description}</p>
                     <div className="inline-flex items-center text-sm font-semibold text-blue-600">
                       <span className="bg-blue-100 px-3 py-1 rounded-full">
                         {step.duration}
@@ -126,7 +126,7 @@ export const ProcessSection = () => {
           transition={{ delay: 0.8, duration: 0.6 }}
           className="text-center mt-16"
         >
-          <p className="text-xl text-blue-800 mb-6">
+          <p className="text-xl text-slate-900 mb-6">
             Ready to get started? Contact us today for your free consultation.
           </p>
           <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg text-xl transition-all transform hover:scale-105">

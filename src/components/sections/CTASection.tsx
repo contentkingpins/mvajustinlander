@@ -70,8 +70,8 @@ export const CTASection = () => {
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.3 }}
-              className="text-xl md:text-2xl mb-8 text-gray-200 leading-relaxed"
+              transition={{ delay: 0.3, duration: 0.6 }}
+              className="text-xl md:text-2xl mb-8 text-gray-100 leading-relaxed"
             >
               Right now, you're dealing with physical pain, emotional stress, and financial pressure. 
               <span className="block mt-3 font-semibold text-white">
@@ -107,21 +107,21 @@ export const CTASection = () => {
               <div className="bg-white/5 rounded-lg p-4">
                 <Shield className="w-8 h-8 text-blue-400 mb-2" />
                 <h3 className="font-semibold mb-1">Stop Fighting Alone</h3>
-                <p className="text-sm text-gray-200">
+                <p className="text-sm text-white">
                   Insurance companies have teams of lawyers. Shouldn't you?
                 </p>
               </div>
               <div className="bg-white/5 rounded-lg p-4">
                 <Heart className="w-8 h-8 text-red-400 mb-2" />
                 <h3 className="font-semibold mb-1">Focus on Healing</h3>
-                <p className="text-sm text-gray-200">
+                <p className="text-sm text-white">
                   Let us handle the legal battle while you recover.
                 </p>
               </div>
               <div className="bg-white/5 rounded-lg p-4">
                 <AlertTriangle className="w-8 h-8 text-yellow-400 mb-2" />
                 <h3 className="font-semibold mb-1">Get What You Deserve</h3>
-                <p className="text-sm text-gray-200">
+                <p className="text-sm text-white">
                   Don't settle for less because you don't know your rights.
                 </p>
               </div>
@@ -137,7 +137,7 @@ export const CTASection = () => {
               <p className="text-2xl font-semibold text-blue-300 mb-4">
                 One call can change everything.
               </p>
-              <p className="text-lg text-gray-200">
+              <p className="text-lg text-gray-100">
                 No fees unless we win. We only get paid when you do.
               </p>
             </motion.div>
@@ -171,7 +171,7 @@ export const CTASection = () => {
               initial={{ opacity: 0 }}
               animate={inView ? { opacity: 1 } : {}}
               transition={{ delay: 0.8 }}
-              className="text-gray-300 text-sm"
+              className="text-gray-100 text-sm"
             >
               <p>
                 You've been through enough. Let us fight for you.
@@ -185,25 +185,25 @@ export const CTASection = () => {
               transition={{ delay: 0.9 }}
               className="mt-16 pt-16 border-t border-white/10"
             >
-              <p className="text-gray-300 mb-6">
-                We've helped thousands of people just like you get back on their feet
+              <p className="text-gray-100 mb-6">
+                Join thousands who got the compensation they deserved
               </p>
-              <div className="flex flex-wrap justify-center items-center gap-8 text-gray-200">
+              <div className="flex flex-wrap justify-center items-center gap-8 text-gray-100">
                 <div>
                   <div className="text-3xl font-bold text-white">$500M+</div>
-                  <div className="text-sm">Recovered for Clients</div>
+                  <div className="text-sm text-gray-100">Recovered for Clients</div>
                 </div>
                 <div>
                   <div className="text-3xl font-bold text-white">2,500+</div>
-                  <div className="text-sm">Families Helped</div>
+                  <div className="text-sm text-gray-100">Families Helped</div>
                 </div>
                 <div>
                   <div className="text-3xl font-bold text-white">30+</div>
-                  <div className="text-sm">Years Fighting for Justice</div>
+                  <div className="text-sm text-gray-100">Years Fighting for Justice</div>
                 </div>
                 <div>
                   <div className="text-3xl font-bold text-white">24/7</div>
-                  <div className="text-sm">We're Here When You Need Us</div>
+                  <div className="text-sm text-gray-100">We're Here When You Need Us</div>
                 </div>
               </div>
             </motion.div>

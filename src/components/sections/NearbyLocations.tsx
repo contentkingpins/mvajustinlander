@@ -5,10 +5,10 @@
 
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Users, Shield, Award, Phone, CheckCircle, Network } from 'lucide-react';
+import { Users, Shield, Award, Phone, CheckCircle, Network, MapPin } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
 
 const networkCities = [
@@ -96,6 +96,24 @@ export const NearbyLocations = () => {
     threshold: 0.1,
   });
 
+  const [userLocation, setUserLocation] = useState<string>('');
+
+  useEffect(() => {
+    // Simulate getting user location (in production, use real geolocation)
+    const getUserLocation = async () => {
+      try {
+        // This would be replaced with actual geolocation API
+        const response = await fetch('https://ipapi.co/json/');
+        const data = await response.json();
+        setUserLocation(`${data.city}, ${data.region}`);
+      } catch (error) {
+        console.error('Error getting location:', error);
+      }
+    };
+
+    getUserLocation();
+  }, []);
+
   return (
     <section className="py-20 bg-white" id="network">
       <div className="container mx-auto px-4">
@@ -109,10 +127,27 @@ export const NearbyLocations = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             Nationwide Attorney <span className="text-blue-600">Network</span>
           </h2>
-          <p className="text-xl text-blue-800 max-w-3xl mx-auto">
-            We connect you to top-rated injury attorneys in your area. Our pre-screened network ensures you get the best legal representation.
+          <p className="text-xl text-slate-900 max-w-3xl mx-auto">
+            500+ pre-screened attorneys across the country ready to fight for your rights
           </p>
         </motion.div>
+
+        {/* User Location Banner */}
+        {userLocation && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="mb-12 text-center"
+          >
+            <div className="inline-flex items-center gap-3 bg-blue-50 px-6 py-3 rounded-full">
+              <MapPin className="w-5 h-5 text-blue-600" />
+              <p className="text-lg font-medium text-slate-900">
+                Attorneys available near <span className="font-bold">{userLocation}</span>
+              </p>
+            </div>
+          </motion.div>
+        )}
 
         {/* Network Stats */}
         <motion.div
@@ -140,7 +175,7 @@ export const NearbyLocations = () => {
                 <h3 className="font-bold text-lg mb-2 group-hover:text-white transition-colors duration-300">
                   {stat.label}
                 </h3>
-                <p className="text-sm text-blue-800 group-hover:text-blue-100 transition-colors duration-300">
+                <p className="text-sm text-slate-900 group-hover:text-blue-100 transition-colors duration-300">
                   {stat.description}
                 </p>
               </Card>
@@ -158,10 +193,10 @@ export const NearbyLocations = () => {
           <Card className="p-8 bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200">
             <div className="text-center mb-8">
               <Network className="w-16 h-16 text-blue-600 mx-auto mb-4" />
-              <h3 className="text-3xl font-bold text-blue-900 mb-2">
+              <h3 className="text-3xl font-bold text-slate-900 mb-2">
                 Connected Coast to Coast
               </h3>
-              <p className="text-blue-800">
+              <p className="text-slate-900">
                 Our attorney network spans major metropolitan areas nationwide
               </p>
             </div>
@@ -173,10 +208,10 @@ export const NearbyLocations = () => {
                   <div className="text-2xl font-bold text-blue-600 mb-1">
                     {city.attorneys}+
                   </div>
-                  <div className="font-semibold text-blue-900 text-sm">
+                  <div className="font-semibold text-slate-900 text-sm">
                     {city.city}, {city.state}
                   </div>
-                  <div className="text-xs text-blue-700">
+                  <div className="text-xs text-slate-900">
                     Attorneys Available
                   </div>
                 </div>
@@ -202,7 +237,7 @@ export const NearbyLocations = () => {
                   <div key={index} className="flex items-center justify-between p-3 rounded-lg hover:bg-blue-50 transition-colors duration-200">
                     <div className="flex items-center gap-3">
                       <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                      <span className="text-blue-900 font-medium">
+                      <span className="text-slate-900 font-medium">
                         {city.city}, {city.state}
                       </span>
                     </div>
@@ -229,7 +264,7 @@ export const NearbyLocations = () => {
                 {practiceAreas.map((area, index) => (
                   <div key={index} className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-50 transition-colors duration-200">
                     <div className="w-3 h-3 bg-blue-600 rounded-full flex-shrink-0" />
-                    <span className="text-blue-900 font-medium">{area}</span>
+                    <span className="text-slate-900 font-medium">{area}</span>
                   </div>
                 ))}
               </div>
@@ -265,3 +300,4 @@ export const NearbyLocations = () => {
     </section>
   );
 };
+
