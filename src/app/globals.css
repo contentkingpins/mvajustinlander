@@ -24,3 +24,46 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Improve placeholder text contrast */
+input::placeholder,
+textarea::placeholder {
+  color: #64748b; /* slate-500 for better contrast */
+  opacity: 1;
+}
+
+/* Ensure form inputs have proper text color */
+input,
+textarea,
+select {
+  color: #1e293b; /* slate-800 for dark text */
+}
+
+/* Improve select option styling */
+select option {
+  color: #1e293b;
+  background: white;
+}
+
+/* Improve focus states for better accessibility */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Ensure buttons have proper contrast */
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Improve link contrast */
+a {
+  color: #1d4ed8; /* blue-700 for better contrast */
+}
+
+a:hover {
+  color: #1e40af; /* blue-800 */
+}

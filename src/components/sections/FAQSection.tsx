@@ -112,7 +112,7 @@ export const FAQSection = () => {
                       {openIndex === index ? (
                         <Minus className="w-5 h-5 text-blue-600" />
                       ) : (
-                        <Plus className="w-5 h-5 text-gray-400" />
+                        <Plus className="w-5 h-5 text-slate-600" />
                       )}
                     </div>
                   </button>

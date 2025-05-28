@@ -149,7 +149,7 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
           {/* Close Button */}
           <button
             onClick={resetForm}
-            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+            className="absolute top-4 right-4 text-slate-600 hover:text-slate-800 transition-colors"
           >
             <X className="w-6 h-6" />
           </button>
@@ -180,7 +180,7 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
                       value={formData.firstName}
                       onChange={(e) => handleInputChange('firstName', e.target.value)}
                       className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
-                        errors.firstName ? 'border-red-500' : 'border-gray-300'
+                        errors.firstName ? 'border-red-500' : 'border-slate-300'
                       }`}
                       placeholder="Enter your first name"
                     />
@@ -199,7 +199,7 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
                       value={formData.lastName}
                       onChange={(e) => handleInputChange('lastName', e.target.value)}
                       className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
-                        errors.lastName ? 'border-red-500' : 'border-gray-300'
+                        errors.lastName ? 'border-red-500' : 'border-slate-300'
                       }`}
                       placeholder="Enter your last name"
                     />
@@ -221,7 +221,7 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
                       value={formData.city}
                       onChange={(e) => handleInputChange('city', e.target.value)}
                       className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
-                        errors.city ? 'border-red-500' : 'border-gray-300'
+                        errors.city ? 'border-red-500' : 'border-slate-300'
                       }`}
                       placeholder="Enter city name"
                     />
@@ -239,7 +239,7 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
                       value={formData.state}
                       onChange={(e) => handleInputChange('state', e.target.value)}
                       className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
-                        errors.state ? 'border-red-500' : 'border-gray-300'
+                        errors.state ? 'border-red-500' : 'border-slate-300'
                       }`}
                     >
                       <option value="">Select a state</option>
@@ -264,7 +264,7 @@ export const AccidentForm: React.FC<AccidentFormProps> = ({ isOpen, onClose }) =
                     onChange={(e) => handleInputChange('comments', e.target.value)}
                     rows={4}
                     className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none ${
-                      errors.comments ? 'border-red-500' : 'border-gray-300'
+                      errors.comments ? 'border-red-500' : 'border-slate-300'
                     }`}
                     placeholder="Please describe your accident in detail. Include when it happened, what type of accident, any injuries, and any other relevant information..."
                   />
