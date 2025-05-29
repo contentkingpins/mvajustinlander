@@ -1,35 +1,34 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+﻿/** @type {import('next').NextConfig} */
+const nextConfig = {
   reactStrictMode: true,
-  
+
   // Performance optimizations
   experimental: {
     optimizePackageImports: ['framer-motion', 'lucide-react', '@radix-ui/react-accordion', '@radix-ui/react-dialog'],
     optimizeCss: true,
   },
-  
+
   // Compiler optimizations
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
-  
+
   // Optimize production builds
   productionBrowserSourceMaps: false,
-  
+
   // Compress output
   compress: true,
-  
+
   // Generate build ID for better caching
   generateBuildId: async () => {
     return process.env.BUILD_ID || `build-${Date.now()}`;
   },
-  
+
   // Environment variables that should be available on the client
   env: {
     NEXT_PUBLIC_APP_VERSION: process.env.npm_package_version || '1.0.0',
   },
-  
+
   // Image optimization
   images: {
     domains: [
@@ -43,21 +42,9 @@ const nextConfig: NextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
-  
-  // Bundle analyzer (only in development)
-  ...(process.env.ANALYZE === 'true' && {
-    webpack: (config: any) => {
-      config.plugins.push(
-        new (require('@next/bundle-analyzer'))({
-          enabled: true,
-        })
-      );
-      return config;
-    },
-  }),
-  
+
   // Webpack optimizations
-  webpack: (config: any, { isServer }: { isServer: boolean }) => {
+  webpack: (config, { isServer }) => {
     // Optimize chunks
     if (!isServer) {
       config.optimization = {
@@ -97,12 +84,13 @@ const nextConfig: NextConfig = {
             },
             // Separate chunks for heavy libraries
             lib: {
-              test(module: any) {
+              test(module) {
                 return module.size() > 160000 &&
                   /node_modules[/\\]/.test(module.identifier());
               },
-              name(module: any) {
-                const hash = require('crypto').createHash('sha1');
+              name(module) {
+                const crypto = require('crypto');
+                const hash = crypto.createHash('sha1');
                 hash.update(module.identifier());
                 return hash.digest('hex').substring(0, 8);
               },
@@ -113,24 +101,24 @@ const nextConfig: NextConfig = {
           },
         },
       };
-      
+
       // Enable module concatenation
       config.optimization.concatenateModules = true;
-      
+
       // Tree shaking
       config.optimization.usedExports = true;
       config.optimization.sideEffects = false;
     }
-    
+
     // Alias for smaller bundles
     config.resolve.alias = {
       ...config.resolve.alias,
       'lodash': 'lodash-es',
     };
-    
+
     return config;
   },
-  
+
   // Security headers with performance hints
   async headers() {
     return [
@@ -210,7 +198,7 @@ const nextConfig: NextConfig = {
       }
     ];
   },
-  
+
   // Redirects for common patterns
   async redirects() {
     return [
@@ -221,7 +209,7 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  
+
   // Rewrites for better URLs
   async rewrites() {
     return {
@@ -236,12 +224,12 @@ const nextConfig: NextConfig = {
       ],
     };
   },
-  
+
   // Output configuration
   output: 'standalone',
-  
+
   // Disable x-powered-by header
   poweredByHeader: false,
 };
 
-export default nextConfig;
+module.exports = nextConfig;
