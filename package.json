@@ -20,6 +20,7 @@
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.0.0",
         "cookies-next": "^4.0.0",
+    "critters": "^0.0.20",
         "date-fns": "^2.30.0",
         "framer-motion": "^10.16.4",
         "lucide-react": "^0.284.0",
