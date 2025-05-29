@@ -1,221 +1,128 @@
 /**
- * CTA Section
- * Final call-to-action with emotional connection and genuine urgency
+ * Call-to-Action Section Component
+ * Final conversion section with strong CTA and contact options
  */
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { Phone, Shield, AlertTriangle, Heart, ArrowRight } from 'lucide-react';
-import { useTracking } from '@/hooks/useTracking';
-import { ConversionType } from '@/types';
-import { AccidentForm } from '@/components/forms/AccidentForm';
+import { Phone, MessageSquare, Clock, Shield } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
+import { useFormModal } from '@/providers/FormProvider';
+import { deviceUtils, formatPhoneNumber } from '@/lib/utils';
 
-export const CTASection = () => {
-  const { trackConversion } = useTracking();
-  const [showAccidentForm, setShowAccidentForm] = useState(false);
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
+export const CTASection: React.FC = () => {
+  const { openModal } = useFormModal();
 
   const handlePhoneClick = () => {
-    trackConversion({
-      type: ConversionType.PHONE_CLICK,
-      metadata: { location: 'final_cta' }
-    });
-    window.location.href = `tel:${process.env.NEXT_PUBLIC_BUSINESS_PHONE}`;
+    const phoneNumber = process.env.NEXT_PUBLIC_BUSINESS_PHONE || '(555) 123-4567';
+    deviceUtils.handlePhoneClick(phoneNumber);
   };
 
-  const handleFormClick = () => {
-    trackConversion({
-      type: ConversionType.FORM_START,
-      metadata: { location: 'final_cta' }
-    });
-    setShowAccidentForm(true);
-  };
+  // Ensure we always have a phone number to display
+  const businessPhone = process.env.NEXT_PUBLIC_BUSINESS_PHONE || '(555) 123-4567';
+  const displayPhone = formatPhoneNumber(businessPhone);
+
+  const urgencyPoints = [
+    { icon: Clock, text: 'Time limits apply to your case' },
+    { icon: Shield, text: 'Evidence disappears quickly' },
+    { icon: MessageSquare, text: 'Insurance companies act fast' },
+  ];
 
   return (
-    <>
-      <section className="py-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white relative overflow-hidden">
-        {/* Subtle background pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0 bg-[url('/images/grid-pattern.svg')] bg-center bg-cover" />
-        </div>
-
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.div
-            ref={ref}
+    <section className="py-16 md:py-24 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white">
+      <div className="container mx-auto px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          {/* Headline */}
+          <motion.h2 
+            className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6"
             initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center max-w-4xl mx-auto"
+            viewport={{ once: true }}
           >
-            {/* Emotional Hook */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ delay: 0.2 }}
-              className="mb-8"
-            >
-              <Heart className="w-16 h-16 text-red-400 mx-auto mb-4 opacity-80" />
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                You're in Pain. Bills Are Piling Up.
-                <span className="block text-blue-400 mt-2">You Deserve Justice.</span>
-              </h2>
-            </motion.div>
+            Don't Wait - Your Case Won't Wait Either
+          </motion.h2>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.3 }}
-              className="text-xl md:text-2xl mb-8 text-gray-200 leading-relaxed"
+          {/* Subheadline */}
+          <motion.p 
+            className="text-xl md:text-2xl mb-8 text-blue-100"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            Every day you wait is a day the insurance companies use against you. 
+            Get your free case evaluation now.
+          </motion.p>
+
+          {/* Urgency Points */}
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            viewport={{ once: true }}
+          >
+            {urgencyPoints.map((point, index) => (
+              <Card key={index} className="p-6 bg-white/10 backdrop-blur-sm border-white/20">
+                <div className="flex items-center gap-3 text-yellow-400 mb-3">
+                  <point.icon className="w-6 h-6" />
+                  <span className="font-semibold">Important</span>
+                </div>
+                <p className="text-blue-100">{point.text}</p>
+              </Card>
+            ))}
+          </motion.div>
+
+          {/* CTA Buttons */}
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-4 justify-center mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <Button
+              size="lg"
+              variant="primary"
+              onClick={openModal}
+              className="text-lg px-8 py-4 bg-yellow-500 text-blue-900 hover:bg-yellow-400 font-bold min-h-[44px]"
             >
-              Right now, you're dealing with physical pain, emotional stress, and financial pressure. 
-              <span className="block mt-3 font-semibold text-white">
-                While you're suffering, insurance companies are working to pay you as little as possible.
+              Get My Free Case Review Now
+            </Button>
+            
+            <button
+              onClick={handlePhoneClick}
+              className="inline-flex items-center justify-center gap-2 text-lg px-6 py-4 bg-white text-blue-900 hover:bg-blue-50 min-h-[44px] font-semibold border-2 border-white hover:border-blue-100 transition-all duration-200 rounded-lg shadow-lg hover:shadow-xl"
+            >
+              <Phone className="w-5 h-5 flex-shrink-0" />
+              <span className="whitespace-nowrap">
+                <span className="hidden sm:inline">Call: </span>
+                {displayPhone}
               </span>
-            </motion.p>
+            </button>
+          </motion.div>
 
-            {/* Warning Message */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.4 }}
-              className="bg-red-900/20 border border-red-500/30 rounded-lg p-6 mb-10 max-w-3xl mx-auto"
-            >
-              <div className="flex items-start gap-4">
-                <AlertTriangle className="w-6 h-6 text-red-400 flex-shrink-0 mt-1" />
-                <div className="text-left">
-                  <p className="text-lg text-gray-100">
-                    <strong className="text-white">Every day matters.</strong> Evidence disappears. 
-                    Witnesses forget. Insurance companies count on you waiting too long to file a claim.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Emotional Benefits */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.5 }}
-              className="grid md:grid-cols-3 gap-6 mb-10 text-left max-w-3xl mx-auto"
-            >
-              <div className="bg-white/5 rounded-lg p-4">
-                <Shield className="w-8 h-8 text-blue-400 mb-2" />
-                <h3 className="font-semibold mb-1">Stop Fighting Alone</h3>
-                <p className="text-sm text-gray-200">
-                  Insurance companies have teams of lawyers. Shouldn't you?
-                </p>
-              </div>
-              <div className="bg-white/5 rounded-lg p-4">
-                <Heart className="w-8 h-8 text-red-400 mb-2" />
-                <h3 className="font-semibold mb-1">Focus on Healing</h3>
-                <p className="text-sm text-gray-200">
-                  Let us handle the legal battle while you recover.
-                </p>
-              </div>
-              <div className="bg-white/5 rounded-lg p-4">
-                <AlertTriangle className="w-8 h-8 text-yellow-400 mb-2" />
-                <h3 className="font-semibold mb-1">Get What You Deserve</h3>
-                <p className="text-sm text-gray-200">
-                  Don't settle for less because you don't know your rights.
-                </p>
-              </div>
-            </motion.div>
-
-            {/* The Promise */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.6 }}
-              className="mb-10"
-            >
-              <p className="text-2xl font-semibold text-blue-300 mb-4">
-                One call can change everything.
-              </p>
-              <p className="text-lg text-gray-200">
-                No fees unless we win. We only get paid when you do.
-              </p>
-            </motion.div>
-
-            {/* CTA Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.7 }}
-              className="flex flex-col md:flex-row gap-4 justify-center items-center mb-8"
-            >
-              <button
-                onClick={handlePhoneClick}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-5 px-10 rounded-lg text-xl transition-all transform hover:scale-105 flex items-center gap-3 shadow-xl"
-              >
-                <Phone className="w-6 h-6" />
-                Talk to Someone Who Cares: {process.env.NEXT_PUBLIC_BUSINESS_PHONE}
-              </button>
-
-              <button
-                onClick={handleFormClick}
-                className="bg-white hover:bg-gray-100 text-slate-900 font-bold py-5 px-10 rounded-lg text-xl transition-all transform hover:scale-105 flex items-center gap-3 shadow-xl"
-              >
-                Tell Us What Happened
-                <ArrowRight className="w-6 h-6" />
-              </button>
-            </motion.div>
-
-            {/* Trust Message */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              transition={{ delay: 0.8 }}
-              className="text-gray-300 text-sm"
-            >
-              <p>
-                You've been through enough. Let us fight for you.
-              </p>
-            </motion.div>
-
-            {/* Social Proof - More Subtle */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.9 }}
-              className="mt-16 pt-16 border-t border-white/10"
-            >
-              <p className="text-gray-300 mb-6">
-                We've helped thousands of people just like you get back on their feet
-              </p>
-              <div className="flex flex-wrap justify-center items-center gap-8 text-gray-200">
-                <div>
-                  <div className="text-3xl font-bold text-white">$500M+</div>
-                  <div className="text-sm">Recovered for Clients</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-white">2,500+</div>
-                  <div className="text-sm">Families Helped</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-white">30+</div>
-                  <div className="text-sm">Years Fighting for Justice</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-white">24/7</div>
-                  <div className="text-sm">We're Here When You Need Us</div>
-                </div>
-              </div>
-            </motion.div>
+          {/* Guarantee */}
+          <motion.div 
+            className="text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <p className="text-blue-100 mb-2">
+              <strong className="text-yellow-400">100% Free Consultation</strong> - No Fees Unless We Win
+            </p>
+            <p className="text-sm text-blue-200">
+              Available 24/7 • Confidential • No Obligation
+            </p>
           </motion.div>
         </div>
-      </section>
-
-      {/* Accident Form Modal */}
-      <AccidentForm 
-        isOpen={showAccidentForm} 
-        onClose={() => setShowAccidentForm(false)} 
-      />
-    </>
+      </div>
+    </section>
   );
 };

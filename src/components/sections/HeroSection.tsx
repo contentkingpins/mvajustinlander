@@ -1,186 +1,119 @@
 /**
- * Hero Section with optimized animations and conversion-focused design
+ * Hero Section Component
+ * Main landing section with headline, CTA, and trust indicators
  */
 
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
+import { Phone, Shield, Clock, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-import { useTracking } from '@/hooks/useTracking';
-import { ConversionType } from '@/types';
-import { Phone, MessageCircle, ArrowRight } from 'lucide-react';
-import { AccidentForm } from '@/components/forms/AccidentForm';
+import { useFormModal } from '@/providers/FormProvider';
+import { deviceUtils, formatPhoneNumber } from '@/lib/utils';
 
 export const HeroSection: React.FC = () => {
-  const { trackConversion } = useTracking();
-  const heroRef = useRef<HTMLElement>(null);
-  const [showAccidentForm, setShowAccidentForm] = useState(false);
+  const { openModal } = useFormModal();
 
   const handlePhoneClick = () => {
-    trackConversion({
-      type: ConversionType.PHONE_CLICK,
-      metadata: { location: 'hero' }
-    });
-    window.location.href = `tel:${process.env.NEXT_PUBLIC_BUSINESS_PHONE}`;
+    const phoneNumber = process.env.NEXT_PUBLIC_BUSINESS_PHONE || '(555) 123-4567';
+    deviceUtils.handlePhoneClick(phoneNumber);
   };
 
-  const handleChatClick = () => {
-    trackConversion({
-      type: ConversionType.CHAT_START,
-      metadata: { location: 'hero' }
-    });
-    // Open chat widget
-    if (window.Intercom) {
-      window.Intercom('show');
-    }
-  };
+  const trustIndicators = [
+    { icon: Shield, text: 'No Fee Unless We Win' },
+    { icon: Clock, text: '24/7 Free Consultation' },
+    { icon: DollarSign, text: 'Maximum Compensation' },
+  ];
 
-  const handleFormStart = () => {
-    trackConversion({
-      type: ConversionType.FORM_START,
-      metadata: { location: 'hero' }
-    });
-    setShowAccidentForm(true);
-  };
+  // Ensure we always have a phone number to display
+  const businessPhone = process.env.NEXT_PUBLIC_BUSINESS_PHONE || '(555) 123-4567';
+  const displayPhone = formatPhoneNumber(businessPhone);
 
   return (
-    <>
-      <section
-        ref={heroRef}
-        className="relative min-h-screen flex items-center justify-center overflow-hidden"
-      >
-        {/* Optimized Background */}
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900" />
-          <div className="absolute inset-0 bg-black/30" />
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10 container mx-auto px-4 text-center text-white">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-            className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6"
-          >
-            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-            <span className="text-sm font-medium">Available 24/7 for Free Consultation</span>
-          </motion.div>
-
-          {/* Main Headline */}
-          <motion.h1
-            className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
+    <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-10" />
+      
+      {/* Content */}
+      <div className="relative container mx-auto px-4 py-16 md:py-24 lg:py-32">
+        <div className="max-w-4xl mx-auto text-center">
+          {/* Headline */}
+          <motion.h1 
+            className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.6 }}
           >
             Injured in an Accident?
-            <br />
-            <span className="text-yellow-400">Get Maximum Compensation</span>
+            <span className="block text-yellow-400 mt-2">Get the Compensation You Deserve</span>
           </motion.h1>
 
           {/* Subheadline */}
-          <motion.p
-            className="text-xl md:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.3 }}
+          <motion.p 
+            className="text-xl md:text-2xl mb-8 text-blue-100"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-            We connect you to top injury attorneys who have recovered over{' '}
-            <span className="font-bold text-yellow-400">$500 million</span> for accident victims. No fees unless they win.
+            Connect with top-rated attorneys who fight for maximum compensation. 
+            No fees unless we win your case.
           </motion.p>
 
           {/* CTA Buttons */}
-          <motion.div
-            className="flex flex-col md:flex-row gap-4 justify-center items-center mb-12"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.3 }}
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
           >
             <Button
-              size="xl"
+              size="lg"
               variant="primary"
-              onClick={handleFormStart}
-              className="min-w-[250px] bg-yellow-500 hover:bg-yellow-600 text-black font-bold"
-              icon={<ArrowRight className="ml-2" />}
+              onClick={openModal}
+              className="text-lg px-8 py-4 min-h-[44px] font-semibold"
             >
-              Tell Us What Happened
+              Get Free Case Review
             </Button>
-
-            <Button
-              size="xl"
-              variant="outline"
+            
+            <button
               onClick={handlePhoneClick}
-              className="min-w-[250px] border-2 border-white text-white hover:bg-white hover:text-blue-900"
-              icon={<Phone className="ml-2" />}
+              className="inline-flex items-center justify-center gap-2 text-lg px-6 py-4 bg-white text-blue-900 hover:bg-blue-50 min-h-[44px] font-semibold border-2 border-white hover:border-blue-100 transition-all duration-200 rounded-lg shadow-lg hover:shadow-xl"
             >
-              Call Now: {process.env.NEXT_PUBLIC_BUSINESS_PHONE}
-            </Button>
-
-            <Button
-              size="xl"
-              variant="outline"
-              onClick={handleChatClick}
-              className="min-w-[250px] border-2 border-white text-white hover:bg-white hover:text-blue-900 md:hidden lg:inline-flex"
-              icon={<MessageCircle className="ml-2" />}
-            >
-              Live Chat
-            </Button>
+              <Phone className="w-5 h-5 flex-shrink-0" />
+              <span className="whitespace-nowrap">
+                <span className="hidden sm:inline">Call Now: </span>
+                {displayPhone}
+              </span>
+            </button>
           </motion.div>
 
           {/* Trust Indicators */}
-          <motion.div
-            className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.3 }}
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
           >
-            <div className="text-center">
-              <div className="text-3xl font-bold text-yellow-400">$500M+</div>
-              <div className="text-sm text-blue-100">Recovered</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-yellow-400">2,500+</div>
-              <div className="text-sm text-blue-100">Cases Won</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-yellow-400">No Fee</div>
-              <div className="text-sm text-blue-100">Unless We Win</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-yellow-400">4.9★</div>
-              <div className="text-sm text-blue-100">Client Rating</div>
-            </div>
-          </motion.div>
-
-          {/* Simple Scroll Indicator */}
-          <motion.div
-            className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-          >
-            <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-              <div className="w-1 h-3 bg-white rounded-full mt-2 animate-bounce" />
-            </div>
+            {trustIndicators.map((item, index) => (
+              <div key={index} className="flex items-center justify-center gap-3 text-blue-100">
+                <item.icon className="w-6 h-6 text-yellow-400" />
+                <span className="text-lg">{item.text}</span>
+              </div>
+            ))}
           </motion.div>
         </div>
-      </section>
+      </div>
 
-      {/* Accident Form Modal */}
-      <AccidentForm 
-        isOpen={showAccidentForm} 
-        onClose={() => setShowAccidentForm(false)} 
-      />
-    </>
+      {/* Bottom Wave */}
+      <div className="absolute bottom-0 left-0 right-0">
+        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path 
+            d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0V120Z" 
+            fill="white"
+          />
+        </svg>
+      </div>
+    </section>
   );
-};
-
-// Add custom Window interface for Intercom
-declare global {
-  interface Window {
-    Intercom?: any;
-  }
-} 
+}; 

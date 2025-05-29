@@ -138,41 +138,40 @@ export const CookieConsent: React.FC = () => {
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
-            className="fixed bottom-0 left-0 right-0 bg-white shadow-2xl z-100 border-t border-gray-200"
+            className="fixed bottom-0 left-0 right-0 bg-white shadow-2xl z-100 border-t-2 border-blue-200"
           >
             <div className="container mx-auto px-4 py-6">
               <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4">
                 <Cookie className="w-8 h-8 text-blue-600 flex-shrink-0" />
                 
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold mb-2">
+                  <h3 className="text-lg font-semibold mb-2 text-blue-900">
                     We value your privacy 🍪
                   </h3>
-                  <p className="text-sm text-gray-600">
-                    We use cookies to enhance your browsing experience, serve personalized content, 
-                    and analyze our traffic. By clicking "Accept All", you consent to our use of cookies.
-                    {' '}
-                    <button
-                      onClick={() => setShowSettings(!showSettings)}
-                      className="text-blue-600 hover:text-blue-700 underline font-medium"
-                    >
-                      Customize settings
-                    </button>
+                  <p className="text-sm text-blue-700">
+                    We use cookies to improve your experience and analyze site usage. By continuing, you agree to our use of cookies.
                   </p>
                 </div>
 
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+                  <Button
+                    variant="outline"
+                    onClick={() => setShowSettings(!showSettings)}
+                    className="min-w-[120px] min-h-[44px] order-2 sm:order-1"
+                  >
+                    Settings
+                  </Button>
                   <Button
                     variant="outline"
                     onClick={rejectAll}
-                    className="min-w-[120px]"
+                    className="min-w-[120px] min-h-[44px] order-3 sm:order-2"
                   >
                     Reject All
                   </Button>
                   <Button
                     variant="primary"
                     onClick={acceptAll}
-                    className="min-w-[120px]"
+                    className="min-w-[120px] min-h-[44px] order-1 sm:order-3"
                   >
                     Accept All
                   </Button>
@@ -186,90 +185,90 @@ export const CookieConsent: React.FC = () => {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    className="overflow-hidden"
+                    className="mt-6 pt-6 border-t border-blue-200"
                   >
-                    <div className="mt-6 pt-6 border-t border-gray-200">
-                      <h4 className="font-semibold mb-4">Cookie Settings</h4>
-                      
-                      <div className="space-y-4">
-                        {/* Necessary Cookies */}
-                        <div className="flex items-start gap-3">
-                          <input
-                            type="checkbox"
-                            id="necessary"
-                            checked={consent.necessary}
-                            disabled
-                            className="mt-1"
-                          />
-                          <label htmlFor="necessary" className="flex-1">
-                            <div className="font-medium">Necessary Cookies</div>
-                            <div className="text-sm text-gray-600">
-                              Required for the website to function properly. Cannot be disabled.
-                            </div>
-                          </label>
+                    <h4 className="font-semibold mb-4 text-blue-900">Cookie Settings</h4>
+                    
+                    <div className="space-y-4">
+                      {/* Essential Cookies */}
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <h5 className="font-medium text-blue-900">Essential Cookies</h5>
+                          <p className="text-sm text-blue-700">
+                            Required for the website to function properly. Cannot be disabled.
+                          </p>
                         </div>
-
-                        {/* Analytics Cookies */}
-                        <div className="flex items-start gap-3">
-                          <input
-                            type="checkbox"
-                            id="analytics"
-                            checked={consent.analytics}
-                            onChange={(e) => setConsent({ ...consent, analytics: e.target.checked })}
-                            className="mt-1"
-                          />
-                          <label htmlFor="analytics" className="flex-1">
-                            <div className="font-medium">Analytics Cookies</div>
-                            <div className="text-sm text-gray-600">
-                              Help us understand how visitors interact with our website.
-                            </div>
-                          </label>
-                        </div>
-
-                        {/* Marketing Cookies */}
-                        <div className="flex items-start gap-3">
-                          <input
-                            type="checkbox"
-                            id="marketing"
-                            checked={consent.marketing}
-                            onChange={(e) => setConsent({ ...consent, marketing: e.target.checked })}
-                            className="mt-1"
-                          />
-                          <label htmlFor="marketing" className="flex-1">
-                            <div className="font-medium">Marketing Cookies</div>
-                            <div className="text-sm text-gray-600">
-                              Used to deliver personalized advertisements.
-                            </div>
-                          </label>
-                        </div>
-
-                        {/* Functional Cookies */}
-                        <div className="flex items-start gap-3">
-                          <input
-                            type="checkbox"
-                            id="functional"
-                            checked={consent.functional}
-                            onChange={(e) => setConsent({ ...consent, functional: e.target.checked })}
-                            className="mt-1"
-                          />
-                          <label htmlFor="functional" className="flex-1">
-                            <div className="font-medium">Functional Cookies</div>
-                            <div className="text-sm text-gray-600">
-                              Enable enhanced functionality like chat widgets and video players.
-                            </div>
-                          </label>
-                        </div>
+                        <input
+                          type="checkbox"
+                          checked
+                          disabled
+                          className="mt-1"
+                        />
                       </div>
 
-                      <div className="mt-6 flex gap-3">
-                        <Button
-                          variant="primary"
-                          onClick={saveCustom}
-                          icon={<Check className="w-4 h-4" />}
-                        >
-                          Save My Preferences
-                        </Button>
+                      {/* Analytics Cookies */}
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <h5 className="font-medium text-blue-900">Analytics Cookies</h5>
+                          <p className="text-sm text-blue-700">
+                            Help us understand how visitors interact with our website.
+                          </p>
+                        </div>
+                        <input
+                          type="checkbox"
+                          checked={consent.analytics}
+                          onChange={(e) => setConsent({ ...consent, analytics: e.target.checked })}
+                          className="mt-1"
+                        />
                       </div>
+
+                      {/* Marketing Cookies */}
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <h5 className="font-medium text-blue-900">Marketing Cookies</h5>
+                          <p className="text-sm text-blue-700">
+                            Used to deliver personalized advertisements.
+                          </p>
+                        </div>
+                        <input
+                          type="checkbox"
+                          checked={consent.marketing}
+                          onChange={(e) => setConsent({ ...consent, marketing: e.target.checked })}
+                          className="mt-1"
+                        />
+                      </div>
+
+                      {/* Functional Cookies */}
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <h5 className="font-medium text-blue-900">Functional Cookies</h5>
+                          <p className="text-sm text-blue-700">
+                            Enable enhanced functionality and personalization.
+                          </p>
+                        </div>
+                        <input
+                          type="checkbox"
+                          checked={consent.functional}
+                          onChange={(e) => setConsent({ ...consent, functional: e.target.checked })}
+                          className="mt-1"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3 mt-6">
+                      <Button
+                        variant="primary"
+                        onClick={saveCustom}
+                        className="min-w-[120px]"
+                      >
+                        Save Preferences
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        onClick={() => setShowSettings(false)}
+                      >
+                        Cancel
+                      </Button>
                     </div>
                   </motion.div>
                 )}

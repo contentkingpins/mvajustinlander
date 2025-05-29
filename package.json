@@ -21,20 +21,23 @@
     "@aws-sdk/client-dynamodb": "^3.817.0",
     "@aws-sdk/lib-dynamodb": "^3.817.0",
     "@hookform/resolvers": "^5.0.1",
+ main
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-scroll-area": "^1.2.9",
     "@radix-ui/react-tabs": "^1.1.12",
     "@types/uuid": "^10.0.0",
     "axios": "^1.9.0",
     "class-variance-authority": "^0.7.1",
+
+    "@radix-ui/react-accordion": "^1.2.11",
+ main
     "clsx": "^2.1.1",
     "cookies-next": "^6.0.0",
-    "date-fns": "^4.1.0",
+    "critters": "^0.0.23",
     "framer-motion": "^12.15.0",
     "lucide-react": "^0.511.0",
     "next": "15.3.2",
     "react": "^19.0.0",
-    "react-countup": "^6.5.3",
     "react-dom": "^19.0.0",
     "react-facebook-pixel": "^1.0.4",
     "react-ga4": "^2.1.0",
@@ -42,7 +45,11 @@
     "react-hot-toast": "^2.5.2",
     "react-intersection-observer": "^9.16.0",
     "tailwind-merge": "^3.3.0",
+ main
     "uuid": "^11.1.0",
+
+    "web-vitals": "^5.0.1",
+ main
     "zod": "^3.25.30"
   },
   "devDependencies": {

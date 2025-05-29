@@ -8,8 +8,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { ChevronLeft, ChevronRight, Star, Quote, User } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Star, Quote, User, MapPin } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
+import { Button } from '@/components/ui/Button';
+import { useFormModal } from '@/providers/FormProvider';
 
 const testimonials = [
   {
@@ -70,6 +72,7 @@ export const TestimonialsSection = () => {
     triggerOnce: true,
     threshold: 0.1,
   });
+  const { openModal } = useFormModal();
 
   const nextTestimonial = () => {
     setCurrentIndex((prev) => (prev + 1) % testimonials.length);
@@ -82,7 +85,7 @@ export const TestimonialsSection = () => {
   const currentTestimonial = testimonials[currentIndex];
 
   return (
-    <section className="py-20 bg-gray-50" id="testimonials">
+    <section className="py-20 bg-blue-50" id="testimonials">
       <div className="container mx-auto px-4">
         <motion.div
           ref={ref}
@@ -91,10 +94,10 @@ export const TestimonialsSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-blue-900">
             Real Clients, <span className="text-blue-600">Real Results</span>
           </h2>
-          <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+          <p className="text-xl text-blue-700 max-w-3xl mx-auto">
             Don't just take our word for it. See what our clients say about their experience.
           </p>
         </motion.div>
@@ -106,119 +109,88 @@ export const TestimonialsSection = () => {
           transition={{ delay: 0.2, duration: 0.6 }}
           className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16"
         >
-          <Card className="text-center p-6 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer group hover:shadow-xl">
+          <Card className="text-center p-6 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer group hover:shadow-xl bg-white border-blue-200">
             <div className="text-3xl font-bold text-blue-600 group-hover:text-white transition-colors duration-300">4.9/5</div>
-            <div className="text-gray-700 group-hover:text-blue-100 transition-colors duration-300">Average Rating</div>
+            <div className="text-blue-700 group-hover:text-blue-100 transition-colors duration-300">Average Rating</div>
             <div className="flex justify-center mt-2">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400 group-hover:scale-110 transition-transform duration-300" />
               ))}
             </div>
           </Card>
-          <Card className="text-center p-6 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer group hover:shadow-xl">
+          <Card className="text-center p-6 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer group hover:shadow-xl bg-white border-blue-200">
             <div className="text-3xl font-bold text-blue-600 group-hover:text-white transition-colors duration-300">2,500+</div>
-            <div className="text-gray-700 group-hover:text-blue-100 transition-colors duration-300">Happy Clients</div>
+            <div className="text-blue-700 group-hover:text-blue-100 transition-colors duration-300">Happy Clients</div>
           </Card>
-          <Card className="text-center p-6 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer group hover:shadow-xl">
+          <Card className="text-center p-6 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer group hover:shadow-xl bg-white border-blue-200">
             <div className="text-3xl font-bold text-blue-600 group-hover:text-white transition-colors duration-300">98%</div>
-            <div className="text-gray-700 group-hover:text-blue-100 transition-colors duration-300">Success Rate</div>
+            <div className="text-blue-700 group-hover:text-blue-100 transition-colors duration-300">Success Rate</div>
           </Card>
-          <Card className="text-center p-6 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer group hover:shadow-xl">
+          <Card className="text-center p-6 hover:bg-blue-600 hover:text-white transition-all duration-300 cursor-pointer group hover:shadow-xl bg-white border-blue-200">
             <div className="text-3xl font-bold text-blue-600 group-hover:text-white transition-colors duration-300">$500M+</div>
-            <div className="text-gray-700 group-hover:text-blue-100 transition-colors duration-300">Total Recovered</div>
+            <div className="text-blue-700 group-hover:text-blue-100 transition-colors duration-300">Total Recovered</div>
           </Card>
         </motion.div>
 
         {/* Testimonial Carousel */}
-        <div className="relative max-w-4xl mx-auto">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentIndex}
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -50 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Card className="p-8 md:p-12 relative">
-                <Quote className="absolute top-6 left-6 w-12 h-12 text-blue-100" />
-                
-                <div className="relative z-10">
-                  {/* Rating */}
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="flex">
-                      {[...Array(currentTestimonial.rating)].map((_, i) => (
-                        <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                      ))}
-                    </div>
-                    <span className="text-gray-600 text-sm">{currentTestimonial.date}</span>
-                  </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.3, duration: 0.6 }}
+          className="max-w-4xl mx-auto"
+        >
+          <Card className="bg-white p-8 shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-blue-100">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+                <User className="w-8 h-8 text-blue-600" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold text-blue-900">{currentTestimonial.name}</h3>
+                <span className="text-blue-600 text-sm">{currentTestimonial.date}</span>
+              </div>
+            </div>
 
-                  {/* Testimonial Text */}
-                  <p className="text-lg md:text-xl text-gray-800 mb-6 italic">
-                    "{currentTestimonial.text}"
-                  </p>
+            <div className="mb-6">
+              <p className="text-lg md:text-xl text-blue-800 mb-6 italic">
+                "{currentTestimonial.text}"
+              </p>
+            </div>
 
-                  {/* Settlement Info */}
-                  <div className="bg-blue-50 rounded-lg p-4 mb-6">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm text-gray-700">Case Type</p>
-                        <p className="font-semibold">{currentTestimonial.caseType}</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-sm text-gray-700">Settlement</p>
-                        <p className="text-2xl font-bold text-blue-600">{currentTestimonial.settlement}</p>
-                      </div>
-                    </div>
-                  </div>
+            <div className="grid grid-cols-2 gap-4 text-center">
+              <div>
+                <p className="text-sm text-blue-600">Case Type</p>
+                <p className="font-semibold text-blue-900">{currentTestimonial.caseType}</p>
+              </div>
+              <div>
+                <p className="text-sm text-blue-600">Settlement</p>
+                <p className="font-semibold text-blue-600 text-xl">{currentTestimonial.settlement}</p>
+              </div>
+            </div>
 
-                  {/* Client Info */}
-                  <div className="flex items-center">
-                    <div className="w-16 h-16 bg-blue-100 rounded-full mr-4 flex items-center justify-center">
-                      <User className="w-8 h-8 text-blue-600" />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-lg">{currentTestimonial.name}</p>
-                      <p className="text-gray-700">{currentTestimonial.location}</p>
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            </motion.div>
-          </AnimatePresence>
+            <div className="mt-6 pt-6 border-t border-blue-200">
+              <div className="flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-blue-400" />
+                <p className="text-blue-700">{currentTestimonial.location}</p>
+              </div>
+            </div>
+          </Card>
 
-          {/* Navigation Buttons */}
-          <button
-            onClick={prevTestimonial}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-shadow"
-            aria-label="Previous testimonial"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-          <button
-            onClick={nextTestimonial}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-shadow"
-            aria-label="Next testimonial"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
-
-          {/* Dots Indicator */}
+          {/* Navigation Dots */}
           <div className="flex justify-center gap-2 mt-8">
             {testimonials.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  index === currentIndex 
-                    ? 'w-8 bg-blue-600' 
-                    : 'bg-gray-300 hover:bg-gray-400'
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === currentIndex
+                    ? 'bg-blue-600 scale-110'
+                    : 'bg-blue-300 hover:bg-blue-400'
                 }`}
                 aria-label={`Go to testimonial ${index + 1}`}
               />
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* CTA */}
         <motion.div
@@ -227,12 +199,17 @@ export const TestimonialsSection = () => {
           transition={{ delay: 0.4, duration: 0.6 }}
           className="text-center mt-16"
         >
-          <p className="text-xl text-gray-800 mb-6">
-            Join thousands of satisfied clients who got the compensation they deserved.
+          <p className="text-xl text-blue-700 mb-6">
+            Ready to get the compensation you deserve?
           </p>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg text-xl transition-all transform hover:scale-105">
+          <Button
+            size="lg"
+            variant="primary"
+            onClick={openModal}
+            className="text-xl"
+          >
             Get Your Free Case Review
-          </button>
+          </Button>
         </motion.div>
       </div>
     </section>

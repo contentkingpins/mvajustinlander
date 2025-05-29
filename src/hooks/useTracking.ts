@@ -378,6 +378,28 @@ export const useTracking = () => {
       });
     }
 
+    // Google Ads Conversion Tracking
+    if (window.gtag && process.env.NEXT_PUBLIC_GOOGLE_ADS_ID) {
+      // Track specific conversion actions
+      switch (conversion.type) {
+        case ConversionType.FORM_SUBMIT:
+          window.gtag('event', 'conversion', {
+            'send_to': `${process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}/${process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL_FORM}`,
+            'value': conversion.value || 1.0,
+            'currency': 'USD',
+            'transaction_id': Date.now().toString(),
+          });
+          break;
+        case ConversionType.PHONE_CLICK:
+          window.gtag('event', 'conversion', {
+            'send_to': `${process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}/${process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL_PHONE}`,
+            'value': conversion.value || 1.0,
+            'currency': 'USD',
+          });
+          break;
+      }
+    }
+
     // Facebook Pixel
     if (fbPixel) {
       const fbEventName = getFacebookEventName(conversion.type);
@@ -487,18 +509,25 @@ export const useTracking = () => {
     }
   }, []);
 
+  // Map conversion types to GA4 events
+  const conversionTypeMap: Record<ConversionType, string> = {
+    [ConversionType.FORM_START]: 'generate_lead',
+    [ConversionType.FORM_SUBMIT]: 'submit_lead_form',
+    [ConversionType.PHONE_CLICK]: 'Contact',
+    [ConversionType.EMAIL_CLICK]: 'Contact',
+  };
+
   // Map conversion types to Facebook events
+  const fbEventMap: Record<ConversionType, string> = {
+    [ConversionType.FORM_START]: 'InitiateCheckout',
+    [ConversionType.FORM_SUBMIT]: 'Lead',
+    [ConversionType.PHONE_CLICK]: 'Contact',
+    [ConversionType.EMAIL_CLICK]: 'Contact',
+  };
+
+  // Get Facebook event name
   const getFacebookEventName = (type: ConversionType): string => {
-    const mapping: Record<ConversionType, string> = {
-      [ConversionType.FORM_START]: 'InitiateCheckout',
-      [ConversionType.FORM_COMPLETE]: 'Lead',
-      [ConversionType.PHONE_CLICK]: 'Contact',
-      [ConversionType.CHAT_START]: 'Contact',
-      [ConversionType.EMAIL_CLICK]: 'Contact',
-      [ConversionType.CTA_CLICK]: 'ViewContent',
-      [ConversionType.FORM_STEP]: 'ViewContent',
-    };
-    return mapping[type] || 'CustomEvent';
+    return fbEventMap[type] || 'CustomEvent';
   };
 
   return {
