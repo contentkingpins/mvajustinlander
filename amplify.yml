@@ -1,22 +1,25 @@
-﻿version: 1
-env:
-  variables:
-    AMPLIFY_DIFF_DEPLOY: false
-    AMPLIFY_CACHE_DISABLE: true
-frontend:
-  phases:
-    preBuild:
-      commands:
-        - npm cache clean --force
-        - rm -rf node_modules package-lock.json
-        - npm install --no-package-lock --no-optional --force
-        - find node_modules -name "*win32*" -type d | xargs rm -rf || true
-    build:
-      commands:
-        - npm run build
-  artifacts:
-    baseDirectory: .next
-    files:
-      - '**/*'
-  cache:
-    paths: []
+version: 1
+applications:
+  - frontend:
+      phases:
+        preBuild:
+          commands:
+            - nvm install 18
+            - nvm use 18
+            - node -v
+            - npm cache clean --force
+            - rm -rf node_modules
+            - npm install --legacy-peer-deps
+        build:
+          commands:
+            - env | grep -e NODE_ENV -e NEXT_ >> .env.production
+            - npm run build
+      artifacts:
+        baseDirectory: .next
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
+          - .next/cache/**/*
+    appRoot: / 
