@@ -4,9 +4,13 @@ const nextConfig = {
   experimental: {
     optimizeCss: true,
   },
-  webpack: (config: any) => {
+  webpack: (config) => {
     return config;
   },
+  // Ensure we're using the correct output
+  output: 'standalone',
+  // Disable powered by header
+  poweredByHeader: false,
 }
 
-export default nextConfig;
+module.exports = nextConfig;

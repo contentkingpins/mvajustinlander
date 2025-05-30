@@ -4,16 +4,21 @@ applications:
       phases:
         preBuild:
           commands:
+            # Set up correct Node version
             - nvm install 18
             - nvm use 18
             - node -v
+            # Clean environment
             - npm cache clean --force
-            - rm -rf node_modules
+            - rm -rf node_modules .next
+            # Install dependencies
             - npm install --legacy-peer-deps
         build:
           commands:
+            # Set up environment
             - env | grep -e NODE_ENV -e NEXT_ >> .env.production
-            - npm run build
+            # Production build
+            - NODE_ENV=production npm run build
       artifacts:
         baseDirectory: .next
         files:
@@ -21,5 +26,4 @@ applications:
       cache:
         paths:
           - node_modules/**/*
-          - .next/cache/**/*
-    appRoot: / 
+          - .next/cache/**/* 
