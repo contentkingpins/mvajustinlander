@@ -279,7 +279,7 @@ export const NearbyLocations = () => {
               Get Connected to the Right Attorney Today
             </h3>
             <p className="text-xl mb-6 text-blue-100">
-              We'll match you with a top-rated injury attorney in your area within 24 hours.
+              We&apos;ll match you with a top-rated injury attorney in your area within 24 hours.
             </p>
             <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
               <Button

@@ -43,7 +43,7 @@ export const CTASection: React.FC = () => {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            Don't Wait - Your Case Won't Wait Either
+            Don&apos;t Wait - Your Case Won&apos;t Wait Either
           </motion.h2>
 
           {/* Subheadline */}
