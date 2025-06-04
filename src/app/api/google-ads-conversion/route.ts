@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+import { NextRequest, NextResponse } from "next/server"; export async function GET() { return NextResponse.json({ service: "google-ads-conversion", status: "ready", supportedTypes: ["phone", "form"], timestamp: new Date().toISOString() }); } export async function POST(request: NextRequest) { try { const body = await request.json(); if (!body.type) return NextResponse.json({ success: false, error: "Missing type" }, { status: 400 }); const conversionId = "CONV_" + Date.now(); console.log("Google Ads conversion:", body.type, conversionId); return NextResponse.json({ success: true, conversionId, message: body.type + " conversion tracked" }); } catch (error) { return NextResponse.json({ success: false, error: "Failed to track" }, { status: 500 }); } }
+=======
  main
 ﻿import { NextRequest, NextResponse } from "next/server";
 export async function GET() { return NextResponse.json({ service: "google-ads-conversion", status: "ready", supportedTypes: ["phone", "form"], features: ["Phone call conversion tracking", "Form submission conversion tracking", "Enhanced conversions with user data", "Debug mode logging", "Analytics integration"], timestamp: new Date().toISOString() }); }
@@ -91,3 +94,4 @@ async function hashData(data: string): Promise<string> {
   }
 }
  main
+>>>>>>> 6115909e74027187310cb4e911f99d9a91074b52
