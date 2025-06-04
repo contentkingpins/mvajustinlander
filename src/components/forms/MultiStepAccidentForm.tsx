@@ -257,7 +257,7 @@ export const MultiStepAccidentForm: React.FC<MultiStepAccidentFormProps> = ({ is
                     <div className="space-y-6">
                       <div className="text-center mb-6">
                         <h2 className="text-2xl sm:text-3xl font-bold text-blue-900 mb-2">
-                          Let's Get Started
+                          Let&apos;s Get Started
                         </h2>
                         <p className="text-blue-700">
                           Enter your contact information to begin your free case evaluation
