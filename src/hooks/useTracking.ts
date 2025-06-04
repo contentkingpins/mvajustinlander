@@ -492,16 +492,33 @@ export const useTracking = () => {
     if (typeof window === 'undefined') return;
     
     try {
+      // Create properly formatted TrackingEvent
+      const trackingEvent: TrackingEvent = {
+        category: data.category || 'General',
+        action: data.action || type,
+        label: data.label,
+        value: data.value,
+        metadata: {
+          type,
+          ...data.metadata,
+          url: window.location.href,
+          timestamp: Date.now(),
+        },
+        timestamp: Date.now(),
+        sessionId: sessionRef.current || Date.now().toString(),
+        userId: data.userId,
+      };
+
       // Use sendBeacon for better performance
       if (navigator.sendBeacon) {
-        const payload = JSON.stringify({ type, data, timestamp: Date.now() });
+        const payload = JSON.stringify(trackingEvent);
         navigator.sendBeacon('/api/analytics', payload);
       } else {
         // Fallback to fetch
         fetch('/api/analytics', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ type, data, timestamp: Date.now() }),
+          body: JSON.stringify(trackingEvent),
         }).catch(() => {}); // Fail silently
       }
     } catch (error) {

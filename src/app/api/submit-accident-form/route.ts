@@ -5,11 +5,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 interface AccidentFormData {
-  firstName: string;
-  lastName: string;
-  city: string;
-  state: string;
-  comments: string;
+  // Step 1: Contact Information
+  zipCode: string;
+  email: string;
+  phoneNumber: string;
+  
+  // Step 2: Accident Details
+  accidentType: string;
+  role: string;
+  atFault: string;
+  incidentDate: string;
+  medicalAttention: string;
+  
+  // Step 3: Description
+  description: string;
 }
 
 export async function POST(request: NextRequest) {
@@ -17,11 +26,33 @@ export async function POST(request: NextRequest) {
     const formData: AccidentFormData = await request.json();
 
     // Validate required fields
-    const { firstName, lastName, city, state, comments } = formData;
+    const { zipCode, email, phoneNumber, accidentType, role, atFault, incidentDate, medicalAttention, description } = formData;
     
-    if (!firstName || !lastName || !city || !state || !comments) {
+    if (!zipCode || !email || !phoneNumber || !accidentType || !role || !atFault || !incidentDate || !medicalAttention || !description) {
       return NextResponse.json(
         { error: 'All fields are required' },
+        { status: 400 }
+      );
+    }
+
+    // Additional validation
+    if (!zipCode.match(/^\d{5}$/)) {
+      return NextResponse.json(
+        { error: 'Please enter a valid 5-digit ZIP code' },
+        { status: 400 }
+      );
+    }
+
+    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      return NextResponse.json(
+        { error: 'Please enter a valid email address' },
+        { status: 400 }
+      );
+    }
+
+    if (!phoneNumber.match(/^\d{10}$/)) {
+      return NextResponse.json(
+        { error: 'Please enter a valid 10-digit phone number' },
         { status: 400 }
       );
     }
@@ -33,7 +64,7 @@ export async function POST(request: NextRequest) {
                'unknown';
     const timestamp = new Date().toISOString();
 
-    // Create lead data
+    // Create comprehensive lead data
     const leadData = {
       ...formData,
       type: 'accident_form',
@@ -41,7 +72,9 @@ export async function POST(request: NextRequest) {
       ip,
       userAgent,
       source: 'website',
-      status: 'new'
+      status: 'new',
+      formattedPhone: `(${phoneNumber.slice(0,3)}) ${phoneNumber.slice(3,6)}-${phoneNumber.slice(6,10)}`,
+      estimatedValue: getEstimatedCaseValue(formData)
     };
 
     // Log the submission (in production, you'd save to database)
@@ -49,26 +82,54 @@ export async function POST(request: NextRequest) {
 
     // Here you would typically:
     // 1. Save to database
-    // 2. Send to CRM
-    // 3. Send notification emails
+    // 2. Send to CRM (HubSpot, Salesforce, etc.)
+    // 3. Send notification emails to attorneys
     // 4. Trigger follow-up workflows
+    // 5. Send confirmation email to client
 
-    // For now, we'll simulate a successful submission
-    await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate processing time
+    // Simulate processing time
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
-    // Return success response
+    // Return success response with lead ID
+    const leadId = `ACC-${Date.now()}-${zipCode}`;
+
     return NextResponse.json({
       success: true,
       message: 'Form submitted successfully',
-      leadId: `ACC-${Date.now()}` // Generate a simple lead ID
+      leadId,
+      estimatedContactTime: '24 hours',
+      nextSteps: [
+        'A case manager will review your information',
+        'You will receive a call within 24 hours',
+        'We will connect you with a qualified attorney in your area'
+      ]
     });
 
   } catch (error) {
     console.error('Error processing accident form:', error);
     
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error. Please try again or call us directly.' },
       { status: 500 }
     );
   }
+}
+
+// Helper function to estimate case value based on form data
+function getEstimatedCaseValue(data: AccidentFormData): string {
+  let value = 'Standard';
+  
+  // Higher value cases
+  if (data.medicalAttention === 'yes') {
+    value = 'High';
+  }
+  
+  // Premium cases
+  if (data.accidentType === 'truck_accident' || 
+      data.accidentType === 'medical_malpractice' ||
+      data.accidentType === 'product_liability') {
+    value = 'Premium';
+  }
+  
+  return value;
 } 
