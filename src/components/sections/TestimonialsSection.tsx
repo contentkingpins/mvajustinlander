@@ -20,7 +20,7 @@ const testimonials = [
     location: 'Phoenix, AZ',
     rating: 5,
     date: '2 months ago',
-    text: 'After my car accident, I was overwhelmed and didn\'t know where to turn. This team not only got me a settlement that covered all my medical bills but also compensation for my pain and suffering. They handled everything while I focused on recovery.',
+    text: 'After my car accident, I was overwhelmed and didn&apos;t know where to turn. This team not only got me a settlement that covered all my medical bills but also compensation for my pain and suffering. They handled everything while I focused on recovery.',
     settlement: '$125,000',
     caseType: 'Car Accident',
   },
@@ -60,7 +60,7 @@ const testimonials = [
     location: 'Dallas, TX',
     rating: 5,
     date: '2 weeks ago',
-    text: 'After being rear-ended, I had severe whiplash and couldn\'t work. My attorney got me compensated for medical bills, lost wages, and future treatment. They exceeded all expectations!',
+    text: 'After being rear-ended, I had severe whiplash and couldn&apos;t work. My attorney got me compensated for medical bills, lost wages, and future treatment. They exceeded all expectations!',
     settlement: '$95,000',
     caseType: 'Rear-End Collision',
   },
@@ -98,7 +98,7 @@ export const TestimonialsSection = () => {
             Real Clients, <span className="text-blue-600">Real Results</span>
           </h2>
           <p className="text-xl text-blue-700 max-w-3xl mx-auto">
-            Don't just take our word for it. See what our clients say about their experience.
+            Don&apos;t just take our word for it. See what our clients say about their experience.
           </p>
         </motion.div>
 
@@ -152,7 +152,7 @@ export const TestimonialsSection = () => {
 
             <div className="mb-6">
               <p className="text-lg md:text-xl text-blue-800 mb-6 italic">
-                "{currentTestimonial.text}"
+                &quot;{currentTestimonial.text}&quot;
               </p>
             </div>
 

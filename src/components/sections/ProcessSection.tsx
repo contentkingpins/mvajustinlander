@@ -59,7 +59,7 @@ const steps: ProcessStep[] = [
   {
     number: "04",
     title: "Maximum Compensation",
-    description: "We don't stop until you get the compensation you deserve for your injuries and damages.",
+    description: "We don&apos;t stop until you get the compensation you deserve for your injuries and damages.",
     icon: <DollarSign className="w-6 h-6 text-blue-600" />,
     duration: "Results-Based",
     details: [
@@ -90,7 +90,7 @@ export const ProcessSection = () => {
             Getting Help is <span className="text-blue-600">Simple</span>
           </h2>
           <p className="text-xl text-blue-700 max-w-3xl mx-auto">
-            We handle everything so you can focus on healing. Here's how we'll fight for your rights.
+            We handle everything so you can focus on healing. Here&apos;s how we&apos;ll fight for your rights.
           </p>
         </motion.div>
 
@@ -151,7 +151,7 @@ export const ProcessSection = () => {
           className="text-center mt-16"
         >
           <p className="text-xl text-blue-700 mb-6">
-            Ready to get started? We're here to help 24/7.
+            Ready to get started? We&apos;re here to help 24/7.
           </p>
           <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg text-xl transition-all transform hover:scale-105">
             Get Your Free Case Review
