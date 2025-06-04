@@ -1,0 +1,1 @@
+﻿import { NextRequest, NextResponse } from "next/server"; export async function GET() { return NextResponse.json({ service: "google-ads-conversion", status: "ready", supportedTypes: ["phone", "form"], timestamp: new Date().toISOString() }); }
