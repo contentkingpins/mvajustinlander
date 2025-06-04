@@ -94,6 +94,19 @@ export default function RootLayout({
         {/* DNS Prefetch for additional resources */}
         <link rel="dns-prefetch" href="https://www.google.com" />
         <link rel="dns-prefetch" href="https://googleads.g.doubleclick.net" />
+        
+        {/* Google tag (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17097435261"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-17097435261');
+            `,
+          }}
+        />
       </head>
       <body className="antialiased">
         {children}
