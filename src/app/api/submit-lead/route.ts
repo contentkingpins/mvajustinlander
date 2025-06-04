@@ -6,6 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { LeadFormData, APIResponse, AccidentType } from '@/types';
+import { ClaimConnectorsService } from '@/lib/claim-connectors';
 
 // Lead validation schema
 const leadSchema = z.object({
@@ -168,6 +169,28 @@ export async function POST(request: NextRequest) {
     // Save to database
     const leadId = await saveLeadToDatabase(lead);
 
+    // Submit to Claim Connectors CRM (non-blocking)
+    let crmSubmissionResult;
+    try {
+      crmSubmissionResult = await ClaimConnectorsService.submitLead({
+        firstName: lead.firstName,
+        lastName: lead.lastName,
+        email: lead.email,
+        phone: lead.phone,
+        state: lead.state,
+        accidentType: lead.accidentType,
+      });
+
+      if (crmSubmissionResult.success) {
+        console.log('✅ Lead submitted to Claim Connectors CRM:', crmSubmissionResult.leadId);
+      } else {
+        console.warn('⚠️ CRM submission failed:', crmSubmissionResult.error);
+      }
+    } catch (crmError) {
+      console.error('🚨 Claim Connectors CRM error (non-blocking):', crmError);
+      crmSubmissionResult = { success: false, error: 'CRM submission failed' };
+    }
+
     // Send notifications (async, don't wait)
     Promise.all([
       sendEmailNotification(lead),
@@ -176,13 +199,22 @@ export async function POST(request: NextRequest) {
       console.error('Notification error:', error);
     });
 
-    // Return success response
+    // Return success response with CRM submission status
+    const successMessage = crmSubmissionResult?.success 
+      ? 'Thank you for your submission. We will contact you within 24 hours.'
+      : 'Thank you for your submission. We will contact you within 24 hours. (Note: CRM submission had issues but your lead was saved successfully)';
+
     return NextResponse.json<APIResponse>({
       success: true,
       data: {
         leadId,
-        message: 'Thank you for your submission. We will contact you within 24 hours.',
+        message: successMessage,
         leadScore,
+        crmSubmission: {
+          success: crmSubmissionResult?.success || false,
+          crmLeadId: crmSubmissionResult?.leadId,
+          error: crmSubmissionResult?.error
+        }
       },
       metadata: {
         timestamp: Date.now(),
