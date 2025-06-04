@@ -1,3 +1,7 @@
+ main
+﻿import { NextRequest, NextResponse } from "next/server";
+export async function GET() { return NextResponse.json({ service: "google-ads-conversion", status: "ready", supportedTypes: ["phone", "form"], features: ["Phone call conversion tracking", "Form submission conversion tracking", "Enhanced conversions with user data", "Debug mode logging", "Analytics integration"], timestamp: new Date().toISOString() }); }
+
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET() {
@@ -86,3 +90,4 @@ async function hashData(data: string): Promise<string> {
     return crypto.createHash('sha256').update(data).digest('hex');
   }
 }
+ main
